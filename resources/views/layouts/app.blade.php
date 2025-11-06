@@ -13,9 +13,10 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @stack('styles')
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+    <body class="font-sans antialiased flex flex-col min-h-screen">
+        <div class="flex-grow bg-gray-100">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
@@ -32,5 +33,10 @@
                 {{ $slot }}
             </main>
         </div>
+        
+        <!-- Footer -->
+        @include('components.footer')
+        
+        @stack('scripts')
     </body>
 </html>

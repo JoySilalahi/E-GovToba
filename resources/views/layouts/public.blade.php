@@ -130,33 +130,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-light py-4 mt-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5>Kontak Kami</h5>
-                    <p>
-                        <i class="fas fa-map-marker-alt me-2"></i> Alamat: Jl. Sisingamangaraja No. 1, Balige<br>
-                        <i class="fas fa-phone me-2"></i> Telepon: (0632) 21495<br>
-                        <i class="fas fa-envelope me-2"></i> Email: info@tobakab.go.id
-                    </p>
-                </div>
-                <div class="col-md-6">
-                    <h5>Media Sosial</h5>
-                    <div class="social-links">
-                        <a href="#" class="text-light me-3"><i class="fab fa-facebook fa-lg"></i></a>
-                        <a href="#" class="text-light me-3"><i class="fab fa-twitter fa-lg"></i></a>
-                        <a href="#" class="text-light me-3"><i class="fab fa-instagram fa-lg"></i></a>
-                        <a href="#" class="text-light"><i class="fab fa-youtube fa-lg"></i></a>
-                    </div>
-                </div>
-            </div>
-            <hr class="my-4">
-            <div class="text-center">
-                <p class="mb-0">&copy; {{ date('Y') }} {{ config('app.name', 'Kabupaten Toba') }}. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    @include('components.footer')
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

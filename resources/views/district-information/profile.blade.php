@@ -389,8 +389,19 @@
         }
 
         .footer-logo {
-            width: 55px;
-            margin-bottom: 15px;
+            font-weight: 700;
+            font-size: 22px;
+            color: #fff;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+        }
+    
+        .footer-logo img {
+            height: 55px;
+            width: auto;
+            margin-right: 12px;
+            filter: brightness(0) invert(1);
         }
 
         .social-links {
@@ -591,7 +602,10 @@
     <footer>
         <div class="footer-container">
             <div class="footer-section">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="footer-logo">
+                <div class="footer-logo">
+                    <img src="{{ asset('images/logo.png') }}" alt="Toba Hita Logo">
+                    <span>Toba Hita</span>
+                </div>
                 <p>
                     Sistem informasi terpadu untuk pengelolaan dan 
                     pelayanan administrasi desa di Kabupaten Toba. 
