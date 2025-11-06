@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Desa - Kabupaten Toba</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS (loaded before custom styles so custom rules override it) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -69,7 +71,7 @@
         /* Hero Section */
         .hero {
             /* Danau Toba view background with three-color overlay */
-            background: linear-gradient(135deg, rgba(25,80,122,0.6) 0%, rgba(129,167,211,0.35) 57%, rgba(255,255,255,0) 100%), url('{{ asset('images/danau-toba.jpg') }}');
+            background: linear-gradient(135deg, rgba(25,80,122,0.6) 0%, rgba(129,167,211,0.35) 57%, rgba(255,255,255,0) 100%), url('{{ asset('images/pemandangan-sawah.jpg') }}');
             background-size: cover;
             /* shift focus further downward so the lake is more visible */
             background-position: center 65%;
@@ -575,6 +577,8 @@
 
     <!-- Footer -->
     <footer>
+    <!-- Bootstrap JS bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <div class="footer-container">
             <div class="footer-section">
                 <img src="{{ asset('images/logo.png') }}" alt="Logo" class="footer-logo">

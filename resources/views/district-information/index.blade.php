@@ -9,6 +9,9 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    <!-- Bootstrap CSS (loaded before custom styles so custom rules override it) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         /* === Resets & Global === */
         :root {
@@ -74,8 +77,12 @@
         .nav-menu {
             list-style: none;
             display: flex;
-            margin-left: auto;
-            margin-right: 50px;
+            gap: 32px;
+            position: absolute; /* center the menu between logo and auth */
+            left: 50%;
+            transform: translateX(-50%);
+            top: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .nav-menu li {
@@ -122,11 +129,11 @@
         /* === Hero Section === */
         .hero {
             /* three-color overlay tuned to your screenshot: #19507A -> #81A7D3 -> #FFFFFF */
-            background-image: linear-gradient(to bottom, rgba(25,80,122,0.6) 0%, rgba(129,167,211,0.35) 57%, rgba(255,255,255,0) 100%), url('{{ asset('images/danau-toba.jpg') }}');
+            background-image: linear-gradient(to bottom, rgba(25,80,122,0.6) 0%, rgba(129,167,211,0.35) 57%, rgba(255,255,255,0) 100%), url('{{ asset('images/pemandangan-sawah.jpg') }}');
             background-size: cover;
             /* shift focus further downward so the lake is more visible */
             background-position: center 65%;
-            height: 500px;
+            min-height: 560px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -135,17 +142,17 @@
         }
 
         .hero-content h1 {
-            font-size: 46px;
+            font-size: 64px;
             font-weight: 700;
-            max-width: 700px;
-            margin: 0 auto 25px auto;
-            line-height: 1.3;
+            max-width: 900px;
+            margin: 0 auto 24px auto;
+            line-height: 1.05;
         }
 
         .hero-content p {
-            font-size: 16px;
-            max-width: 600px;
-            margin: 0 auto 35px auto;
+            font-size: 18px;
+            max-width: 760px;
+            margin: 0 auto 36px auto;
             color: var(--text-light);
             line-height: 1.6;
         }
@@ -156,13 +163,13 @@
             padding: 14px 44px;
             text-decoration: none;
             border-radius: 999px; /* pill */
-            font-weight: 600;
+            font-weight: 700;
             transition: all 0.25s ease;
             font-size: 18px;
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            box-shadow: 0 8px 24px rgba(0, 119, 182, 0.18);
+            box-shadow: 0 10px 28px rgba(0, 119, 182, 0.18);
             border: none;
             line-height: 1;
         }
@@ -181,7 +188,7 @@
 
         /* === Features Section === */
         .features {
-            background: #fff;
+            background: #EDF7FE;
             padding: 70px 0;
             margin-top: -50px;
             border-radius: 12px 12px 0 0;
@@ -213,9 +220,18 @@
         }
 
         .feature-item i {
-            font-size: 52px;
+            font-size: 28px;
             color: var(--primary-color);
-            margin-bottom: 22px;
+            margin-bottom: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            background: rgba(0,119,182,0.08);
+            box-shadow: 0 6px 18px rgba(3,37,65,0.04);
+            margin: 0 auto 20px auto;
         }
 
         .feature-item h3 {

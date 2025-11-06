@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil Kabupaten Toba</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS (loaded before custom styles so custom rules override it) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -65,18 +67,18 @@
         .navbar-menu a.active {
             color: #0077B6;
         }
-
         /* Header / Hero */
         .hero {
             background-size: cover;
             background-position: center;
             color: white;
-            text-align: center;
-            padding: 80px 20px 60px;
+            padding: 60px 0 40px;
+            display: flex;
+            align-items: center;
         }
 
         .hero h1 {
-            font-size: 42px;
+            font-size: 48px;
             font-weight: 700;
             margin-bottom: 8px;
         }
@@ -96,6 +98,22 @@
             margin-top: 30px;
         }
 
+        /* inner container for hero content to align with page content */
+        .hero-inner {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* center hero content */
+        }
+
+        .hero-text {
+            text-align: center;
+            width: 100%;
+        }
+
         .stat-item {
             text-align: center;
         }
@@ -113,7 +131,8 @@
         }
 
         /* Main Content */
-        .container {
+        /* use a distinct content container to avoid clashing with Bootstrap's .container */
+        .content-container {
             max-width: 1000px;
             margin: 0 auto;
             padding: 40px 20px;
@@ -422,22 +441,28 @@
     </nav>
 
         <!-- Hero Section -->
-    <div class="hero" style="background-image: linear-gradient(135deg, rgba(25,80,122,0.6) 0%, rgba(129,167,211,0.35) 57%, rgba(255,255,255,0) 100%), url('{{ asset('images/danau-toba.jpg') }}'); background-size: cover; background-position: center 65%;">
-        <h1>Profil Kabupaten Toba</h1>
-        <p class="hero-subtitle">Jantung Budaya Batak di Pesisir Danau Toba</p>        <div class="hero-stats">
-            <div class="stat-item">
-                <span class="stat-number">8</span>
-                <span class="stat-label">Kecamatan</span>
+    <div class="hero" style="background-image: linear-gradient(to bottom, rgba(25,80,122,0.6) 0%, rgba(129,167,211,0.35) 57%, rgba(255,255,255,0) 100%), url('{{ asset('images/pemandangan-sawah.jpg') }}'); background-size: cover; background-position: center 65%;">
+        <div class="hero-inner">
+            <div class="hero-text">
+                <h1>Profil Kabupaten Toba</h1>
+                <p class="hero-subtitle">Jantung Budaya Batak di Pesisir Danau Toba</p>
             </div>
-            <div class="stat-item">
-                <span class="stat-number">7,515</span>
-                <span class="stat-label">Penduduk</span>
+
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">8</span>
+                    <span class="stat-label">Kecamatan</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">7,515</span>
+                    <span class="stat-label">Penduduk</span>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Main Content -->
-    <div class="container">
+    <div class="content-container">
         <!-- Sejarah Singkat -->
         <div class="section">
             <h2 class="section-title">Sejarah Singkat</h2>
@@ -556,7 +581,7 @@
                     <img src="{{ asset('images/dokumentasi kegiatan (2).jpg') }}" alt="Kegiatan 2" class="doc-image">
                 </div>
                 <div class="doc-card">
-                    <img src="{{ asset('images/rumah-adat-deretan.jpg') }}" alt="Kegiatan 3" class="doc-image">
+                    <img src="{{ asset('images/tarian.jpg') }}" alt="Kegiatan 3" class="doc-image">
                 </div>
             </div>
         </div>
@@ -598,5 +623,7 @@
         </div>
     </footer>
 
+    <!-- Bootstrap JS bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
