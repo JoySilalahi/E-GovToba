@@ -1,203 +1,150 @@
 {{-- Universal Footer Component - Toba Hita Design --}}
 
 <!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
-    .footer-universal {
-        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-        color: #ffffff;
-        padding: 3.5rem 0 1.5rem;
+    :root {
+        --primary-color: #0077B6;
+        --dark-blue: #222a35;
+        --text-light: #f1f1f1;
+        --text-secondary: #6c757d;
+    }
+
+    /* === Footer === */
+    .footer {
+        background: #2c3e50;
+        color: var(--text-light);
+        padding: 60px 0 25px 0;
         margin-top: auto;
     }
-    
-    .footer-container {
-        max-width: 1200px;
+
+    .footer .container {
+        max-width: 1140px;
         margin: 0 auto;
-        padding: 0 1.5rem;
+        padding: 0 20px;
     }
-    
+
     .footer-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 3rem;
-        margin-bottom: 3rem;
-    }
-    
-    @media (min-width: 768px) {
-        .footer-grid {
-            grid-template-columns: 2fr 1.2fr 1fr;
-        }
-    }
-    
-    .footer-section h5 {
-        font-size: 1.125rem;
-        font-weight: 700;
-        margin-bottom: 1.5rem;
-        color: #ffffff;
-        letter-spacing: 0.5px;
-    }
-    
-    .footer-section p {
-        font-size: 0.9rem;
-        line-height: 1.8;
-        color: #bdc3c7;
-        margin-bottom: 0.75rem;
-    }
-    
-    .footer-logo {
         display: flex;
-        align-items: flex-start;
-        margin-bottom: 1.5rem;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 50px;
+        margin-bottom: 40px;
     }
-    
-    .footer-logo-img {
-        width: 50px;
-        height: 50px;
-        background: #ffffff;
-        border-radius: 8px;
+
+    .footer-col {
+        flex: 1;
+        min-width: 250px;
+    }
+
+    .footer-col.col-1 {
+        flex-basis: 40%;
+    }
+
+    .footer-logo {
+        font-weight: 700;
+        font-size: 22px;
+        color: #fff;
+        margin-bottom: 18px;
         display: flex;
         align-items: center;
-        justify-content: center;
-        margin-right: 1rem;
-        flex-shrink: 0;
     }
-    
-    .footer-logo-img i {
-        font-size: 1.75rem;
-        color: #2c3e50;
+
+    .footer-logo img {
+        height: 55px;
+        width: auto;
+        margin-right: 12px;
+        filter: brightness(0) invert(1);
     }
-    
-    .footer-logo-text h5 {
-        margin-bottom: 0;
-        font-size: 1.5rem;
-        font-weight: 700;
-    }
-    
-    .footer-description {
-        max-width: 400px;
-    }
-    
-    .footer-contact-item {
-        display: flex;
-        align-items: flex-start;
-        margin-bottom: 1.25rem;
-        font-size: 0.9rem;
-    }
-    
-    .footer-contact-item i {
-        margin-right: 1rem;
-        margin-top: 0.15rem;
-        width: 1.25rem;
-        color: #3498db;
-        flex-shrink: 0;
-    }
-    
-    .footer-contact-item span,
-    .footer-contact-item a {
+
+    .footer-col p {
         color: #bdc3c7;
+        font-size: 14px;
+        max-width: 350px;
+        line-height: 1.8;
+    }
+
+    .footer-col h4 {
+        font-size: 17px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: #fff;
+    }
+
+    .footer-contact {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .footer-contact li {
+        margin-bottom: 14px;
+        color: #bdc3c7;
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+    }
+
+    .footer-contact i {
+        margin-right: 12px;
+        width: 18px;
+        text-align: center;
+        color: var(--primary-color);
+    }
+
+    .footer-social a {
+        color: #fff;
         text-decoration: none;
+        font-size: 20px;
+        margin-right: 16px;
         transition: color 0.3s ease;
     }
-    
-    .footer-contact-item a:hover {
-        color: #3498db;
-    }
-    
-    .footer-social {
-        display: flex;
-        gap: 1rem;
-        margin-top: 1.5rem;
-    }
-    
-    .footer-social a {
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(52, 152, 219, 0.1);
-        border-radius: 8px;
-        color: #ffffff;
-        font-size: 1.25rem;
-        transition: all 0.3s ease;
-        text-decoration: none;
-    }
-    
+
     .footer-social a:hover {
-        background: #3498db;
-        transform: translateY(-3px);
+        color: var(--primary-color);
     }
-    
-    .footer-divider {
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        margin-top: 3rem;
-        padding-top: 1.5rem;
+
+    .footer-bottom {
         text-align: center;
-    }
-    
-    .footer-copyright {
-        font-size: 0.875rem;
+        border-top: 1px solid #34495e;
+        padding-top: 25px;
+        font-size: 13px;
         color: #95a5a6;
-        margin: 0;
     }
 </style>
 
-<footer class="footer-universal">
-    <div class="footer-container">
+<footer class="footer">
+    <div class="container">
         <div class="footer-grid">
-            <!-- Kolom 1: Logo dan Deskripsi -->
-            <div class="footer-section">
+            <div class="footer-col col-1">
                 <div class="footer-logo">
-                    <div class="footer-logo-img">
-                        <i class="fas fa-mountain"></i>
-                    </div>
-                    <div class="footer-logo-text">
-                        <h5>Toba Hita</h5>
-                    </div>
+                    <img src="{{ asset('images/logo.png') }}" alt="Toba Hita Logo">
+                    <span>Toba Hita</span>
                 </div>
-                <div class="footer-description">
-                    <p>
-                        Portal informasi terintegrasi untuk transparansi dan pelayanan publik yang lebih baik di seluruh wilayah Kabupaten Toba.
-                    </p>
-                </div>
+                <p>Portal informasi terintegrasi untuk transparansi dan pelayanan publik yang lebih baik di seluruh wilayah Kabupaten Toba.</p>
             </div>
 
-            <!-- Kolom 2: Hubungi Kami -->
-            <div class="footer-section">
-                <h5>Hubungi kami</h5>
-                <div class="footer-contact-item">
-                    <i class="fas fa-phone"></i>
-                    <a href="tel:+1234567890">+12 3456 7890</a>
-                </div>
-                <div class="footer-contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <a href="mailto:tobahita@gmail.com">tobahita@gmail.com</a>
-                </div>
+            <div class="footer-col">
+                <h4>Hubungi kami</h4>
+                <ul class="footer-contact">
+                    <li><i class="fas fa-phone"></i> +12 3456 7890</li>
+                    <li><i class="fas fa-envelope"></i> tobahita@gmail.com</li>
+                </ul>
             </div>
 
-            <!-- Kolom 3: Ikuti Kami -->
-            <div class="footer-section">
-                <h5>Ikuti Kami</h5>
+            <div class="footer-col">
+                <h4>Ikuti Kami</h4>
                 <div class="footer-social">
-                    <a href="#" aria-label="Facebook" title="Facebook">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" aria-label="Twitter" title="Twitter">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" aria-label="Instagram" title="Instagram">
-                        <i class="fab fa-instagram"></i>
-                    </a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
         </div>
 
-        <!-- Copyright -->
-        <div class="footer-divider">
-            <p class="footer-copyright">
-                &copy; {{ date('Y') }} Pemerintah Kabupaten Toba. Hak Cipta Dilindungi.
-            </p>
+        <div class="footer-bottom">
+            <p>&copy; {{ date('Y') }} Pemerintah Kabupaten Toba. Hak Cipta Dilindungi.</p>
         </div>
     </div>
 </footer>

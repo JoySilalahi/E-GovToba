@@ -388,50 +388,7 @@
             color: white;
         }
 
-        .footer-logo {
-            font-weight: 700;
-            font-size: 22px;
-            color: #fff;
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-        }
-    
-        .footer-logo img {
-            height: 55px;
-            width: auto;
-            margin-right: 12px;
-            filter: brightness(0) invert(1);
-        }
 
-        .social-links {
-            display: flex;
-            gap: 12px;
-            margin-top: 15px;
-        }
-
-        .social-links a {
-            width: 35px;
-            height: 35px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s;
-        }
-
-        .social-links a:hover {
-            background: #0077B6;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            font-size: 12px;
-            color: #94a3b8;
-        }
     </style>
 </head>
 <body>
@@ -599,43 +556,7 @@
     </div>
 
     <!-- Footer -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-section">
-                <div class="footer-logo">
-                    <img src="{{ asset('images/logo.png') }}" alt="Toba Hita Logo">
-                    <span>Toba Hita</span>
-                </div>
-                <p>
-                    Sistem informasi terpadu untuk pengelolaan dan 
-                    pelayanan administrasi desa di Kabupaten Toba. 
-                    Melayani dengan hati untuk masyarakat yang lebih sejahtera.
-                </p>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Hubungi Kami</h4>
-                <p>📍 Jl. Sisingamangaraja No. 1<br>
-                   Balige, Kabupaten Toba<br>
-                   Sumatera Utara 22381</p>
-                <p>📞 +62 632-21495<br>
-                   📧 info@tobakab.go.id</p>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Ikuti Kami</h4>
-                <div class="social-links">
-                    <a href="#" title="Facebook">f</a>
-                    <a href="#" title="Twitter">𝕏</a>
-                    <a href="#" title="Instagram">📷</a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            © 2025 Pemerintah Kabupaten Toba. Hak Cipta Dilindungi
-        </div>
-    </footer>
+    @include('components.footer')
 
     <!-- Bootstrap JS bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

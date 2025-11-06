@@ -413,74 +413,6 @@
             color: white;
         }
 
-        /* Footer */
-        footer {
-            background: #2c3e50;
-            color: white;
-            padding: 40px 20px 25px;
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 25px;
-        }
-
-        .footer-section h4 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        .footer-section p,
-        .footer-section a {
-            font-size: 13px;
-            color: #cbd5e1;
-            text-decoration: none;
-            line-height: 1.8;
-        }
-
-        .footer-section a:hover {
-            color: white;
-        }
-
-        .footer-logo {
-            width: 55px;
-            margin-bottom: 15px;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 12px;
-            margin-top: 15px;
-        }
-
-        .social-links a {
-            width: 35px;
-            height: 35px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s;
-        }
-
-        .social-links a:hover {
-            background: #0077B6;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            font-size: 12px;
-            color: #94a3b8;
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
@@ -576,42 +508,10 @@
     </div>
 
     <!-- Footer -->
-    <footer>
+    @include('components.footer')
+
     <!-- Bootstrap JS bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-        <div class="footer-container">
-            <div class="footer-section">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="footer-logo">
-                <p>
-                    Portal Informasi terintegrasi untuk mengelola dan 
-                    pelayanan administrasi desa di Kabupaten Toba. 
-                    Melayani dengan hati untuk masyarakat yang lebih sejahtera.
-                </p>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Hubungi Kami</h4>
-                <p>📍 Jl. Sisingamangaraja No. 1<br>
-                   Balige, Kabupaten Toba<br>
-                   Sumatera Utara 22381</p>
-                <p>📞 +12 3456 7890<br>
-                   📧 tobainf@email.com</p>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Ikuti Kami</h4>
-                <div class="social-links">
-                    <a href="#" title="Facebook">f</a>
-                    <a href="#" title="Twitter">𝕏</a>
-                    <a href="#" title="Instagram">📷</a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            © 2025 Pemerintah Kabupaten Toba Hita. Hak Cipta Dilindungi
-        </div>
-    </footer>
 
     <script>
         // Village data for autocomplete
