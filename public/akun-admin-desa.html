@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akun Admin Desa - E-Gov Toba</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 1200px;
+        }
+        .header-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .header-section h1 {
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .header-section p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        .kecamatan-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        .kecamatan-section h2 {
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+        }
+        .village-card {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        .village-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        .village-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        .info-row {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .info-label {
+            font-weight: 600;
+            color: #555;
+            width: 120px;
+            display: inline-block;
+        }
+        .info-value {
+            color: #2c3e50;
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .copy-btn {
+            margin-left: 10px;
+            padding: 3px 10px;
+            font-size: 0.8rem;
+        }
+        .kepala-desa {
+            color: #7f8c8d;
+            font-style: italic;
+            margin-top: 10px;
+        }
+        .alert-security {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .stats-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .stats-box h3 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 0;
+        }
+        .stats-box p {
+            margin: 0;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-section text-center">
+            <h1><i class="fas fa-users-cog"></i> Akun Admin Desa</h1>
+            <p>Sistem E-Government Kabupaten Toba</p>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="stats-box">
+                    <h3>11</h3>
+                    <p>Total Akun Desa</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-box">
+                    <h3>3</h3>
+                    <p>Kecamatan</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-box">
+                    <h3>100%</h3>
+                    <p>Coverage</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kecamatan Balige -->
+        <div class="kecamatan-section">
+            <h2><i class="fas fa-map-marker-alt"></i> Kecamatan Balige</h2>
+            
+            <div class="village-card">
+                <div class="village-name">1. Desa Balige I</div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-envelope"></i> Email:</span>
+                    <span class="info-value" id="email1">baligei@village.admin</span>
+                    <button class="btn btn-sm btn-outline-primary copy-btn" onclick="copyText('email1')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-key"></i> Password:</span>
+                    <span class="info-value">password123</span>
+                    <button class="btn btn-sm btn-outline-primary copy-btn" onclick="copyText('password')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <div class="kepala-desa"><i class="fas fa-user-tie"></i> Kepala Desa: Bapak Saut Situmorang</div>
+            </div>
+
+            <div class="village-card">
+                <div class="village-name">2. Desa Balige II</div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-envelope"></i> Email:</span>
+                    <span class="info-value" id="email2">baligeii@village.admin</span>
+                    <button class="btn btn-sm btn-outline-primary copy-btn" onclick="copyText('email2')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-key"></i> Password:</span>
+                    <span class="info-value">password123</span>
+                </div>
+                <div class="kepala-desa"><i class="fas fa-user-tie"></i> Kepala Desa: Ibu Marina Sinaga</div>
+            </div>
+
+            <div class="village-card">
+                <div class="village-name">3. Desa Soposurung</div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-envelope"></i> Email:</span>
+                    <span class="info-value" id="email3">soposurung@village.admin</span>
+                    <button class="btn btn-sm btn-outline-primary copy-btn" onclick="copyText('email3')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-key"></i> Password:</span>
+                    <span class="info-value">password123</span>
+                </div>
+                <div class="kepala-desa"><i class="fas fa-user-tie"></i> Kepala Desa: Ibu Ruth Simanjuntak</div>
+            </div>
+
+            <div class="village-card">
+                <div class="village-name">4. Desa Purbatua</div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-envelope"></i> Email:</span>
+                    <span class="info-value" id="email4">purbatua@village.admin</span>
+                    <button class="btn btn-sm btn-outline-primary copy-btn" onclick="copyText('email4')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-key"></i> Password:</span>
+                    <span class="info-value">password123</span>
+                </div>
+                <div class="kepala-desa"><i class="fas fa-user-tie"></i> Kepala Desa: Bapak Darwin Situmorang</div>
+            </div>
+
+            <div class="village-card">
+                <div class="village-name">5. Desa Pasar Balige</div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-envelope"></i> Email:</span>
+                    <span class="info-value" id="email5">pasarbalige@village.admin</span>
+                    <button class="btn btn-sm btn-outline-primary copy-btn" onclick="copyText('email5')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-key"></i> Password:</span>
+                    <span class="info-value">password123</span>
+                </div>
+                <div class="kepala-desa"><i class="fas fa-user-tie"></i> Kepala Desa: Bapak Robert Sitanggang</div>
+            </div>
+        </div>
+
+        <!-- Kecamatan Laguboti -->
+        <div class="kecamatan-section">
+            <h2><i class="fas fa-map-marker-alt"></i> Kecamatan Laguboti</h2>
+            
+            <div class="village-card">
+                <div class="village-name">6. Desa Laguboti</div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-envelope"></i> Email:</span>
+                    <span class="info-value" id="email6">laguboti@village.admin</span>
+                    <button class="btn btn-sm btn-outline-primary copy-btn" onclick="copyText('email6')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-key"></i> Password:</span>
+                    <span class="info-value">password123</span>
+                </div>
+                <div class="kepala-desa"><i class="fas fa-user-tie"></i> Kepala Desa: Bapak Sahala Siahaan</div>
+            </div>
+
+            <div class="village-card">
+                <div class="village-name">7. Desa Sipinggan</div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-envelope"></i> Email:</span>
+                    <span class="info-value" id="email7">sipinggan@village.admin</span>
+                    <button class="btn btn-sm btn-outline-primary copy-btn" onclick="copyText('email7')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-key"></i> Password:</span>
+                    <span class="info-value">password123</span>
+                </div>
+                <div class="kepala-desa"><i class="fas fa-user-tie"></i> Kepala Desa: Bapak Juntak Manurung</div>
+            </div>
+
+            <div class="village-card">
+                <div class="village-name">8. Desa Pasar Laguboti</div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-envelope"></i> Email:</span>
+                    <span class="info-value" id="email8">pasarlaguboti@village.admin</span>
+                    <button class="btn btn-sm btn-outline-primary copy-btn" onclick="copyText('email8')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-key"></i> Password:</span>
+                    <span class="info-value">password123</span>
+                </div>
+                <div class="kepala-desa"><i class="fas fa-user-tie"></i> Kepala Desa: Ibu Linda Pangaribuan</div>
+            </div>
+        </div>
+
+        <!-- Kecamatan Porsea -->
+        <div class="kecamatan-section">
+            <h2><i class="fas fa-map-marker-alt"></i> Kecamatan Porsea</h2>
+            
+            <div class="village-card">
+                <div class="village-name">9. Desa Porsea</div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-envelope"></i> Email:</span>
+                    <span class="info-value" id="email9">porsea@village.admin</span>
+                    <button class="btn btn-sm btn-outline-primary copy-btn" onclick="copyText('email9')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-key"></i> Password:</span>
+                    <span class="info-value">password123</span>
+                </div>
+                <div class="kepala-desa"><i class="fas fa-user-tie"></i> Kepala Desa: Bapak Richard Sitorus</div>
+            </div>
+
+            <div class="village-card">
+                <div class="village-name">10. Desa Simanindo</div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-envelope"></i> Email:</span>
+                    <span class="info-value" id="email10">simanindo@village.admin</span>
+                    <button class="btn btn-sm btn-outline-primary copy-btn" onclick="copyText('email10')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-key"></i> Password:</span>
+                    <span class="info-value">password123</span>
+                </div>
+                <div class="kepala-desa"><i class="fas fa-user-tie"></i> Kepala Desa: Ibu Anna Simanjuntak</div>
+            </div>
+
+            <div class="village-card">
+                <div class="village-name">11. Desa Pangururan</div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-envelope"></i> Email:</span>
+                    <span class="info-value" id="email11">pangururan@village.admin</span>
+                    <button class="btn btn-sm btn-outline-primary copy-btn" onclick="copyText('email11')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <div class="info-row">
+                    <span class="info-label"><i class="fas fa-key"></i> Password:</span>
+                    <span class="info-value">password123</span>
+                </div>
+                <div class="kepala-desa"><i class="fas fa-user-tie"></i> Kepala Desa: Bapak Marolop Nainggolan</div>
+            </div>
+        </div>
+
+        <!-- Security Alert -->
+        <div class="alert-security">
+            <h4><i class="fas fa-exclamation-triangle"></i> Catatan Keamanan</h4>
+            <p><strong>PENTING:</strong></p>
+            <ul>
+                <li>Password default <code>password123</code> hanya untuk pengembangan/testing</li>
+                <li>Setelah login pertama kali, admin desa <strong>HARUS</strong> mengganti password</li>
+                <li>Untuk produksi, gunakan password yang kuat dan unik untuk setiap desa</li>
+            </ul>
+        </div>
+
+        <!-- Login Info -->
+        <div class="kecamatan-section">
+            <h3><i class="fas fa-sign-in-alt"></i> Cara Login</h3>
+            <ol>
+                <li>Buka browser dan akses: <a href="http://127.0.0.1:8000/login" target="_blank"><code>http://127.0.0.1:8000/login</code></a></li>
+                <li>Masukkan email sesuai desa yang ingin diakses</li>
+                <li>Masukkan password: <code>password123</code></li>
+                <li>Klik tombol "Log in"</li>
+            </ol>
+        </div>
+
+        <div class="text-center text-white mt-4">
+            <p>&copy; 2025 E-Gov Toba - Kabupaten Toba</p>
+        </div>
+    </div>
+
+    <script>
+        function copyText(elementId) {
+            const element = document.getElementById(elementId);
+            let text = element.textContent;
+            
+            // Jika elementId adalah 'password', langsung copy 'password123'
+            if (elementId === 'password') {
+                text = 'password123';
+            }
+            
+            navigator.clipboard.writeText(text).then(function() {
+                // Tampilkan notifikasi
+                const btn = event.target.closest('button');
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btn.classList.remove('btn-outline-primary');
+                btn.classList.add('btn-success');
+                
+                setTimeout(function() {
+                    btn.innerHTML = originalHTML;
+                    btn.classList.remove('btn-success');
+                    btn.classList.add('btn-outline-primary');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

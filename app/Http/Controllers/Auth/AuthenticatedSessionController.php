@@ -28,7 +28,19 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Redirect berdasarkan role user
+        $user = Auth::user();
+        
+        if ($user->isAdmin()) {
+            // Admin diarahkan ke dashboard admin
+            return redirect()->intended(route('admin.dashboard'));
+        } elseif ($user->isVillageAdmin()) {
+            // Village admin diarahkan ke dashboard village admin
+            return redirect()->intended(route('village-admin.dashboard'));
+        } else {
+            // User biasa diarahkan ke halaman beranda user
+            return redirect()->intended(route('home'));
+        }
     }
 
     /**

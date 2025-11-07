@@ -268,14 +268,15 @@
             z-index: 1000;
         }
 
-        .nav-item:hover .dropdown-menu-custom {
+        .nav-item.active .dropdown-menu-custom,
+        .dropdown-menu-custom.show {
             display: block;
         }
 
         .dropdown-menu-custom a,
         .dropdown-menu-custom button {
             display: block;
-            padding: 10px 20px;
+            padding: 12px 20px;
             color: var(--text-color);
             text-decoration: none;
             transition: background 0.2s;
@@ -303,6 +304,11 @@
             border-top: 1px solid var(--border-color);
         }
 
+        .dropdown-toggle {
+            cursor: pointer;
+        }
+
+
     </style>
 </head>
 <body>
@@ -319,11 +325,11 @@
             </ul>
             <div class="nav-auth">
                 @auth
-                    <div class="nav-item" style="display: inline-block; position: relative;">
-                        <a href="#" class="btn btn-secondary">
+                    <div class="nav-item" id="userDropdown" style="display: inline-block; position: relative;">
+                        <a href="#" class="btn btn-secondary dropdown-toggle" onclick="toggleDropdown(event)">
                             <i class="fas fa-user-circle"></i> {{ Auth::user()->name }}
                         </a>
-                        <div class="dropdown-menu-custom">
+                        <div class="dropdown-menu-custom" id="dropdownMenu">
                             <a href="{{ route('dashboard') }}">
                                 <i class="fas fa-tachometer-alt"></i> Dashboard
                             </a>
@@ -380,6 +386,48 @@
     </main>
 
     @include('components.footer')
+
+    <script>
+        // Toggle dropdown on click
+        function toggleDropdown(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const dropdown = document.getElementById('dropdownMenu');
+            const navItem = document.getElementById('userDropdown');
+            
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+                navItem.classList.remove('active');
+            } else {
+                dropdown.classList.add('show');
+                navItem.classList.add('active');
+            }
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('dropdownMenu');
+            const navItem = document.getElementById('userDropdown');
+            
+            if (dropdown && navItem) {
+                if (!navItem.contains(event.target)) {
+                    dropdown.classList.remove('show');
+                    navItem.classList.remove('active');
+                }
+            }
+        });
+
+        // Prevent dropdown from closing when clicking inside it
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdown = document.getElementById('dropdownMenu');
+            if (dropdown) {
+                dropdown.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>

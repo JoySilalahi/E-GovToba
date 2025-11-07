@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'village_id',
     ];
 
     /**
@@ -55,5 +56,15 @@ class User extends Authenticatable
     public function isStaff()
     {
         return $this->role === 'staff';
+    }
+
+    public function isVillageAdmin()
+    {
+        return $this->role === 'village_admin';
+    }
+
+    public function village()
+    {
+        return $this->belongsTo(Village::class);
     }
 }
