@@ -79,7 +79,7 @@ class DistrictInformationController extends Controller
             return [
                 'id' => $village->id,
                 'name' => $village->name,
-                'image' => 'desa ' . strtolower($village->name) . '.jpg',
+                'image' => $village->image ?? 'desa ' . strtolower($village->name) . '.jpg',
                 'description' => $village->description ?? 'Desa ' . $village->name,
                 'population' => $village->population,
                 'area' => $village->area . ' km²'
@@ -107,7 +107,7 @@ class DistrictInformationController extends Controller
         $village = [
             'id' => $villageFromDb->id,
             'name' => $villageFromDb->name,
-            'image' => 'desa ' . strtolower($villageFromDb->name) . '.jpg',
+            'image' => $villageFromDb->image ?? 'desa ' . strtolower($villageFromDb->name) . '.jpg',
             'population' => $villageFromDb->population,
             'visi' => $villageFromDb->visi ?? 'Visi belum ditetapkan. Silakan hubungi admin desa untuk informasi lebih lanjut.',
             'misi' => $villageFromDb->misi ?? 'Misi belum ditetapkan. Silakan hubungi admin desa untuk informasi lebih lanjut.',

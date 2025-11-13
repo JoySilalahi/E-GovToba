@@ -439,8 +439,21 @@
 
         <!-- Kepala Desa Card (below stats) -->
         <div style="margin-top: 20px;">
-            <div class="content-grid" style="grid-template-columns: 2fr 1fr;">
-                <div></div>
+            <div class="content-grid" style="grid-template-columns: 1fr 1fr;">
+                <!-- Gambar Desa -->
+                <div class="card" style="padding: 0; overflow: hidden;">
+                    <div style="position: relative; width: 100%; padding-bottom: 66.67%; overflow: hidden;">
+                        <img src="{{ asset('images/' . $village->image) }}" 
+                             alt="Desa {{ $village->name }}" 
+                             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 20px; text-align: center;">
+                        <h5 style="margin: 0; color: #2c3e50; font-weight: 600;">Desa {{ $village->name }}</h5>
+                        <p style="margin: 8px 0 0 0; color: #7f8c8d; font-size: 14px;">Kabupaten Toba</p>
+                    </div>
+                </div>
+                
+                <!-- Kepala Desa -->
                 <div class="kepala-desa-card">
                     <div class="kepala-desa-photo">
                         <i class="fas fa-user"></i>

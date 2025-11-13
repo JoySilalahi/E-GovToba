@@ -128,7 +128,7 @@
         /* Two Column Layout */
         .two-column-layout {
             display: grid;
-            grid-template-columns: 0.9fr 1.1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 30px;
             margin-bottom: 40px;
         }
@@ -156,82 +156,68 @@
 
         /* Bupati Cards */
         .bupati-section {
-            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-            border-radius: 12px;
-            padding: 30px;
             margin-bottom: 30px;
-        }
-
-        .bupati-section h2 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 25px;
-            text-align: center;
         }
 
         .bupati-cards {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
-            margin-bottom: 0;
+            margin-bottom: 30px;
         }
 
         .bupati-card {
             text-align: center;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
+            padding: 20px;
         }
 
         .bupati-photo {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            margin: 0 auto 12px;
-            border: 3px solid #0077B6;
+            margin: 0 auto 15px;
+            border: 4px solid #0077B6;
         }
 
         .bupati-name {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             color: #1e293b;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
         }
 
         .bupati-title {
-            font-size: 12px;
+            font-size: 13px;
             color: #64748b;
         }
 
         /* Visi Misi */
         .visi-misi-section h3 {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
             color: #1e293b;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .visi-box,
         .misi-box {
-            background: white;
+            background: #f8fafc;
             border-radius: 8px;
             padding: 20px;
-            margin-bottom: 15px;
-            border-left: 4px solid #0077B6;
+            margin-bottom: 20px;
         }
 
         .visi-box h4,
         .misi-box h4 {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
             color: #0077B6;
             margin-bottom: 10px;
         }
 
         .visi-box p {
-            font-size: 13px;
+            font-size: 14px;
             line-height: 1.6;
             color: #475569;
             margin: 0;
@@ -243,10 +229,10 @@
         }
 
         .misi-box li {
-            font-size: 13px;
-            line-height: 1.7;
+            font-size: 14px;
+            line-height: 1.8;
             color: #475569;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         /* Documentation Section */
@@ -265,24 +251,55 @@
             text-align: center;
         }
 
-        /* Documentation Grid */
-        .documentation-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+        /* Carousel */
+        .carousel-container {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
-        .documentation-item {
+        .carousel-inner img {
             border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
         }
 
-        .documentation-item img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            display: block;
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.9;
+        }
+
+        .carousel-control-prev:hover,
+        .carousel-control-next:hover {
+            opacity: 1;
+            background: white;
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            filter: invert(1);
+        }
+
+        .carousel-indicators {
+            bottom: -30px;
+        }
+
+        .carousel-indicators button {
+            background-color: #cbd5e1;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .carousel-indicators button.active {
+            background-color: #0077B6;
         }
 
         /* Footer */
@@ -410,10 +427,6 @@
                 grid-template-columns: 1fr;
             }
 
-            .documentation-grid {
-                grid-template-columns: 1fr;
-            }
-
             .carousel-inner img {
                 height: 250px;
             }
@@ -477,7 +490,7 @@
             </div>
 
             <!-- Right Column: Bupati & Visi Misi -->
-            <div>
+            <div class="content-card">
                 <div class="bupati-section">
                     <h2>Bupati & Wakil Bupati Toba</h2>
                     <div class="bupati-cards">
@@ -494,7 +507,7 @@
                     </div>
                 </div>
 
-                <div class="content-card visi-misi-section">
+                <div class="visi-misi-section">
                     <h3>Visi & Misi</h3>
                     <div class="visi-box">
                         <h4>Visi</h4>
@@ -515,15 +528,30 @@
         <!-- Documentation Section -->
         <div class="documentation-section">
             <h2>Dokumentasi Kegiatan</h2>
-            <div class="documentation-grid">
-                <div class="documentation-item">
-                    <img src="{{ asset('images/documentation-1.jpg') }}" alt="Dokumentasi 1">
-                </div>
-                <div class="documentation-item">
-                    <img src="{{ asset('images/documentation-2.jpg') }}" alt="Dokumentasi 2">
-                </div>
-                <div class="documentation-item">
-                    <img src="{{ asset('images/documentation-3.jpg') }}" alt="Dokumentasi 3">
+            <div class="carousel-container">
+                <div id="documentationCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#documentationCarousel" data-bs-slide-to="0" class="active"></button>
+                        <button type="button" data-bs-target="#documentationCarousel" data-bs-slide-to="1"></button>
+                        <button type="button" data-bs-target="#documentationCarousel" data-bs-slide-to="2"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="{{ asset('images/documentation-1.jpg') }}" alt="Dokumentasi 1">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{{ asset('images/documentation-2.jpg') }}" alt="Dokumentasi 2">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{{ asset('images/documentation-3.jpg') }}" alt="Dokumentasi 3">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#documentationCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#documentationCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -562,5 +590,13 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Auto-advance carousel
+        var myCarousel = document.getElementById('documentationCarousel');
+        var carousel = new bootstrap.Carousel(myCarousel, {
+            interval: 3000,
+            wrap: true
+        });
+    </script>
 </body>
 </html>
