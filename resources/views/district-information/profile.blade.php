@@ -125,65 +125,72 @@
             padding: 0 20px;
         }
 
-        /* Two Column Layout - Sejarah kecil, Bupati besar */
+        /* Two Column Layout */
         .two-column-layout {
             display: grid;
-            grid-template-columns: 380px 1fr;
-            gap: 25px;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 30px;
             margin-bottom: 40px;
         }
 
         .content-card {
             background: white;
-            border-radius: 8px;
-            padding: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         }
 
         .content-card h2 {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 700;
             color: #1e293b;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
         .content-card p {
-            font-size: 13px;
-            line-height: 1.7;
+            font-size: 14px;
+            line-height: 1.8;
             color: #475569;
             text-align: justify;
         }
 
         /* Bupati Cards */
         .bupati-section {
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .bupati-section h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e293b;
             margin-bottom: 25px;
+            text-align: center;
         }
 
         .bupati-cards {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
-            margin-bottom: 25px;
-            background: #E3F2FD;
-            padding: 25px;
-            border-radius: 8px;
+            margin-bottom: 0;
         }
 
         .bupati-card {
             text-align: center;
-        }
-
-        .bupati-photo-wrapper {
-            position: relative;
-            width: 130px;
-            margin: 0 auto 12px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
         }
 
         .bupati-photo {
-            width: 130px;
-            height: 160px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
             object-fit: cover;
-            border-radius: 8px;
+            margin: 0 auto 12px;
+            border: 3px solid #0077B6;
         }
 
         .bupati-name {
@@ -203,18 +210,24 @@
             font-size: 20px;
             font-weight: 700;
             color: #1e293b;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
 
-        .visi-box {
-            margin-bottom: 18px;
+        .visi-box,
+        .misi-box {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #0077B6;
         }
 
-        .visi-box h4 {
+        .visi-box h4,
+        .misi-box h4 {
             font-size: 15px;
             font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 8px;
+            color: #0077B6;
+            margin-bottom: 10px;
         }
 
         .visi-box p {
@@ -224,49 +237,52 @@
             margin: 0;
         }
 
-        .misi-box h4 {
-            font-size: 15px;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 10px;
+        .misi-box ul {
+            margin: 0;
+            padding-left: 20px;
         }
 
-        .misi-box p {
+        .misi-box li {
             font-size: 13px;
             line-height: 1.7;
             color: #475569;
-            margin: 0;
-            text-align: justify;
+            margin-bottom: 6px;
         }
 
         /* Documentation Section */
         .documentation-section {
             background: white;
-            border-radius: 8px;
-            padding: 35px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
         }
 
         .documentation-section h2 {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 700;
             color: #1e293b;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             text-align: center;
         }
 
-        /* Documentation Grid - 3 kolom */
+        /* Documentation Grid */
         .documentation-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
         }
 
-        .doc-image {
+        .documentation-item {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .documentation-item img {
             width: 100%;
-            height: 220px;
+            height: 250px;
             object-fit: cover;
-            border-radius: 8px;
+            display: block;
         }
 
         /* Footer */
@@ -390,16 +406,16 @@
                 grid-template-columns: 1fr;
             }
 
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+
             .documentation-grid {
                 grid-template-columns: 1fr;
             }
 
-            .doc-image {
-                height: 200px;
-            }
-
-            .footer-container {
-                grid-template-columns: 1fr;
+            .carousel-inner img {
+                height: 250px;
             }
         }
     </style>
@@ -461,7 +477,7 @@
             </div>
 
             <!-- Right Column: Bupati & Visi Misi -->
-            <div class="content-card">
+            <div>
                 <div class="bupati-section">
                     <h2>Bupati & Wakil Bupati Toba</h2>
                     <div class="bupati-cards">
@@ -478,7 +494,7 @@
                     </div>
                 </div>
 
-                <div class="visi-misi-section">
+                <div class="content-card visi-misi-section">
                     <h3>Visi & Misi</h3>
                     <div class="visi-box">
                         <h4>Visi</h4>
@@ -486,7 +502,11 @@
                     </div>
                     <div class="misi-box">
                         <h4>Misi</h4>
-                        <p>Meningkatkan kualitas sumber daya manusia yang unggul dan berdikari, meningkatkan perekonomian infrastruktur, serta meningkatkan reformasi birokrasi yang bersih dan melayani</p>
+                        <ul>
+                            <li>Meningkatkan kualitas sumber daya manusia yang unggul dan mandiri berakhlak mulia</li>
+                            <li>Meningkatkan peran pemerintahan yang bersih, transparan, melayani serta berwawasan pembangunan berkelanjutan</li>
+                            <li>Menciptakan iklim investasi yang sehat dan mendorong perkembangan ekonomi daerah berbasis pariwisata</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -496,9 +516,15 @@
         <div class="documentation-section">
             <h2>Dokumentasi Kegiatan</h2>
             <div class="documentation-grid">
-                <img src="{{ asset('images/dokumentasi kegiatan.jpg') }}" alt="Dokumentasi 1" class="doc-image">
-                <img src="{{ asset('images/dokumentasi kegiatan (2).jpg') }}" alt="Dokumentasi 2" class="doc-image">
-                <img src="{{ asset('images/tarian.jpg') }}" alt="Dokumentasi 3" class="doc-image">
+                <div class="documentation-item">
+                    <img src="{{ asset('images/documentation-1.jpg') }}" alt="Dokumentasi 1">
+                </div>
+                <div class="documentation-item">
+                    <img src="{{ asset('images/documentation-2.jpg') }}" alt="Dokumentasi 2">
+                </div>
+                <div class="documentation-item">
+                    <img src="{{ asset('images/documentation-3.jpg') }}" alt="Dokumentasi 3">
+                </div>
             </div>
         </div>
     </div>
