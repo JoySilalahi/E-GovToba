@@ -27,9 +27,4 @@ class Village extends Model
     {
         return $this->hasMany(Citizen::class);
     }
-    
-    public function announcements()
-    {
-        return $this->hasMany(Announcement::class);
-    }
 }
