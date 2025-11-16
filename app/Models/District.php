@@ -15,6 +15,8 @@ class District extends Model
         'head_of_district',
         'phone',
         'address',
+        'visi',
+        'misi',
     ];
 
     public function villages()

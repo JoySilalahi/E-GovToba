@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Village;
+use App\Models\District;
 
 class DistrictInformationController extends Controller
 {
@@ -67,7 +68,8 @@ class DistrictInformationController extends Controller
 
     public function profile()
     {
-        return view('district-information.profile');
+        $district = District::first();
+        return view('district-information.profile', compact('district'));
     }
 
     public function villages()
