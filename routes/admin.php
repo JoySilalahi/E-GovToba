@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\InformationController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\ServiceRequestController;
 use App\Http\Controllers\Admin\CitizenController;
@@ -13,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     // Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Information Management
+    Route::get('/information', [InformationController::class, 'index'])->name('information.index');
+    Route::post('/information/visi-misi', [InformationController::class, 'updateVisiMisi'])->name('information.update-visi-misi');
 
     // Services Management
     Route::resource('services', ServiceController::class);

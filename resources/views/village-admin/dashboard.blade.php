@@ -15,8 +15,8 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
+            background-color: #ecf0f1;
+            color: #2c3e50;
         }
 
         /* Sidebar */
@@ -25,78 +25,120 @@
             top: 0;
             left: 0;
             height: 100vh;
-            width: 220px;
-            background: #2c3e50;
+            width: 240px;
+            background: linear-gradient(180deg, #34495e 0%, #2c3e50 100%);
             color: white;
             overflow-y: auto;
             z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
         }
 
         .sidebar-header {
-            padding: 25px 20px;
-            background: #34495e;
+            padding: 30px 20px;
+            background: rgba(0,0,0,0.1);
             border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
         }
 
         .sidebar-header h5 {
-            font-size: 15px;
-            font-weight: 600;
+            font-size: 16px;
+            font-weight: 700;
             color: white;
             margin: 0;
+            letter-spacing: 0.5px;
         }
 
         .sidebar-menu {
             list-style: none;
-            padding: 15px 0;
+            padding: 20px 0;
         }
 
         .sidebar-menu li {
-            margin: 3px 0;
+            margin: 5px 0;
         }
 
         .sidebar-menu a {
             display: flex;
             align-items: center;
-            padding: 12px 20px;
-            color: rgba(255,255,255,0.8);
+            padding: 14px 25px;
+            color: rgba(255,255,255,0.85);
             text-decoration: none;
             font-size: 14px;
-            transition: all 0.2s;
+            font-weight: 500;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
         }
 
-        .sidebar-menu a:hover,
-        .sidebar-menu a.active {
-            background: rgba(255,255,255,0.1);
+        .sidebar-menu a:hover {
+            background: rgba(255,255,255,0.08);
             color: white;
+            border-left-color: #3498db;
+        }
+
+        .sidebar-menu a.active {
+            background: rgba(52, 152, 219, 0.2);
+            color: white;
+            border-left-color: #3498db;
         }
 
         .sidebar-menu i {
-            width: 20px;
-            margin-right: 12px;
-            font-size: 14px;
+            width: 22px;
+            margin-right: 15px;
+            font-size: 15px;
+            text-align: center;
         }
 
         .sidebar-footer {
             position: absolute;
             bottom: 0;
             width: 100%;
-            padding: 15px 0;
+            padding: 20px;
             border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-footer a {
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            transition: color 0.3s;
+        }
+
+        .sidebar-footer a:hover {
+            color: white;
+        }
+
+        .sidebar-footer i {
+            margin-right: 10px;
         }
 
         /* Main Content */
         .main-content {
-            margin-left: 220px;
-            padding: 30px;
+            margin-left: 240px;
+            padding: 40px;
             min-height: 100vh;
         }
 
         .welcome-header {
             background: white;
-            padding: 25px 30px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 35px 40px;
+            border-radius: 12px;
+            margin-bottom: 35px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .welcome-header h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .welcome-subtitle {
+            color: #7f8c8d;
+            font-size: 14px;
         }
 
         .welcome-header h2 {
@@ -109,72 +151,233 @@
         /* Visi Misi Section */
         .visi-misi-card {
             background: white;
-            padding: 25px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 35px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
 
         .visi-misi-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #ecf0f1;
         }
 
         .visi-misi-header h3 {
-            font-size: 18px;
-            font-weight: 600;
-            color: #1a1a1a;
+            font-size: 20px;
+            font-weight: 700;
+            color: #2c3e50;
             margin: 0;
         }
 
         .edit-btn {
             background: none;
-            border: none;
-            color: #3b82f6;
-            font-size: 14px;
+            border: 1px solid #3498db;
+            color: #3498db;
+            font-size: 13px;
+            padding: 8px 16px;
+            border-radius: 6px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
+            transition: all 0.3s;
+            font-weight: 500;
         }
 
         .edit-btn:hover {
-            color: #2563eb;
+            background: #3498db;
+            color: white;
         }
 
         .visi-section, .misi-section {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .visi-section:last-child, .misi-section:last-child {
+            margin-bottom: 0;
         }
 
         .visi-section h4, .misi-section h4 {
-            font-size: 14px;
-            font-weight: 600;
-            color: #1a1a1a;
-            margin-bottom: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 12px;
         }
 
         .visi-section p, .misi-section p {
             font-size: 14px;
-            color: #666;
-            line-height: 1.6;
-            margin: 0;
+            line-height: 1.8;
+            color: #7f8c8d;
         }
 
-        /* Content Grid */
-        .content-grid {
+        /* Info Cards */
+        .info-cards-wrapper {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 280px;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
         }
 
-        /* Agenda Card */
-        .agenda-card {
+        .info-card {
             background: white;
+            padding: 30px 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-left: 4px solid #3498db;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .info-card-content h6 {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-card-content h3 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .info-card h4 {
+            font-size: 13px;
+            color: #95a5a6;
+            margin-bottom: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-card .value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .info-card .label {
+            font-size: 13px;
+            color: #95a5a6;
+            font-weight: 500;
+        }
+
+        /* Agenda List */
+        .agenda-list {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
+        }
+
+        .agenda-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
             padding: 20px;
+            border: 1px solid #e8eaed;
             border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .agenda-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .agenda-item:hover {
+            border-color: #3498db;
+            background: #f8f9fa;
+        }
+
+        .agenda-icon {
+            width: 40px;
+            height: 40px;
+            background: #e3f2fd;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .agenda-icon i {
+            color: #3498db;
+            font-size: 18px;
+        }
+
+        .agenda-content {
+            flex: 1;
+        }
+
+        .agenda-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .agenda-date {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+        }
+
+        .agenda-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .agenda-status.mendatang {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .agenda-status.menunggu {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Bottom Info Cards */
+        .bottom-info-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .bottom-info-cards .info-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 25px;
+        }
+
+        .bottom-info-cards .info-card-icon {
+            font-size: 36px;
+            color: #3498db;
         }
 
         .agenda-header {
@@ -298,21 +501,55 @@
             color: #cbd5e1;
         }
 
+        /* Visi Misi with Photo Layout */
+        .visi-misi-container {
+            display: block;
+        }
+
+        .visi-misi-content {
+            margin-bottom: 0;
+        }
+
+        .kepala-desa-photo-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            height: fit-content;
+        }
+
+        .kepala-desa-photo {
+            width: 200px;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 0 auto 20px;
+            background: #e0e0e0;
+            display: block;
+        }
+
         .kepala-desa-name {
-            font-size: 15px;
-            font-weight: 600;
-            color: #1a1a1a;
-            margin-bottom: 4px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 8px;
         }
 
         .kepala-desa-title {
-            font-size: 13px;
-            color: #666;
+            font-size: 14px;
+            color: #7f8c8d;
+            font-weight: 500;
         }
 
         @media (max-width: 1200px) {
-            .content-grid {
-                grid-template-columns: 1fr 1fr;
+            .info-cards-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .kepala-desa-photo-section {
+                max-width: 300px;
+                margin: 0 auto;
             }
         }
 
@@ -323,10 +560,24 @@
 
             .main-content {
                 margin-left: 0;
+                padding: 20px;
             }
 
-            .content-grid {
+            .hero-section h1 {
+                font-size: 24px;
+            }
+
+            .info-cards {
                 grid-template-columns: 1fr;
+            }
+
+            .bottom-info-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .kepala-desa-photo-large {
+                width: 160px;
+                height: 200px;
             }
         }
     </style>
@@ -361,29 +612,155 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Welcome Header -->
-        <div class="welcome-header">
-            <h2>Selamat Datang, Admin Desa {{ $village->name }} !</h2>
+        <!-- Success/Error Messages -->
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert" style="background: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 8px; padding: 15px 20px; margin-bottom: 20px;">
+                <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 8px; padding: 15px 20px; margin-bottom: 20px;">
+                <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 8px; padding: 15px 20px; margin-bottom: 20px;">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <ul class="mb-0" style="padding-left: 20px;">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        <!-- Header Welcome -->
+        <div class="welcome-header" style="background: white; padding: 25px 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 30px;">
+            <h2 style="font-size: 24px; font-weight: 600; color: #2c3e50; margin: 0;">Selamat Datang, Admin Desa {{ $village->name }} !</h2>
         </div>
 
         <!-- Visi & Misi -->
         <div class="visi-misi-card">
-            <div class="visi-misi-header">
-                <h3>Visi & Misi</h3>
-                <button class="edit-btn" data-bs-toggle="modal" data-bs-target="#editVisiMisiModal">
-                    Edit <i class="fas fa-edit"></i>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+                <div style="flex: 1;">
+                    <div class="visi-section" style="margin-bottom: 20px;">
+                        <h4 style="font-size: 14px; font-weight: 700; color: #2c3e50; margin-bottom: 8px;">Visi :</h4>
+                        <p style="font-size: 13px; line-height: 1.6; color: #7f8c8d; margin: 0;">{{ $village->visi ?? 'Mewujudkan Desa ' . $village->name . ' yang Mandiri, Sejahtera, dan Berbudaya berdasarkan gotong royong.' }}</p>
+                    </div>
+
+                    <div class="misi-section">
+                        <h4 style="font-size: 14px; font-weight: 700; color: #2c3e50; margin-bottom: 8px;">Misi :</h4>
+                        <p style="font-size: 13px; line-height: 1.6; color: #7f8c8d; margin: 0;">{{ $village->misi ?? 'Meningkatkan kualitas sumber daya manusia yang andal dan berbudaya, mempercepat pembangunan infrastruktur, serta mewujudkan reformasi birokrasi yang bersih dan melayani.' }}</p>
+                    </div>
+                </div>
+                <button class="edit-btn" data-bs-toggle="modal" data-bs-target="#editVisiMisiModal" style="margin-left: 20px; background: transparent; border: 1px solid #3498db; color: #3498db; padding: 8px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; white-space: nowrap;">
+                    <i class="fas fa-edit"></i> Edit
                 </button>
             </div>
+        </div>
 
-            <div class="visi-section">
-                <h4>Visi:</h4>
-                <p id="visi-text">{{ $village->visi ?? 'Visi belum ditetapkan' }}</p>
+        <!-- Buat Pengumuman Baru Section -->
+        <div class="pengumuman-section" style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 30px;">
+            <h3 style="font-size: 16px; font-weight: 600; color: #2c3e50; margin-bottom: 20px;">Buat Pengumuman Baru :</h3>
+            
+            <form action="{{ route('village-admin.announcements.store') }}" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <label style="font-size: 14px; font-weight: 600; color: #2c3e50; margin-bottom: 8px; display: block;">Visi</label>
+                    <input type="text" class="form-control" name="title" placeholder="Judul pengumuman" style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px 15px; font-size: 14px;">
+                </div>
+
+                <div class="mb-3">
+                    <label style="font-size: 14px; font-weight: 600; color: #2c3e50; margin-bottom: 8px; display: block;">Misi</label>
+                    <textarea class="form-control" name="content" rows="3" placeholder="Isi pengumuman" style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px 15px; font-size: 14px;"></textarea>
+                </div>
+
+                <input type="hidden" name="date" value="{{ date('Y-m-d') }}">
+                <input type="hidden" name="status" value="pending">
+
+                <button type="submit" style="background: #3498db; color: white; border: none; padding: 10px 25px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer;">
+                    Perbarui
+                </button>
+            </form>
+        </div>
+
+        <!-- Agenda Mendatang & Stats Section -->
+        <div style="display: grid; grid-template-columns: 1fr 300px; gap: 30px; margin-bottom: 30px;">
+            <!-- Left: Agenda List -->
+            <div>
+                <!-- Agenda Mendatang -->
+                <div class="agenda-list" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 20px;">
+                    <h5 style="font-weight: 600; color: #2c3e50; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-calendar-check" style="color: #3498db;"></i> Agenda Mendatang
+                    </h5>
+                    
+                    @forelse($announcements ?? [] as $announcement)
+                    <div style="padding: 15px; background: #f8f9fa; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid #3498db;">
+                        <div style="font-size: 14px; font-weight: 600; color: #2c3e50; margin-bottom: 5px;">{{ $announcement->title }}</div>
+                        <div style="font-size: 12px; color: #7f8c8d; margin-bottom: 5px;">
+                            <i class="far fa-clock"></i> {{ \Carbon\Carbon::parse($announcement->date)->format('d F Y') }}
+                        </div>
+                        <span style="display: inline-block; padding: 3px 10px; background: #fff3cd; color: #856404; border-radius: 12px; font-size: 11px; font-weight: 600;">
+                            {{ ucfirst($announcement->status) }}
+                        </span>
+                    </div>
+                    @empty
+                    <div style="padding: 15px; background: #f8f9fa; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid #3498db;">
+                        <div style="font-size: 14px; font-weight: 600; color: #2c3e50; margin-bottom: 5px;">Rapat Koordinasi Antar Kabupaten</div>
+                        <div style="font-size: 12px; color: #7f8c8d; margin-bottom: 5px;"><i class="far fa-clock"></i> Edit</div>
+                        <span style="display: inline-block; padding: 3px 10px; background: #fff3cd; color: #856404; border-radius: 12px; font-size: 11px; font-weight: 600;">Edit</span>
+                    </div>
+                    <div style="padding: 15px; background: #f8f9fa; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid #3498db;">
+                        <div style="font-size: 14px; font-weight: 600; color: #2c3e50; margin-bottom: 5px;">Forum Pengembangan Wisata Toba</div>
+                        <div style="font-size: 12px; color: #7f8c8d; margin-bottom: 5px;"><i class="far fa-clock"></i> Edit</div>
+                        <span style="display: inline-block; padding: 3px 10px; background: #fff3cd; color: #856404; border-radius: 12px; font-size: 11px; font-weight: 600;">Edit</span>
+                    </div>
+                    <div style="padding: 15px; background: #f8f9fa; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid #f8d7da;">
+                        <div style="font-size: 14px; font-weight: 600; color: #2c3e50; margin-bottom: 5px;">Evaluasi Program Kawasan Q1</div>
+                        <div style="font-size: 12px; color: #7f8c8d; margin-bottom: 5px;"><i class="far fa-clock"></i> Edit</div>
+                        <span style="display: inline-block; padding: 3px 10px; background: #f8d7da; color: #721c24; border-radius: 12px; font-size: 11px; font-weight: 600;">Edit</span>
+                    </div>
+                    @endforelse
+                </div>
+
+                <!-- Stats Cards -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid #3498db;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <i class="fas fa-users" style="font-size: 32px; color: #3498db;"></i>
+                            <div>
+                                <div style="font-size: 12px; color: #7f8c8d; margin-bottom: 5px;">Total Penduduk</div>
+                                <div style="font-size: 28px; font-weight: 700; color: #2c3e50;">{{ number_format($village->population ?? 900) }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid #3498db;">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <i class="fas fa-map-marked-alt" style="font-size: 32px; color: #3498db;"></i>
+                            <div>
+                                <div style="font-size: 12px; color: #7f8c8d; margin-bottom: 5px;">Luas Area</div>
+                                <div style="font-size: 28px; font-weight: 700; color: #2c3e50;">{{ $village->area ?? '15.2' }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="misi-section">
-                <h4>Misi:</h4>
-                <p id="misi-text">{{ $village->misi ?? 'Misi belum ditetapkan' }}</p>
+            <!-- Right: Kepala Desa Photo -->
+            <div style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center; height: fit-content;">
+                <div style="width: 180px; height: 220px; border-radius: 12px; background: #e8eaed; margin: 0 auto 15px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-user" style="font-size: 80px; color: #cbd5e1;"></i>
+                </div>
+                <h5 style="font-size: 16px; font-weight: 600; color: #2c3e50; margin-bottom: 5px;">{{ $village->village_head ?? 'Jasri M. Simanjuntak' }}</h5>
+                <p style="font-size: 13px; color: #7f8c8d; margin: 0;">Kepala Desa</p>
             </div>
+        </div>
         </div>
 
         <!-- Content Grid -->
@@ -473,9 +850,8 @@
                     <h5 class="modal-title">Edit Visi & Misi</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form id="formVisiMisi" action="{{ route('village-admin.update-visi-misi') }}" method="POST">
+                <form id="formVisiMisi" action="{{ route('village-admin.visi-misi.update') }}" method="POST">
                     @csrf
-                    @method('PUT')
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label fw-bold">Visi</label>
