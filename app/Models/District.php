@@ -17,10 +17,16 @@ class District extends Model
         'address',
         'visi',
         'misi',
+        'documentation_file',
     ];
 
     public function villages()
     {
         return $this->hasMany(Village::class);
+    }
+
+    public function photos()
+    {
+        return $this->hasMany(DistrictPhoto::class);
     }
 }

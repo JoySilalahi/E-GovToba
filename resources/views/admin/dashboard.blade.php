@@ -370,10 +370,110 @@
                 <!-- Upload Section -->
                 <div class="upload-section">
                     <h5>Upload dokumentasi kegiatan</h5>
-                    <div class="mb-3">
-                        <input type="file" class="form-control" id="fileUpload">
-                    </div>
-                    <button class="upload-btn">Unggah File Baru</button>
+                    
+                    @if($district && $district->documentation_file)
+                        <div class="alert alert-info" style="background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; border-radius: 8px; padding: 12px; margin-bottom: 15px; font-size: 14px;">
+                            <i class="fas fa-file-alt me-2"></i>
+                            File saat ini: <strong>{{ basename($district->documentation_file) }}</strong>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('admin.information.upload-documentation') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <input type="file" class="form-control" name="documentation_file" id="fileUpload" accept=".pdf,.doc,.docx" required>
+                            <small class="text-muted">Format: PDF, DOC, DOCX (Max: 10MB)</small>
+                        </div>
+                        <button type="submit" class="upload-btn">Unggah File Baru</button>
+                    </form>
+                </div>
+
+                <!-- Upload Photo Section -->
+                <div class="upload-section" style="margin-top: 20px;">
+                    <h5>Upload Foto Kegiatan</h5>
+                    
+                    <form action="{{ route('admin.information.upload-photo') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="photoTitle" class="form-label" style="font-size: 14px; font-weight: 500; color: #2c3e50;">Judul Foto (Opsional)</label>
+                            <input type="text" class="form-control" name="title" id="photoTitle" placeholder="Contoh: Rapat Koordinasi">
+                        </div>
+                        <div class="mb-3">
+                            <label for="photoUpload" class="form-label" style="font-size: 14px; font-weight: 500; color: #2c3e50;">Pilih Foto</label>
+                            <input type="file" class="form-control" name="photo" id="photoUpload" accept="image/jpeg,image/jpg,image/png" required>
+                            <small class="text-muted">Format: JPEG, JPG, PNG (Max: 5MB)</small>
+                        </div>
+                        <button type="submit" class="upload-btn"><i class="fas fa-upload me-2"></i>Unggah Foto</button>
+                    </form>
+
+                    @if($district && $district->photos && $district->photos->count() > 0)
+                        <div style="margin-top: 30px;">
+                            <h6 style="font-size: 15px; font-weight: 600; color: #2c3e50; margin-bottom: 15px;">Foto yang Sudah Diupload ({{ $district->photos->count() }})</h6>
+                            
+                            <div style="position: relative;">
+                                <!-- Scroll Container -->
+                                <div id="photoGallery" style="display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth; padding: 10px 0; scrollbar-width: thin;">
+                                    @foreach($district->photos as $photo)
+                                        <div style="min-width: 200px; flex-shrink: 0; background: #f8f9fa; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                            <img src="{{ asset('storage/' . $photo->photo_path) }}" alt="{{ $photo->title ?? 'Dokumentasi' }}" style="width: 100%; height: 150px; object-fit: cover;">
+                                            <div style="padding: 10px;">
+                                                @if($photo->title)
+                                                    <p style="font-size: 12px; font-weight: 500; color: #2c3e50; margin: 0 0 8px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $photo->title }}</p>
+                                                @endif
+                                                <form action="{{ route('admin.information.delete-photo', $photo->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus foto ini?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" style="background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 11px; cursor: pointer; width: 100%; transition: all 0.3s;" onmouseover="this.style.background='#c0392b'" onmouseout="this.style.background='#e74c3c'">
+                                                        <i class="fas fa-trash-alt me-1"></i>Hapus
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+
+                                <!-- Navigation Arrows -->
+                                @if($district->photos->count() > 2)
+                                    <button onclick="scrollGallery('left')" style="position: absolute; left: -15px; top: 50%; transform: translateY(-50%); background: rgba(52, 152, 219, 0.9); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: all 0.3s;" onmouseover="this.style.background='rgba(41, 128, 185, 1)'" onmouseout="this.style.background='rgba(52, 152, 219, 0.9)'">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <button onclick="scrollGallery('right')" style="position: absolute; right: -15px; top: 50%; transform: translateY(-50%); background: rgba(52, 152, 219, 0.9); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: all 0.3s;" onmouseover="this.style.background='rgba(41, 128, 185, 1)'" onmouseout="this.style.background='rgba(52, 152, 219, 0.9)'">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                @endif
+                            </div>
+
+                            <style>
+                                #photoGallery::-webkit-scrollbar {
+                                    height: 6px;
+                                }
+                                #photoGallery::-webkit-scrollbar-track {
+                                    background: #f1f1f1;
+                                    border-radius: 10px;
+                                }
+                                #photoGallery::-webkit-scrollbar-thumb {
+                                    background: #3498db;
+                                    border-radius: 10px;
+                                }
+                                #photoGallery::-webkit-scrollbar-thumb:hover {
+                                    background: #2980b9;
+                                }
+                            </style>
+
+                            <script>
+                                function scrollGallery(direction) {
+                                    const gallery = document.getElementById('photoGallery');
+                                    const scrollAmount = 230; // width of card + gap
+                                    
+                                    if (direction === 'left') {
+                                        gallery.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                                    } else {
+                                        gallery.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                                    }
+                                }
+                            </script>
+                        </div>
+                    @endif
                 </div>
             </div>
 

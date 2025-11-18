@@ -18,6 +18,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Information Management
     Route::get('/information', [InformationController::class, 'index'])->name('information.index');
     Route::post('/information/visi-misi', [InformationController::class, 'updateVisiMisi'])->name('information.update-visi-misi');
+    Route::post('/information/upload-documentation', [InformationController::class, 'uploadDocumentation'])->name('information.upload-documentation');
+    Route::post('/information/upload-photo', [InformationController::class, 'uploadPhoto'])->name('information.upload-photo');
+    Route::delete('/information/photos/{id}', [InformationController::class, 'deletePhoto'])->name('information.delete-photo');
 
     // Services Management
     Route::resource('services', ServiceController::class);

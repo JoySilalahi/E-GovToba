@@ -639,9 +639,12 @@
             </div>
         @endif
 
-        <!-- Header Welcome -->
-        <div class="welcome-header" style="background: white; padding: 25px 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 30px;">
-            <h2 style="font-size: 24px; font-weight: 600; color: #2c3e50; margin: 0;">Selamat Datang, Admin Desa {{ $village->name }} !</h2>
+        <!-- Header Welcome with Village Image Background -->
+        <div class="welcome-header" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('{{ $village->image ? asset('images/' . $village->image) : asset('images/default-village.jpg') }}') center/cover; padding: 60px 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); margin-bottom: 30px; position: relative; overflow: hidden;">
+            <div style="position: relative; z-index: 2;">
+                <h2 style="font-size: 32px; font-weight: 700; color: white; margin: 0 0 10px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Selamat Datang di Desa {{ $village->name }}</h2>
+                <p style="font-size: 16px; color: rgba(255,255,255,0.95); margin: 0; font-weight: 400;">Admin Dashboard - Kelola informasi dan layanan desa Anda</p>
+            </div>
         </div>
 
         <!-- Visi & Misi -->
@@ -662,6 +665,39 @@
                     <i class="fas fa-edit"></i> Edit
                 </button>
             </div>
+        </div>
+
+        <!-- Upload Dokumen Anggaran Desa -->
+        <div class="pengumuman-section" style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 30px;">
+            <h3 style="font-size: 16px; font-weight: 600; color: #2c3e50; margin-bottom: 20px;">
+                <i class="fas fa-file-upload" style="color: #3498db;"></i> Unggah Dokumen Anggaran
+            </h3>
+
+            @if($village->budget_file)
+                <div class="alert alert-info" style="background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; border-radius: 8px; padding: 12px; margin-bottom: 15px; font-size: 14px; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-file-pdf" style="font-size: 20px;"></i>
+                    <div style="flex: 1;">
+                        <strong>Anggaran Desa</strong><br>
+                        <small>File saat ini: {{ basename($village->budget_file) }}</small>
+                    </div>
+                    <a href="{{ asset('storage/' . $village->budget_file) }}" target="_blank" style="background: #3498db; color: white; padding: 6px 15px; border-radius: 6px; text-decoration: none; font-size: 13px; white-space: nowrap;">
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            @endif
+
+            <form action="{{ route('village-admin.budget.upload') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-3">
+                    <label style="font-size: 14px; font-weight: 500; color: #2c3e50; margin-bottom: 8px; display: block;">Pilih file baru untuk menggantikan (format PDF)</label>
+                    <input type="file" class="form-control" name="budget_file" accept=".pdf" required style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px; font-size: 14px;">
+                    <small style="color: #7f8c8d; font-size: 12px; margin-top: 5px; display: block;">Format: PDF (Max: 10MB)</small>
+                </div>
+
+                <button type="submit" style="background: #3498db; color: white; border: none; padding: 10px 25px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.background='#2980b9'" onmouseout="this.style.background='#3498db'">
+                    <i class="fas fa-upload"></i> Unggah File Baru
+                </button>
+            </form>
         </div>
 
         <!-- Buat Pengumuman Baru Section -->
@@ -810,33 +846,6 @@
                 <div class="stat-content">
                     <h4>Luas Area</h4>
                     <div class="stat-value">{{ $village->area ?? '15,2' }}</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Kepala Desa Card (below stats) -->
-        <div style="margin-top: 20px;">
-            <div class="content-grid" style="grid-template-columns: 1fr 1fr;">
-                <!-- Gambar Desa -->
-                <div class="card" style="padding: 0; overflow: hidden;">
-                    <div style="position: relative; width: 100%; padding-bottom: 66.67%; overflow: hidden;">
-                        <img src="{{ asset('images/' . $village->image) }}" 
-                             alt="Desa {{ $village->name }}" 
-                             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
-                    </div>
-                    <div style="padding: 20px; text-align: center;">
-                        <h5 style="margin: 0; color: #2c3e50; font-weight: 600;">Desa {{ $village->name }}</h5>
-                        <p style="margin: 8px 0 0 0; color: #7f8c8d; font-size: 14px;">Kabupaten Toba</p>
-                    </div>
-                </div>
-                
-                <!-- Kepala Desa -->
-                <div class="kepala-desa-card">
-                    <div class="kepala-desa-photo">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="kepala-desa-name">{{ $village->village_head ?? 'Jonni M. Simanjuntak' }}</div>
-                    <div class="kepala-desa-title">Kepala Desa</div>
                 </div>
             </div>
         </div>
