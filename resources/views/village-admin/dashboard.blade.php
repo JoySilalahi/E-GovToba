@@ -216,9 +216,39 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Welcome Header -->
-        <div class="welcome-header">
-            <h1>Selamat Datang, Admin Desa Meat!</h1>
+        <!-- Success/Error Messages -->
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert" style="background: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 8px; padding: 15px 20px; margin-bottom: 20px;">
+                <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 8px; padding: 15px 20px; margin-bottom: 20px;">
+                <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 8px; padding: 15px 20px; margin-bottom: 20px;">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <ul class="mb-0" style="padding-left: 20px;">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+
+        <!-- Header Welcome with Village Image Background -->
+        <div class="welcome-header" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('{{ $village->image ? asset('images/' . $village->image) : asset('images/default-village.jpg') }}') center/cover; padding: 60px 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); margin-bottom: 30px; position: relative; overflow: hidden;">
+            <div style="position: relative; z-index: 2;">
+                <h2 style="font-size: 32px; font-weight: 700; color: white; margin: 0 0 10px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Selamat Datang di Desa {{ $village->name }}</h2>
+                <p style="font-size: 16px; color: rgba(255,255,255,0.95); margin: 0; font-weight: 400;">Admin Dashboard - Kelola informasi dan layanan desa Anda</p>
+            </div>
         </div>
 
         <!-- Visi & Misi -->
@@ -233,29 +263,61 @@
             </div>
         </div>
 
-        <!-- Buat Pengumuman Baru -->
-        <div class="pengumuman-section">
-            <h3>Buat Pengumuman Baru:</h3>
-            <form action="#" method="POST">
-                <div style="margin-bottom:12px;">
-                    <label class="form-label" for="visi">Visi</label>
-                    <div class="input-with-btn">
-                        <input id="visi" type="text" class="form-control" placeholder="Judul visi" required>
-                        <button type="button" class="input-btn edit-field" data-target="#visi" aria-label="Edit visi">
-                            <i class="fas fa-edit" aria-hidden="true"></i> Edit
-                        </button>
+        <!-- Upload Dokumen Anggaran Desa -->
+        <div class="pengumuman-section" style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 30px;">
+            <h3 style="font-size: 16px; font-weight: 600; color: #2c3e50; margin-bottom: 20px;">
+                <i class="fas fa-file-upload" style="color: #3498db;"></i> Unggah Dokumen Anggaran
+            </h3>
+
+            @if($village->budget_file)
+                <div class="alert alert-info" style="background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; border-radius: 8px; padding: 12px; margin-bottom: 15px; font-size: 14px; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-file-pdf" style="font-size: 20px;"></i>
+                    <div style="flex: 1;">
+                        <strong>Anggaran Desa</strong><br>
+                        <small>File saat ini: {{ basename($village->budget_file) }}</small>
                     </div>
+                    <a href="{{ asset('storage/' . $village->budget_file) }}" target="_blank" style="background: #3498db; color: white; padding: 6px 15px; border-radius: 6px; text-decoration: none; font-size: 13px; white-space: nowrap;">
+                        <i class="fas fa-download"></i> Download
+                    </a>
                 </div>
-                <div style="margin-bottom:12px;">
-                    <label class="form-label" for="misi">Misi</label>
-                    <div class="input-with-btn textarea">
-                        <textarea id="misi" class="form-control" rows="4" placeholder="Isi misi" required></textarea>
-                        <button type="button" class="input-btn edit-field" data-target="#misi" aria-label="Edit misi">
-                            <i class="fas fa-edit" aria-hidden="true"></i> Edit
-                        </button>
-                    </div>
+            @endif
+
+            <form action="{{ route('village-admin.budget.upload') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-3">
+                    <label style="font-size: 14px; font-weight: 500; color: #2c3e50; margin-bottom: 8px; display: block;">Pilih file baru untuk menggantikan (format PDF)</label>
+                    <input type="file" class="form-control" name="budget_file" accept=".pdf" required style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px; font-size: 14px;">
+                    <small style="color: #7f8c8d; font-size: 12px; margin-top: 5px; display: block;">Format: PDF (Max: 10MB)</small>
                 </div>
-                <button type="submit" class="btn-publis">Publis</button>
+
+                <button type="submit" style="background: #3498db; color: white; border: none; padding: 10px 25px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.background='#2980b9'" onmouseout="this.style.background='#3498db'">
+                    <i class="fas fa-upload"></i> Unggah File Baru
+                </button>
+            </form>
+        </div>
+
+        <!-- Buat Pengumuman Baru Section -->
+        <div class="pengumuman-section" style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 30px;">
+            <h3 style="font-size: 16px; font-weight: 600; color: #2c3e50; margin-bottom: 20px;">Buat Pengumuman Baru :</h3>
+            
+            <form action="{{ route('village-admin.announcements.store') }}" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <label style="font-size: 14px; font-weight: 600; color: #2c3e50; margin-bottom: 8px; display: block;">Judul</label>
+                    <input type="text" class="form-control" name="title" placeholder="Judul pengumuman" style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px 15px; font-size: 14px;">
+                </div>
+
+                <div class="mb-3">
+                    <label style="font-size: 14px; font-weight: 600; color: #2c3e50; margin-bottom: 8px; display: block;">Isi Pengumuman</label>
+                    <textarea class="form-control" name="content" rows="3" placeholder="Isi pengumuman" style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px 15px; font-size: 14px;"></textarea>
+                </div>
+
+                <input type="hidden" name="date" value="{{ date('Y-m-d') }}">
+                <input type="hidden" name="status" value="pending">
+
+                <button type="submit" style="background: #3498db; color: white; border: none; padding: 10px 25px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer;">
+                    Publikasikan
+                </button>
             </form>
         </div>
 
@@ -312,7 +374,7 @@
                         <div class="stat-icon"><i class="fas fa-users" aria-hidden="true"></i></div>
                         <div class="stat-content">
                             <h5>Total Penduduk</h5>
-                            <div class="stat-value">900</div>
+                            <div class="stat-value">{{ number_format($village->population ?? 900) }}</div>
                         </div>
                     </div>
 
@@ -320,7 +382,7 @@
                         <div class="stat-icon"><i class="fas fa-map-marked-alt" aria-hidden="true"></i></div>
                         <div class="stat-content">
                             <h5>Luas Area</h5>
-                            <div class="stat-value">15,2</div>
+                            <div class="stat-value">{{ $village->area ?? '15,2' }}</div>
                         </div>
                     </div>
                 </div>
@@ -330,7 +392,7 @@
                         <!-- ganti dengan <img src="path/to/photo.jpg" alt="Kepala Desa"> bila ada -->
                         <i class="fas fa-user"></i>
                     </div>
-                    <div class="kepala-desa-name">Janri M. Simanjuntak</div>
+                    <div class="kepala-desa-name">{{ $village->village_head ?? 'Janri M. Simanjuntak' }}</div>
                     <div class="kepala-desa-title">Kepala Desa</div>
                 </div>
             </div>

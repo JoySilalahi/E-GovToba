@@ -63,6 +63,7 @@ Route::middleware(['auth', 'village-admin'])->prefix('village-admin')->name('vil
     // Budget routes
     Route::get('/anggaran', [VillageAdminController::class, 'anggaran'])->name('anggaran');
     Route::post('/anggaran/upload', [VillageAdminController::class, 'uploadBudget'])->name('anggaran.upload');
+    Route::post('/budget/upload', [VillageAdminController::class, 'uploadBudget'])->name('budget.upload');
     Route::delete('/anggaran/{id}', [VillageAdminController::class, 'deleteBudget'])->name('anggaran.delete');
 });
 
