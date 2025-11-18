@@ -150,25 +150,24 @@ class VillageAdminController extends Controller
         
         $request->validate([
             'budget_file' => 'required|file|mimes:pdf|max:10240', // Max 10MB
-            'year' => 'required|integer|min:2020|max:' . (date('Y') + 1),
-            'quarter' => 'nullable|integer|min:1|max:4',
         ]);
 
-        // Upload file
+        // Hapus file lama jika ada
+        if ($village->budget_file && \Storage::disk('public')->exists($village->budget_file)) {
+            \Storage::disk('public')->delete($village->budget_file);
+        }
+
+        // Upload file baru
         $file = $request->file('budget_file');
-        $fileName = 'laporan_apbdes_' . $request->year . '_q' . ($request->quarter ?? 'full') . '.pdf';
-        $filePath = $file->storeAs('budgets/' . $village->id, $fileName, 'public');
+        $fileName = 'anggaran_desa_' . $village->name . '_' . time() . '.pdf';
+        $filePath = $file->storeAs('villages/budgets', $fileName, 'public');
 
-        // Save to database
-        Budget::create([
-            'village_id' => $village->id,
-            'file_name' => $fileName,
-            'file_path' => $filePath,
-            'year' => $request->year,
-            'quarter' => $request->quarter,
+        // Update village
+        $village->update([
+            'budget_file' => $filePath,
         ]);
 
-        return back()->with('success', 'Dokumen anggaran berhasil diunggah!');
+        return back()->with('success', 'Dokumen anggaran berhasil diunggah dan langsung terlihat di halaman publik!');
     }
 
     public function deleteBudget($id)

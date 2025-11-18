@@ -63,14 +63,8 @@ Route::middleware(['auth', 'village-admin'])->prefix('village-admin')->name('vil
     // Budget routes
     Route::get('/anggaran', [VillageAdminController::class, 'anggaran'])->name('anggaran');
     Route::post('/anggaran/upload', [VillageAdminController::class, 'uploadBudget'])->name('anggaran.upload');
+    Route::post('/budget/upload', [VillageAdminController::class, 'uploadBudget'])->name('budget.upload');
     Route::delete('/anggaran/{id}', [VillageAdminController::class, 'deleteBudget'])->name('anggaran.delete');
-});
-
-// Admin Routes (simple dashboard for now)
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
 });
 
 Route::middleware('auth')->group(function () {
@@ -80,3 +74,4 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+require __DIR__.'/admin.php';
