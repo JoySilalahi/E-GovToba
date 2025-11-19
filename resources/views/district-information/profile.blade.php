@@ -84,10 +84,15 @@
         }
 
         .hero-subtitle {
-            font-size: 16px;
-            font-weight: 400;
+            font-size: 18px;
+            font-weight: 600;
             margin-bottom: 30px;
-            opacity: 0.95;
+            color: #ffffff;
+            opacity: 1;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 8px;
         }
 
         .hero-stats {
