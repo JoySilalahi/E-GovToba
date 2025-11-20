@@ -1,433 +1,231 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Beranda - Toba Hita</title>
-    
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- Bootstrap CSS (loaded before custom styles so custom rules override it) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <style>
-        /* === Resets & Global === */
-        :root {
-            --primary-color: #0077B6; /* Biru utama disesuaikan */
-            --dark-blue: #222a35;     /* Warna footer */
-            --light-gray-bg: #f8f9fa; /* Background fitur */
-            --text-color: #333;
-            --text-light: #f1f1f1;
-            --text-secondary: #6c757d;
-            --border-color: #dee2e6;
+        :root{
+            --primary:#0b79b8;
+            --nav-h:64px;
+            --muted:#6b7280;
+            --bg-light:#edf7fe;
+            --dark:#0f1724;
+            --max-width:1200px;
+        }
+        *{box-sizing:border-box;margin:0;padding:0}
+        html,body{height:100%}
+        body{font-family:'Poppins',system-ui,-apple-system,"Segoe UI",Roboto,Arial; color:var(--dark); background:#fff;-webkit-font-smoothing:antialiased}
+
+        /* NAV */
+        .site-nav{
+            position:sticky; top:0; z-index:60;
+            height:var(--nav-h);
+            display:flex; align-items:center;
+            background:rgba(255,255,255,0.95);
+            border-bottom:1px solid rgba(15,23,36,0.06);
+            backdrop-filter: blur(4px) saturate(120%);
+        }
+        .nav-inner{max-width:var(--max-width); margin:0 auto; width:100%; display:flex; align-items:center; gap:12px; padding:0 16px;}
+        .brand{flex:0 0 auto; display:flex; align-items:center}
+        .brand img{height:42px; width:auto; display:block}
+        .nav-center{flex:1 1 auto; display:flex; justify-content:center}
+        .nav-menu{display:flex; gap:26px; list-style:none; align-items:center}
+        .nav-menu a{display:inline-block; text-decoration:none; color:rgba(15,23,36,0.88); font-weight:600; padding:8px 8px; border-radius:6px}
+        .nav-menu a.active, .nav-menu a:hover{color:var(--primary); background:rgba(11,121,184,0.04)}
+        .nav-actions{flex:0 0 auto; display:flex; gap:10px; align-items:center}
+        .btn{border:none; cursor:pointer; border-radius:999px; padding:8px 14px; font-weight:600}
+        .btn-outline{background:transparent; border:1px solid rgba(15,23,36,0.06); color:var(--dark)}
+        .btn-primary{background:var(--primary); color:#fff; box-shadow:0 6px 18px rgba(11,121,184,0.12)}
+        .nav-toggle{display:none; background:transparent; border:0; font-size:20px; color:var(--dark)}
+
+        /* HERO */
+        .hero{
+            min-height:560px;
+            display:flex; align-items:center; justify-content:center; text-align:center;
+            padding:72px 24px 96px;
+            background-image:
+                linear-gradient(to bottom, rgba(7,48,71,0.55), rgba(7,48,71,0.18) 55%, rgba(255,255,255,0)),
+                url('images/pemandangan-sawah.jpg');
+            background-position:center 40%;
+            background-size:cover;
+            color:#fff;
+        }
+        .hero .wrap{max-width:980px}
+        .hero h1{font-size:56px;line-height:1.02;font-weight:800;margin:0 0 18px;text-shadow:0 6px 30px rgba(2,6,23,0.28)}
+        .hero p{font-size:16px;color:rgba(255,255,255,0.95);margin:0 0 26px;opacity:0.95}
+        .cta{display:inline-flex;align-items:center;gap:12px;background:var(--primary);color:#fff;padding:12px 22px;border-radius:999px;font-weight:700;text-decoration:none;box-shadow:0 8px 26px rgba(11,121,184,0.14)}
+
+        /* FEATURES */
+        .features{background:var(--bg-light);padding:54px 18px 84px;margin-top:-48px;border-top-left-radius:12px;border-top-right-radius:12px;position:relative;z-index:10}
+        .features .container{max-width:1100px;margin:0 auto}
+        .features h2{text-align:center;font-size:28px;margin-bottom:36px;color:var(--dark)}
+        .grid{display:flex;gap:32px;justify-content:space-between;align-items:stretch;flex-wrap:wrap}
+        .card-feature{flex:1 1 280px;background:transparent;text-align:center;padding:18px;border-radius:12px}
+        .feature-icon{width:64px;height:64px;border-radius:12px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;background:#e6f7ff;color:var(--primary);font-size:26px;box-shadow:0 6px 20px rgba(11,121,184,0.06)}
+        .card-feature h3{margin-bottom:8px;font-size:16px}
+        .card-feature p{color:var(--muted);font-size:14px;line-height:1.6}
+
+        /* FOOTER */
+        .site-footer{background:#21323b;color:#cbd5df;padding:48px 20px}
+        .footer-inner{max-width:1100px;margin:0 auto;display:flex;gap:24px;flex-wrap:wrap;justify-content:space-between}
+        .footer-col{flex:1 1 220px;min-width:200px}
+        .footer-logo{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+        .footer-logo img{height:42px}
+        .footer-small{font-size:13px;color:rgba(255,255,255,0.85);line-height:1.7}
+        .footer-meta{margin-top:18px;font-size:13px;color:rgba(255,255,255,0.65)}
+
+        /* Responsive */
+        @media (max-width:980px){
+            .nav-center{display:none}
+            .nav-toggle{display:inline-flex}
+            .hero h1{font-size:40px}
+        }
+        @media (max-width:520px){
+            .hero{padding-top:48px;padding-bottom:60px}
+            .hero h1{font-size:32px}
+            .grid{flex-direction:column;align-items:center}
+            .nav-actions .btn{padding:6px 10px;font-size:14px}
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Mobile expanded menu (simple) */
+        .mobile-menu{
+            display:none;
+            position:absolute;
+            left:0; right:0;
+            top:var(--nav-h);
+            background:#fff;
+            border-bottom:1px solid rgba(15,23,36,0.06);
+            box-shadow:0 10px 30px rgba(0,0,0,0.06);
+            padding:12px 16px;
         }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            color: var(--text-color);
-            line-height: 1.6;
-            background-color: #fff;
-        }
-
-        .container {
-            max-width: 1140px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* === Navbar === */
-        .navbar {
-            background: #fff;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .navbar-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-logo {
-            font-weight: 700;
-            font-size: 24px;
-            color: var(--dark-blue);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-logo img {
-            height: 50px;
-            width: auto;
-        }
-
-        .nav-menu {
-            list-style: none;
-            display: flex;
-            gap: 32px;
-            position: absolute; /* center the menu between logo and auth */
-            left: 50%;
-            transform: translateX(-50%);
-            top: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .nav-menu li {
-            margin-left: 40px;
-        }
-
-        .nav-menu a {
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: 500;
-            font-size: 15px;
-            transition: color 0.3s ease;
-        }
-
-        .nav-menu a.active,
-        .nav-menu a:hover {
-            color: var(--primary-color);
-        }
-
-        .nav-auth .btn {
-            text-decoration: none;
-            padding: 8px 18px;
-            border-radius: 6px;
-            margin-left: 10px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .nav-auth .btn-secondary {
-            color: var(--text-color);
-        }
-        .nav-auth .btn-secondary:hover {
-            background: var(--light-gray-bg);
-        }
-
-        .nav-auth .btn-primary {
-            background: var(--primary-color);
-            color: #fff;
-        }
-        .nav-auth .btn-primary:hover {
-            background: #0077B6;
-        }
-
-        /* === Hero Section === */
-        .hero {
-            /* three-color overlay tuned to your screenshot: #19507A -> #81A7D3 -> #FFFFFF */
-            background-image: linear-gradient(to bottom, rgba(25,80,122,0.6) 0%, rgba(129,167,211,0.35) 57%, rgba(255,255,255,0) 100%), url('{{ asset('images/pemandangan-sawah.jpg') }}');
-            background-size: cover;
-            /* shift focus further downward so the lake is more visible */
-            background-position: center 65%;
-            min-height: 560px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #fff;
-        }
-
-        .hero-content h1 {
-            font-size: 64px;
-            font-weight: 700;
-            max-width: 900px;
-            margin: 0 auto 24px auto;
-            line-height: 1.05;
-        }
-
-        .hero-content p {
-            font-size: 18px;
-            max-width: 760px;
-            margin: 0 auto 36px auto;
-            color: var(--text-light);
-            line-height: 1.6;
-        }
-
-        .hero-content .btn-hero {
-            background: var(--primary-color);
-            color: #fff;
-            padding: 14px 44px;
-            text-decoration: none;
-            border-radius: 999px; /* pill */
-            font-weight: 700;
-            transition: all 0.25s ease;
-            font-size: 18px;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 10px 28px rgba(0, 119, 182, 0.18);
-            border: none;
-            line-height: 1;
-        }
-
-        .hero-content .btn-hero i {
-            font-size: 16px;
-            color: #fff;
-            margin-left: 6px;
-        }
-
-        .hero-content .btn-hero:hover {
-            background: #0077B6;
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(0, 119, 182, 0.25);
-        }
-
-        /* === Features Section === */
-        .features {
-            background: #EDF7FE;
-            padding: 70px 0;
-            margin-top: -50px;
-            border-radius: 12px 12px 0 0;
-            position: relative;
-            z-index: 10;
-            box-shadow: 0 -8px 20px rgba(0,0,0,0.06);
-        }
-
-        .features-header {
-            text-align: center;
-            font-size: 30px;
-            font-weight: 600;
-            margin-bottom: 50px;
-            color: var(--dark-blue);
-        }
-
-        .features-grid {
-            display: flex;
-            justify-content: space-around;
-            gap: 40px;
-            text-align: center;
-            flex-wrap: wrap;
-        }
-
-        .feature-item {
-            flex: 1;
-            padding: 20px;
-            min-width: 280px;
-        }
-
-        .feature-item i {
-            font-size: 28px;
-            color: var(--primary-color);
-            margin-bottom: 16px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 76px;
-            height: 76px;
-            border-radius: 50%;
-            background: rgba(0,119,182,0.08);
-            box-shadow: 0 6px 18px rgba(3,37,65,0.04);
-            margin: 0 auto 20px auto;
-        }
-
-        .feature-item h3 {
-            font-size: 19px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--dark-blue);
-        }
-
-        .feature-item p {
-            color: var(--text-secondary);
-            font-size: 14px;
-            max-width: 280px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        /* Dropdown styles */
-        .nav-item {
-            position: relative;
-        }
-
-        .dropdown-menu-custom {
-            display: none;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: white;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            min-width: 180px;
-            margin-top: 10px;
-            z-index: 1000;
-        }
-
-        .nav-item.active .dropdown-menu-custom,
-        .dropdown-menu-custom.show {
-            display: block;
-        }
-
-        .dropdown-menu-custom a,
-        .dropdown-menu-custom button {
-            display: block;
-            padding: 12px 20px;
-            color: var(--text-color);
-            text-decoration: none;
-            transition: background 0.2s;
-            border: none;
-            background: none;
-            width: 100%;
-            text-align: left;
-            font-family: 'Poppins', sans-serif;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .dropdown-menu-custom a:hover,
-        .dropdown-menu-custom button:hover {
-            background: var(--light-gray-bg);
-        }
-
-        .dropdown-menu-custom .text-danger {
-            color: #dc3545;
-        }
-
-        .dropdown-menu-custom hr {
-            margin: 5px 0;
-            border: none;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .dropdown-toggle {
-            cursor: pointer;
-        }
-
-
+        .mobile-menu.open{display:block}
+        .mobile-menu a{display:block;padding:10px 6px;border-radius:8px;color:var(--dark);text-decoration:none}
+        .mobile-menu a + a{margin-top:4px}
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="container navbar-container">
-            <a href="{{ route('home') }}" class="nav-logo">
-                <img src="{{ asset('images/logo.png') }}" alt="Toba Hita Logo">
-            </a>
-            <ul class="nav-menu">
-                <li><a href="{{ route('home') }}" class="active">Beranda</a></li>
-                <li><a href="{{ route('district.profile') }}">Profil Kabupaten</a></li>
-                <li><a href="{{ route('district.villages') }}">Daftar Desa</a></li>
+<header class="site-nav" role="banner">
+    <div class="nav-inner">
+        <a class="brand" href="/">
+            <img src="images/logo.png" alt="Toba Hita">
+        </a>
+
+        <nav class="nav-center" role="navigation" aria-label="Utama">
+            <ul class="nav-menu" role="menubar" id="mainMenuDesktop">
+                <li role="none"><a role="menuitem" href="/" class="active">Beranda</a></li>
+                <li role="none"><a role="menuitem" href="/profile">Profil Kabupaten</a></li>
+                <li role="none"><a role="menuitem" href="/villages">Daftar Desa</a></li>
             </ul>
-            <div class="nav-auth">
-                @auth
-                    <div class="nav-item" id="userDropdown" style="display: inline-block; position: relative;">
-                        <a href="#" class="btn btn-secondary dropdown-toggle" onclick="toggleDropdown(event)">
-                            <i class="fas fa-user-circle"></i> {{ Auth::user()->name }}
-                        </a>
-                        <div class="dropdown-menu-custom" id="dropdownMenu">
-                            <a href="{{ route('dashboard') }}">
-                                <i class="fas fa-tachometer-alt"></i> Dashboard
-                            </a>
-                            <hr>
-                            <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
-                                @csrf
-                                <button type="submit" class="text-danger">
-                                    <i class="fas fa-sign-out-alt"></i> Logout
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                @else
-                    <a href="{{ route('login') }}" class="btn btn-secondary">Masuk</a>
-                    <a href="{{ route('register') }}" class="btn btn-primary">Daftar</a>
-                @endauth
-            </div>
+        </nav>
+
+        <div class="nav-actions" role="group" aria-label="Aksi">
+            <a href="/login" class="btn btn-outline">Masuk</a>
+            <a href="/register" class="btn btn-primary">Daftar</a>
+            <button class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false"><i class="fa fa-bars" aria-hidden="true"></i></button>
         </div>
-    </nav>
+    </div>
 
-    <main>
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Membangun Toba,<br>Digitalisasi Jantung<br>Budaya Batak</h1>
-                <p>Selamat datang di portal e-Government Kabupaten Toba. Temukan informasi desa, transparansi anggaran, dan layanan publik dalam satu platform terintegrasi.</p>
-                <a href="{{ route('district.villages') }}" class="btn-hero">
-                    Jelajahi Desa Sekarang <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-        </section>
+    <!-- mobile menu (shown when burger clicked) -->
+    <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+        <a href="/" aria-current="page">Beranda</a>
+        <a href="/profile">Profil Kabupaten</a>
+        <a href="/villages">Daftar Desa</a>
+        <div style="height:8px"></div>
+        <a href="/login" class="btn btn-outline" style="display:inline-block">Masuk</a>
+        <a href="/register" class="btn btn-primary" style="display:inline-block; margin-left:8px">Daftar</a>
+    </div>
+</header>
 
-        <section class="features">
-            <div class="container">
-                <h2 class="features-header">Fitur Unggulan Toba Hita</h2>
-                <div class="features-grid">
-                    <div class="feature-item">
-                        <i class="fas fa-users"></i>
-                        <h3>Data Desa</h3>
-                        <p>Kelola data penduduk lebih aman & efisien</p>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-chart-bar"></i>
-                        <h3>Transparansi Anggaran</h3>
-                        <p>Lihat dan unduh laporan Anggaran Pendapatan dan Belanja Desa (APBDes) secara transparan.</p>
-                    </div>
-                    <div class="feature-item">
-                        <i class="fas fa-triangle-exclamation"></i>
-                        <h3>Layanan Digital</h3>
-                        <p>Pelayanan publik lebih modern & cepat</p>
-                    </div>
+<main>
+    <section class="hero" role="region" aria-label="Hero utama">
+        <div class="wrap">
+            <h1>Membangun Toba,<br>Digitalisasi Jantung<br>Budaya Batak</h1>
+            <p>Selamat datang di portal e‑Government Kabupaten Toba. Temukan informasi desa, transparansi anggaran, dan layanan publik dalam satu platform terintegrasi.</p>
+            <a class="cta" href="/villages">Jelajahi Desa Sekarang <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+    </section>
+
+    <section class="features" aria-labelledby="fitur-heading">
+        <div class="container">
+            <h2 id="fitur-heading">Fitur Unggulan Toba Hita</h2>
+            <div class="grid">
+                <div class="card-feature">
+                    <div class="feature-icon"><i class="fa fa-users" aria-hidden="true"></i></div>
+                    <h3>Data Desa</h3>
+                    <p>Kelola data penduduk lebih aman & efisien dengan antarmuka yang jelas dan export data.</p>
+                </div>
+
+                <div class="card-feature">
+                    <div class="feature-icon"><i class="fa fa-chart-bar" aria-hidden="true"></i></div>
+                    <h3>Transparansi Anggaran</h3>
+                    <p>Lihat dan unduh laporan Anggaran Pendapatan dan Belanja Desa (APBDes) secara transparan.</p>
+                </div>
+
+                <div class="card-feature">
+                    <div class="feature-icon"><i class="fa fa-shield-alt" aria-hidden="true"></i></div>
+                    <h3>Layanan Digital</h3>
+                    <p>Pelayanan publik lebih modern & cepat melalui formulir digital dan notifikasi.</p>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+</main>
 
-    @include('components.footer')
+<footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+        <div class="footer-col">
+            <div class="footer-logo">
+                <img src="images/logo.png" alt="logo">
+                <div>
+                    <strong style="color:#fff">Toba Hita</strong>
+                    <div class="footer-small">Portal informasi terintegrasi untuk transparansi dan pelayanan publik yang lebih baik di seluruh wilayah Kabupaten Toba.</div>
+                </div>
+            </div>
+            <div class="footer-meta">© <span id="curYear"></span> Pemerintah Kabupaten Toba. Hak Cipta Dilindungi.</div>
+        </div>
 
-    <script>
-        // Toggle dropdown on click
-        function toggleDropdown(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            
-            const dropdown = document.getElementById('dropdownMenu');
-            const navItem = document.getElementById('userDropdown');
-            
-            if (dropdown.classList.contains('show')) {
-                dropdown.classList.remove('show');
-                navItem.classList.remove('active');
-            } else {
-                dropdown.classList.add('show');
-                navItem.classList.add('active');
-            }
-        }
+        <div class="footer-col">
+            <h4 style="color:#fff;margin-bottom:8px">Hubungi kami</h4>
+            <div class="footer-small">+62 3456 7890<br>tobahita@mail.com</div>
+        </div>
 
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('dropdownMenu');
-            const navItem = document.getElementById('userDropdown');
-            
-            if (dropdown && navItem) {
-                if (!navItem.contains(event.target)) {
-                    dropdown.classList.remove('show');
-                    navItem.classList.remove('active');
-                }
-            }
+        <div class="footer-col">
+            <h4 style="color:#fff;margin-bottom:8px">Ikuti kami</h4>
+            <div class="footer-small">Facebook • Twitter • Instagram</div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // set footer year
+    document.getElementById('curYear').textContent = new Date().getFullYear();
+
+    // mobile menu toggle
+    (function(){
+        const toggle = document.getElementById('navToggle');
+        const mobile = document.getElementById('mobileMenu');
+        toggle && toggle.addEventListener('click', function(e){
+            const opened = mobile.classList.toggle('open');
+            mobile.setAttribute('aria-hidden', String(!opened));
+            this.setAttribute('aria-expanded', String(opened));
         });
 
-        // Prevent dropdown from closing when clicking inside it
-        document.addEventListener('DOMContentLoaded', function() {
-            const dropdown = document.getElementById('dropdownMenu');
-            if (dropdown) {
-                dropdown.addEventListener('click', function(event) {
-                    event.stopPropagation();
-                });
+        // close mobile menu when clicking outside
+        document.addEventListener('click', function(e){
+            const inside = mobile.contains(e.target) || toggle.contains(e.target);
+            if (!inside && mobile.classList.contains('open')) {
+                mobile.classList.remove('open');
+                mobile.setAttribute('aria-hidden','true');
+                toggle.setAttribute('aria-expanded','false');
             }
         });
-    </script>
+    })();
+</script>
 
 </body>
 </html>
