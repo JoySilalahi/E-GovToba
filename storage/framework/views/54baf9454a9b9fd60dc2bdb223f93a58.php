@@ -60,7 +60,7 @@
             border-radius:14px;
             background-image:
                 linear-gradient(180deg, rgba(8,40,66,0.42), rgba(8,40,66,0.18)),
-                url('{{ asset("images/pemandangan-sawah.jpg") }}');
+                url('<?php echo e(asset("images/pemandangan-sawah.jpg")); ?>');
             background-size:cover;
             background-position:center 60%;
             color:#fff;
@@ -309,6 +309,7 @@
         })();
     </script>
     <!-- Footer -->
-    @include('components.footer')
+    <?php echo $__env->make('components.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 </body>
 </html>
+<?php /**PATH C:\Users\ASUS\OneDrive\Documents\GitHub\E-GovToba\resources\views/district-information/villages.blade.php ENDPATH**/ ?>
