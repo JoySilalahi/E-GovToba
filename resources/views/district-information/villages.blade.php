@@ -8,6 +8,15 @@
     <!-- Bootstrap CSS (loaded before custom styles so custom rules override it) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        /*
+         |-----------------------------------------------------------------
+         | District - Villages Page Styles
+         | - This block contains page-level CSS only. Rules are grouped
+         |   by logical sections (Navbar, Hero, Content, Components).
+         | - Styling is intentionally kept local to this Blade view
+         |   so it doesn't affect other layouts.
+         |-----------------------------------------------------------------
+         */
         * {
             margin: 0;
             padding: 0;
@@ -19,7 +28,8 @@
             background-color: #f8f9fa;
         }
 
-        /* Navbar */
+        /* --- Navbar / Header --- */
+        /* Brand sits at the left, menu is centered inside a max-width container. */
         .navbar {
             background: white;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -48,6 +58,7 @@
             height: auto;
         }
 
+        /* Navigation menu (links to main district pages) */
         .navbar-menu {
             display: flex;
             list-style: none;
@@ -68,7 +79,8 @@
             color: #0077B6;
         }
 
-        /* Hero Section */
+        /* --- Hero Section --- */
+        /* Large banner area with background image and stats */
         .hero {
             /* Danau Toba view background with three-color overlay */
             background: linear-gradient(135deg, rgba(25,80,122,0.6) 0%, rgba(129,167,211,0.35) 57%, rgba(255,255,255,0) 100%), url('{{ asset('images/pemandangan-sawah.jpg') }}');
@@ -117,14 +129,8 @@
             opacity: 0.9;
         }
 
-        /* Main Content */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        /* Main Content */
+        /* --- Main Content --- */
+        /* Page content wrapper (one definition only) */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -413,7 +419,7 @@
             color: white;
         }
 
-        /* Responsive */
+        /* --- Responsive tweaks --- */
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 32px;
@@ -514,6 +520,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        /*
+         |-----------------------------------------------------------------
+         | Client-side JS — Villages page
+         | - Non-invasive comments explain each function's purpose.
+         | - Function names and variable names are kept unchanged
+         |   so the behaviour remains identical.
+         |-----------------------------------------------------------------
+         */
+
         // Village data for autocomplete
         const villages = [
             @foreach($villages as $village)
@@ -528,7 +543,7 @@
             @endforeach
         ];
 
-        // Search history management
+        // Search history management: stores last searches in localStorage
         class SearchHistory {
             constructor() {
                 this.storageKey = 'villageSearchHistory';
@@ -571,17 +586,18 @@
         let activeIndex = -1;
         let currentMatches = [];
 
-        // Highlight matching text
+        // Highlight matching text inside autocomplete results
+        // - Returns original text if query is empty
         function highlightMatch(text, query) {
             if (!query) return text;
             const regex = new RegExp(`(${query})`, 'gi');
             return text.replace(regex, '<span class="autocomplete-match">$1</span>');
         }
 
-        // Filter villages based on search
+        // Filter villages list by name (case-insensitive)
+        // - Returns an array of matching village objects
         function filterVillages(query) {
             if (!query) return [];
-            
             const lowerQuery = query.toLowerCase();
             return villages.filter(village => 
                 village.name.toLowerCase().includes(lowerQuery)
@@ -589,6 +605,8 @@
         }
 
         // Render autocomplete dropdown
+        // - Builds markup for history (when no query) or matches
+        // - Attaches click handlers to allow selection
         function renderAutocomplete(query) {
             const matches = filterVillages(query);
             const history = searchHistory.get();
@@ -664,7 +682,8 @@
             }
         }
 
-        // Select a village
+        // Select a village from the list
+        // - Adds selected item to history then navigates to the detail page
         function selectVillage(villageId) {
             const village = villages.find(v => v.id === villageId);
             if (village) {
@@ -673,13 +692,14 @@
             }
         }
 
-        // Clear search history
+        // Clear search history and re-render dropdown (showing nothing)
         function clearHistory() {
             searchHistory.clear();
             renderAutocomplete('');
         }
 
-        // Navigate with keyboard
+        // Navigate the dropdown using keyboard arrows
+        // - direction is either 'down' or 'up'
         function navigateDropdown(direction) {
             const items = dropdown.querySelectorAll('.autocomplete-item');
             if (items.length === 0) return;
@@ -701,18 +721,13 @@
             items[activeIndex].scrollIntoView({ block: 'nearest' });
         }
 
-        // Filter visible village cards
+        // Filter visible village cards on the page to match the search
         function filterVisibleCards(query) {
             const villageCards = document.querySelectorAll('.village-card');
             const lowerQuery = query.toLowerCase();
-            
             villageCards.forEach(card => {
                 const villageName = card.getAttribute('data-name');
-                if (villageName.includes(lowerQuery)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+                card.style.display = villageName.includes(lowerQuery) ? 'block' : 'none';
             });
         }
 

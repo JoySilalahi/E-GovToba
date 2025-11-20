@@ -301,36 +301,12 @@
 
         /* Dokumentasi */
         .dokumentasi-grid {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            padding: 10px 0;
-            scrollbar-width: thin;
-        }
-
-        .dokumentasi-grid::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .dokumentasi-grid::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-
-        .dokumentasi-grid::-webkit-scrollbar-thumb {
-            background: #3498db;
-            border-radius: 10px;
-        }
-
-        .dokumentasi-grid::-webkit-scrollbar-thumb:hover {
-            background: #2980b9;
         }
 
         .doc-card {
-            position: relative;
-            min-width: 300px;
-            flex-shrink: 0;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -493,32 +469,7 @@
         <!-- Dokumentasi Kegiatan -->
         <div class="section">
             <h2 class="section-title">Dokumentasi Kegiatan</h2>
-            
-            @if($district && $district->documentation_file)
-                <div style="background: #f8f9fa; padding: 15px 20px; border-radius: 8px; margin-bottom: 25px; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid #3498db;">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <i class="fas fa-file-pdf" style="font-size: 24px; color: #e74c3c;"></i>
-                        <div>
-                            <h6 style="margin: 0; font-size: 14px; font-weight: 600; color: #2c3e50;">Dokumentasi Kegiatan Kabupaten Toba</h6>
-                            <p style="margin: 0; font-size: 12px; color: #7f8c8d;">File APBD tersedia untuk diunduh</p>
-                        </div>
-                    </div>
-                    <a href="{{ asset('storage/' . $district->documentation_file) }}" target="_blank" style="background: #3498db; color: white; padding: 8px 20px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap;">
-                        <i class="fas fa-download me-1"></i>Download
-                    </a>
-                </div>
-            @endif
-
-            <div style="position: relative; padding: 0 50px;">
-                <!-- Navigation Arrows -->
-                <button onclick="scrollDocs('left')" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); background: rgba(52, 152, 219, 0.9); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: all 0.3s; z-index: 10;" onmouseover="this.style.background='rgba(41, 128, 185, 1)'" onmouseout="this.style.background='rgba(52, 152, 219, 0.9)'">
-                    <i class="fas fa-chevron-left" style="font-size: 18px;"></i>
-                </button>
-                <button onclick="scrollDocs('right')" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); background: rgba(52, 152, 219, 0.9); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: all 0.3s; z-index: 10;" onmouseover="this.style.background='rgba(41, 128, 185, 1)'" onmouseout="this.style.background='rgba(52, 152, 219, 0.9)'">
-                    <i class="fas fa-chevron-right" style="font-size: 18px;"></i>
-                </button>
-
-                <div id="dokumentasiGrid" class="dokumentasi-grid">
+            <div class="dokumentasi-grid">
                 <div class="doc-card">
                     <img src="{{ asset('images/dokumentasi kegiatan.jpg') }}" alt="Kegiatan 1" class="doc-image">
                 </div>
@@ -528,34 +479,7 @@
                 <div class="doc-card">
                     <img src="{{ asset('images/tarian.jpg') }}" alt="Kegiatan 3" class="doc-image">
                 </div>
-
-                @if($district && $district->photos && $district->photos->count() > 0)
-                    @foreach($district->photos as $photo)
-                        <div class="doc-card">
-                            <img src="{{ asset('storage/' . $photo->photo_path) }}" alt="{{ $photo->title ?? 'Dokumentasi Kegiatan' }}" class="doc-image">
-                            @if($photo->title)
-                                <div style="padding: 10px; background: rgba(0,0,0,0.7); color: white; position: absolute; bottom: 0; left: 0; right: 0;">
-                                    <p style="margin: 0; font-size: 13px; font-weight: 500;">{{ $photo->title }}</p>
-                                </div>
-                            @endif
-                        </div>
-                    @endforeach
-                @endif
             </div>
-            </div>
-
-            <script>
-                function scrollDocs(direction) {
-                    const grid = document.getElementById('dokumentasiGrid');
-                    const scrollAmount = 320; // width of card + gap
-                    
-                    if (direction === 'left') {
-                        grid.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-                    } else {
-                        grid.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-                    }
-                }
-            </script>
         </div>
     </div>
 
