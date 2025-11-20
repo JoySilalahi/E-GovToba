@@ -372,7 +372,7 @@
     </nav>
 
         <!-- Hero Section -->
-    <div class="hero" style="background-image: linear-gradient(to bottom, rgba(25,80,122,0.6) 0%, rgba(129,167,211,0.35) 57%, rgba(255,255,255,0) 100%), url('{{ asset('images/pemandangan-sawah.jpg') }}'); background-size: cover; background-position: center 65%;">
+    <div class="hero" style="background-image: linear-gradient(to bottom, rgba(25,80,122,0.6) 0%, rgba(129,167,211,0.35) 57%, rgba(255,255,255,0) 100%), url('<?php echo e(asset('images/pemandangan-sawah.jpg')); ?>'); background-size: cover; background-position: center 65%;">
         <div class="hero-inner">
             <div class="hero-text">
                 <h1>Profil Kabupaten Toba</h1>
@@ -424,7 +424,7 @@
                         <!-- Bupati Card -->
                         <div class="bupati-card">
                             <div class="bupati-photo-wrapper">
-                                <img src="{{ asset('images/bupati.jpg') }}" alt="Bupati Toba" class="bupati-photo">
+                                <img src="<?php echo e(asset('images/bupati.jpg')); ?>" alt="Bupati Toba" class="bupati-photo">
                             </div>
                             <div class="bupati-name">Effendi Sintong Panangian Napitupulu</div>
                             <div class="bupati-title-text">Bupati Toba</div>
@@ -433,7 +433,7 @@
                         <!-- Wakil Bupati Card -->
                         <div class="bupati-card">
                             <div class="bupati-photo-wrapper">
-                                <img src="{{ asset('images/wakil-bupati.jpg') }}" alt="Wakil Bupati" class="bupati-photo">
+                                <img src="<?php echo e(asset('images/wakil-bupati.jpg')); ?>" alt="Wakil Bupati" class="bupati-photo">
                             </div>
                             <div class="bupati-name">Audi Murphy Sitorus</div>
                             <div class="bupati-title-text">Wakil Bupati Toba</div>
@@ -447,13 +447,13 @@
                     
                     <div class="visi-box">
                         <div class="visi-label">Visi :</div>
-                        <div class="visi-text">{{ $district->visi ?? 'Toba Unggul dan Bersinar' }}</div>
+                        <div class="visi-text"><?php echo e($district->visi ?? 'Toba Unggul dan Bersinar'); ?></div>
                     </div>
 
                     <div class="misi-box">
                         <div class="misi-label">Misi :</div>
                         <ul class="misi-list">
-                            <li>{{ $district->misi ?? 'Meningkatkan kualitas sumber daya manusia yang andal dan berbudaya, mempercepat pembangunan infrastruktur, serta mewujudkan reformasi birokrasi yang bersih dan melayani.' }}</li>
+                            <li><?php echo e($district->misi ?? 'Meningkatkan kualitas sumber daya manusia yang andal dan berbudaya, mempercepat pembangunan infrastruktur, serta mewujudkan reformasi birokrasi yang bersih dan melayani.'); ?></li>
                         </ul>
                     </div>
                 </div>
@@ -465,22 +465,22 @@
             <h2 class="section-title">Dokumentasi Kegiatan</h2>
             <div class="dokumentasi-grid">
                 <div class="doc-card">
-                    <img src="{{ asset('images/dokumentasi kegiatan.jpg') }}" alt="Kegiatan 1" class="doc-image">
+                    <img src="<?php echo e(asset('images/dokumentasi kegiatan.jpg')); ?>" alt="Kegiatan 1" class="doc-image">
                 </div>
                 <div class="doc-card">
-                    <img src="{{ asset('images/dokumentasi kegiatan (2).jpg') }}" alt="Kegiatan 2" class="doc-image">
+                    <img src="<?php echo e(asset('images/dokumentasi kegiatan (2).jpg')); ?>" alt="Kegiatan 2" class="doc-image">
                 </div>
                 <div class="doc-card">
-                    <img src="{{ asset('images/tarian.jpg') }}" alt="Kegiatan 3" class="doc-image">
+                    <img src="<?php echo e(asset('images/tarian.jpg')); ?>" alt="Kegiatan 3" class="doc-image">
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Footer -->
-    @include('components.footer')
+    <?php echo $__env->make('components.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
     <!-- Bootstrap JS bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html><?php /**PATH C:\Users\ASUS\OneDrive\Documents\GitHub\E-GovToba\resources\views/district-information/profile.blade.php ENDPATH**/ ?>
