@@ -18,6 +18,9 @@ class District extends Model
         'visi',
         'misi',
         'documentation_file',
+        'bupati_name',
+        'wakil_bupati_name',
+        'periode',
     ];
 
     public function villages()

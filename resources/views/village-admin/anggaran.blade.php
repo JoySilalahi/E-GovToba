@@ -223,14 +223,12 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
-            <h5>Admin Kabupaten</h5>
+            <h5>Admin Desa</h5>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="{{ route('village-admin.dashboard') }}"><i class="fas fa-home"></i> Admin Desa</a></li>
-            <li><a href="#"><i class="fas fa-users"></i> Beranda</a></li>
-            <li><a href="#"><i class="fas fa-list"></i> Kelola Pengumuman</a></li>
+            <li><a href="{{ route('village-admin.dashboard') }}"><i class="fas fa-home"></i> Beranda</a></li>
             <li><a href="{{ route('village-admin.kelola-informasi') }}"><i class="fas fa-info-circle"></i> Kelola Informasi</a></li>
-            <li><a href="{{ route('village-admin.anggaran') }}" class="active"><i class="fas fa-chart-bar"></i> Anggaran</a></li>
+            <li><a href="{{ route('village-admin.anggaran') }}" class="active"><i class="fas fa-coins"></i> Anggaran</a></li>
         </ul>
         <div style="position: absolute; bottom: 20px; left: 20px; right: 20px;">
             <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 

@@ -176,11 +176,9 @@
             <h5>Admin Desa</h5>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="{{ route('village-admin.dashboard') }}"><i class="fas fa-home"></i> Admin Desa</a></li>
-            <li><a href="#"><i class="fas fa-users"></i> Beranda</a></li>
-            <li><a href="#"><i class="fas fa-list"></i> Kelola Pengumuman</a></li>
+            <li><a href="{{ route('village-admin.dashboard') }}"><i class="fas fa-home"></i> Beranda</a></li>
             <li><a href="{{ route('village-admin.kelola-informasi') }}" class="active"><i class="fas fa-info-circle"></i> Kelola Informasi</a></li>
-            <li><a href="#"><i class="fas fa-chart-bar"></i> Anggaran</a></li>
+            <li><a href="{{ route('village-admin.anggaran') }}"><i class="fas fa-coins"></i> Anggaran</a></li>
         </ul>
         <div style="position: absolute; bottom: 20px; left: 20px; right: 20px;">
             <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
@@ -206,6 +204,46 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
+
+        <!-- Form Edit Visi & Misi Desa -->
+        <div class="form-card" style="margin-bottom: 24px;">
+            <h5>Edit Visi & Misi Desa {{ $village->name }}</h5>
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 20px;">
+                Perubahan akan langsung terlihat di halaman <strong>Detail Desa</strong> untuk pengunjung
+            </p>
+            
+            <form action="{{ route('village-admin.visi-misi.update') }}" method="POST">
+                @csrf
+                
+                <div class="mb-4">
+                    <label class="form-label">Visi Desa</label>
+                    <textarea 
+                        name="visi" 
+                        class="form-control" 
+                        rows="3" 
+                        placeholder="Masukkan visi desa..."
+                        required>{{ old('visi', $village->visi ?? '') }}</textarea>
+                    <small style="color: #64748b; font-size: 12px;">Visi adalah gambaran masa depan yang ingin dicapai oleh desa</small>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Misi Desa</label>
+                    <textarea 
+                        name="misi" 
+                        class="form-control" 
+                        rows="5" 
+                        placeholder="Masukkan misi desa..."
+                        required>{{ old('misi', $village->misi ?? '') }}</textarea>
+                    <small style="color: #64748b; font-size: 12px;">Misi adalah langkah-langkah strategis untuk mewujudkan visi</small>
+                </div>
+
+                <div class="text-end">
+                    <button type="submit" class="btn-publish">
+                        <i class="fas fa-save"></i> Simpan Visi & Misi
+                    </button>
+                </div>
+            </form>
+        </div>
 
         <!-- Form Buat Agenda -->
         <div class="form-card">

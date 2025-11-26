@@ -288,6 +288,80 @@
                 </button>
             </form>
         </div>
+
+        <!-- Upload Foto Section -->
+        <div class="form-card" style="margin-top: 30px;">
+            <div class="section-title">Upload Foto Dokumentasi Kegiatan</div>
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 20px;">
+                Foto yang diupload akan langsung tampil di halaman <strong>Beranda</strong> dan <strong>Profil Kabupaten</strong>
+            </p>
+            
+            <form action="{{ route('admin.information.upload-photo') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                
+                <div class="form-group">
+                    <label for="photo">Pilih Foto <span style="color: #e74c3c;">*</span></label>
+                    <input 
+                        type="file" 
+                        name="photo" 
+                        id="photo" 
+                        class="form-control" 
+                        accept="image/jpeg,image/jpg,image/png"
+                        required>
+                    <small style="color: #64748b; font-size: 12px;">Format: JPG, JPEG, PNG. Maksimal 5MB</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="title">Judul/Keterangan Foto (Opsional)</label>
+                    <input 
+                        type="text" 
+                        name="title" 
+                        id="title" 
+                        class="form-control" 
+                        placeholder="Contoh: Rapat Koordinasi Pembangunan Desa"
+                        maxlength="255">
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-upload me-2"></i>Upload Foto
+                </button>
+            </form>
+        </div>
+
+        <!-- Daftar Foto yang Sudah Diupload -->
+        @if($district && $district->photos && $district->photos->count() > 0)
+        <div class="form-card" style="margin-top: 30px;">
+            <div class="section-title">Foto yang Sudah Diupload ({{ $district->photos->count() }})</div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+                @foreach($district->photos as $photo)
+                    <div style="border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; background: #fff;">
+                        <img src="{{ asset('storage/' . $photo->photo_path) }}" 
+                             alt="{{ $photo->title }}" 
+                             style="width: 100%; height: 180px; object-fit: cover; display: block;">
+                        <div style="padding: 12px;">
+                            <p style="margin: 0 0 8px 0; font-weight: 600; font-size: 14px; color: #2c3e50;">
+                                {{ $photo->title ?? 'Tanpa Judul' }}
+                            </p>
+                            <p style="margin: 0 0 12px 0; font-size: 12px; color: #64748b;">
+                                <i class="far fa-calendar"></i> {{ $photo->created_at->locale('id')->isoFormat('D MMMM YYYY') }}
+                            </p>
+                            <form action="{{ route('admin.information.delete-photo', $photo->id) }}" 
+                                  method="POST" 
+                                  onsubmit="return confirm('Yakin ingin menghapus foto ini?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" 
+                                        style="background: #e74c3c; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; width: 100%;">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

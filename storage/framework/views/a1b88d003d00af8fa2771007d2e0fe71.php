@@ -226,6 +226,59 @@
             color: #64748b;
         }
 
+        .bupati-period {
+            font-size: 10px;
+            color: #0ea5e9;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        /* Sambutan Bupati */
+        .sambutan-section {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid #0ea5e9;
+        }
+
+        .sambutan-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0c4a6e;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sambutan-icon {
+            font-size: 20px;
+        }
+
+        .sambutan-text {
+            font-size: 13px;
+            line-height: 1.8;
+            color: #334155;
+            text-align: justify;
+        }
+
+        .sambutan-text p {
+            margin-bottom: 12px;
+        }
+
+        .sambutan-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .sambutan-signature {
+            margin-top: 15px;
+            text-align: right;
+            font-weight: 600;
+            color: #0c4a6e;
+            font-size: 12px;
+        }
+
         /* Visi Misi */
         .visi-misi-section {
             background: white;
@@ -295,12 +348,33 @@
 
         /* Dokumentasi */
         .dokumentasi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            display: flex;
             gap: 20px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding-bottom: 20px;
+        }
+
+        .dokumentasi-grid::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .dokumentasi-grid::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .dokumentasi-grid::-webkit-scrollbar-thumb {
+            background: #0b79b8;
+            border-radius: 4px;
+        }
+
+        .dokumentasi-grid::-webkit-scrollbar-thumb:hover {
+            background: #096598;
         }
 
         .doc-card {
+            flex: 0 0 320px;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -312,9 +386,80 @@
         }
 
         .doc-image {
-            width: 100%;
-            height: 200px;
+            width: 320px;
+            height: 240px;
             object-fit: cover;
+        }
+
+        /* File Download Card */
+        .file-download-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 28px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+        }
+
+        .file-download-card:hover {
+            box-shadow: 0 8px 24px rgba(11, 121, 184, 0.15);
+            border-color: #0b79b8;
+            transform: translateY(-2px);
+        }
+
+        .file-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 14px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-download-btn {
+            background: #0b79b8;
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(11, 121, 184, 0.2);
+            white-space: nowrap;
+        }
+
+        .file-download-btn:hover {
+            background: #0a5c8a;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(11, 121, 184, 0.35);
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .file-download-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .file-download-btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
 
         /* Footer */
@@ -424,19 +569,21 @@
                         <!-- Bupati Card -->
                         <div class="bupati-card">
                             <div class="bupati-photo-wrapper">
-                                <img src="<?php echo e(asset('images/bupati.jpg')); ?>" alt="Bupati Toba" class="bupati-photo">
+                                <img src="<?php echo e(asset('images/bupati.jpg')); ?>?v=<?php echo e(time()); ?>" alt="Bupati Toba" class="bupati-photo">
                             </div>
-                            <div class="bupati-name">Effendi Sintong Panangian Napitupulu</div>
+                            <div class="bupati-name"><?php echo e($district->bupati_name ?? 'Effendi Sintong Panangian Napitupulu'); ?></div>
                             <div class="bupati-title-text">Bupati Toba</div>
+                            <div class="bupati-period"><?php echo e($district->periode ?? 'Periode 2021-2026'); ?></div>
                         </div>
 
                         <!-- Wakil Bupati Card -->
                         <div class="bupati-card">
                             <div class="bupati-photo-wrapper">
-                                <img src="<?php echo e(asset('images/wakil-bupati.jpg')); ?>" alt="Wakil Bupati" class="bupati-photo">
+                                <img src="<?php echo e(asset('images/wakil-bupati.jpg')); ?>?v=<?php echo e(time()); ?>" alt="Wakil Bupati" class="bupati-photo">
                             </div>
-                            <div class="bupati-name">Audi Murphy Sitorus</div>
+                            <div class="bupati-name"><?php echo e($district->wakil_bupati_name ?? 'Audi Murphy Sitorus'); ?></div>
                             <div class="bupati-title-text">Wakil Bupati Toba</div>
+                            <div class="bupati-period"><?php echo e($district->periode ?? 'Periode 2021-2026'); ?></div>
                         </div>
                     </div>
                 </div>
@@ -464,15 +611,46 @@
         <div class="section">
             <h2 class="section-title">Dokumentasi Kegiatan</h2>
             <div class="dokumentasi-grid">
+                <!-- Foto Default -->
                 <div class="doc-card">
                     <img src="<?php echo e(asset('images/dokumentasi kegiatan.jpg')); ?>" alt="Kegiatan 1" class="doc-image">
+                    <div style="padding: 12px; background: #fff;">
+                        <p style="margin: 0; font-size: 14px; font-weight: 600; color: #1e293b;">Kegiatan Kabupaten Toba</p>
+                    </div>
                 </div>
                 <div class="doc-card">
                     <img src="<?php echo e(asset('images/dokumentasi kegiatan (2).jpg')); ?>" alt="Kegiatan 2" class="doc-image">
+                    <div style="padding: 12px; background: #fff;">
+                        <p style="margin: 0; font-size: 14px; font-weight: 600; color: #1e293b;">Dokumentasi Acara</p>
+                    </div>
                 </div>
                 <div class="doc-card">
                     <img src="<?php echo e(asset('images/tarian.jpg')); ?>" alt="Kegiatan 3" class="doc-image">
+                    <div style="padding: 12px; background: #fff;">
+                        <p style="margin: 0; font-size: 14px; font-weight: 600; color: #1e293b;">Tarian Tradisional Batak</p>
+                    </div>
                 </div>
+                
+                <!-- Foto dari Admin -->
+                <?php if($photos && $photos->count() > 0): ?>
+                    <?php $__currentLoopData = $photos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $photo): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <div class="doc-card">
+                            <img src="<?php echo e(asset('storage/' . $photo->photo_path)); ?>" 
+                                 alt="<?php echo e($photo->title ?? 'Dokumentasi Kegiatan'); ?>" 
+                                 class="doc-image">
+                            <div style="padding: 12px; background: #fff;">
+                                <p style="margin: 0; font-size: 14px; font-weight: 600; color: #1e293b;">
+                                    <?php echo e($photo->title ?? 'Kegiatan Kabupaten Toba'); ?>
+
+                                </p>
+                                <p style="margin: 4px 0 0; font-size: 12px; color: #64748b;">
+                                    <i class="far fa-calendar"></i> <?php echo e($photo->created_at->locale('id')->isoFormat('D MMMM YYYY')); ?>
+
+                                </p>
+                            </div>
+                        </div>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>

@@ -21,6 +21,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/information/upload-documentation', [InformationController::class, 'uploadDocumentation'])->name('information.upload-documentation');
     Route::post('/information/upload-photo', [InformationController::class, 'uploadPhoto'])->name('information.upload-photo');
     Route::delete('/information/photos/{id}', [InformationController::class, 'deletePhoto'])->name('information.delete-photo');
+    Route::post('/information/upload-bupati-photo', [InformationController::class, 'uploadBupatiPhoto'])->name('information.upload-bupati-photo');
+    Route::post('/information/upload-wakil-bupati-photo', [InformationController::class, 'uploadWakilBupatiPhoto'])->name('information.upload-wakil-bupati-photo');
+    Route::post('/information/update-names', [InformationController::class, 'updateNames'])->name('information.update-names');
+    Route::post('/information/update-periode', [InformationController::class, 'updatePeriode'])->name('information.update-periode');
 
     // Services Management
     Route::resource('services', ServiceController::class);

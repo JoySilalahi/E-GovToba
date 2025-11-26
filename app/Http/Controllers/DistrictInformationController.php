@@ -10,10 +10,31 @@ class DistrictInformationController extends Controller
 {
     public function index()
     {
+        // Disable cache untuk data fresh
+        header('Cache-Control: no-cache, no-store, must-revalidate');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+        
+        // Ambil data fresh dari database
+        $district = District::first();
+        
+        // Ambil foto terbaru yang diupload admin
+        $photos = \App\Models\DistrictPhoto::with('district')
+            ->orderBy('created_at', 'desc')
+            ->limit(6)
+            ->get();
+        
+        // Ambil desa dengan visi & misi terbaru
+        $villagesWithVision = Village::whereNotNull('visi')
+            ->whereNotNull('misi')
+            ->orderBy('updated_at', 'desc')
+            ->limit(3)
+            ->get();
+        
         $statistics = [
             'population' => '202,453',
             'area' => '2,328.89',
-            'villages' => '243',
+            'villages' => Village::count(),
             'subdistricts' => '16'
         ];
 
@@ -53,7 +74,7 @@ class DistrictInformationController extends Controller
             ]
         ];
 
-        return view('district-information.index', compact('statistics', 'features', 'tourismSpots'));
+        return view('district-information.index', compact('statistics', 'features', 'tourismSpots', 'district', 'photos', 'villagesWithVision'));
     }
 
     public function tourism()
@@ -68,13 +89,30 @@ class DistrictInformationController extends Controller
 
     public function profile()
     {
+        // Disable cache untuk data fresh
+        header('Cache-Control: no-cache, no-store, must-revalidate');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+        
+        // Ambil data fresh dari database tanpa cache
         $district = District::first();
-        return view('district-information.profile', compact('district'));
+        
+        // Ambil foto yang diupload admin
+        $photos = \App\Models\DistrictPhoto::with('district')
+            ->orderBy('created_at', 'desc')
+            ->get();
+        
+        return view('district-information.profile', compact('district', 'photos'));
     }
 
     public function villages()
     {
-        // Ambil data desa dari database
+        // Disable cache untuk data fresh
+        header('Cache-Control: no-cache, no-store, must-revalidate');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+        
+        // Ambil data desa dari database tanpa cache
         $villagesFromDb = Village::with('district')->get();
         
         $villages = $villagesFromDb->map(function($village) {

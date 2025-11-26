@@ -13,7 +13,7 @@ class InformationController extends Controller
     public function index()
     {
         // Assuming we have one district (Kabupaten Toba)
-        $district = District::first();
+        $district = District::with('photos')->first();
         
         return view('admin.information.index', compact('district'));
     }
@@ -36,7 +36,11 @@ class InformationController extends Controller
             'misi' => $request->misi,
         ]);
 
-        return back()->with('success', 'Visi dan Misi berhasil diperbarui!');
+        // Clear any application cache
+        \Artisan::call('cache:clear');
+        \Artisan::call('view:clear');
+
+        return back()->with('success', 'Visi dan Misi berhasil diperbarui! Perubahan langsung terlihat di halaman publik (Profil Kabupaten).');
     }
 
     public function uploadDocumentation(Request $request)
@@ -109,5 +113,108 @@ class InformationController extends Controller
         $photo->delete();
 
         return back()->with('success', 'Foto berhasil dihapus!');
+    }
+
+    public function uploadBupatiPhoto(Request $request)
+    {
+        $request->validate([
+            'bupati_photo' => 'required|image|mimes:jpeg,jpg,png|max:5120',
+        ]);
+
+        $file = $request->file('bupati_photo');
+        $fileName = 'bupati.jpg';
+        
+        // Simpan ke folder public/images (menimpa file lama)
+        $file->move(public_path('images'), $fileName);
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Foto Bupati berhasil diperbarui!']);
+        }
+
+        return back()->with('success', 'Foto Bupati berhasil diperbarui!');
+    }
+
+    public function uploadWakilBupatiPhoto(Request $request)
+    {
+        $request->validate([
+            'wakil_bupati_photo' => 'required|image|mimes:jpeg,jpg,png|max:5120',
+        ]);
+
+        $file = $request->file('wakil_bupati_photo');
+        $fileName = 'wakil-bupati.jpg';
+        
+        // Simpan ke folder public/images (menimpa file lama)
+        $file->move(public_path('images'), $fileName);
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Foto Wakil Bupati berhasil diperbarui!']);
+        }
+
+        return back()->with('success', 'Foto Wakil Bupati berhasil diperbarui!');
+    }
+
+    public function updateNames(Request $request)
+    {
+        $request->validate([
+            'bupati_name' => 'nullable|string|max:255',
+            'wakil_bupati_name' => 'nullable|string|max:255',
+        ]);
+
+        $district = District::first();
+        
+        if (!$district) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json(['success' => false, 'message' => 'Data kabupaten tidak ditemukan.']);
+            }
+            return back()->with('error', 'Data kabupaten tidak ditemukan.');
+        }
+
+        $updateData = [];
+        if ($request->has('bupati_name')) {
+            $updateData['bupati_name'] = $request->bupati_name;
+        }
+        if ($request->has('wakil_bupati_name')) {
+            $updateData['wakil_bupati_name'] = $request->wakil_bupati_name;
+        }
+
+        $district->update($updateData);
+
+        // Clear cache
+        \Artisan::call('cache:clear');
+        \Artisan::call('view:clear');
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Nama berhasil diperbarui!']);
+        }
+
+        return back()->with('success', 'Nama berhasil diperbarui!');
+    }
+
+    public function updatePeriode(Request $request)
+    {
+        $request->validate([
+            'periode' => 'required|string|max:100',
+        ]);
+
+        $district = District::first();
+        
+        if (!$district) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json(['success' => false, 'message' => 'Data kabupaten tidak ditemukan.']);
+            }
+            return back()->with('error', 'Data kabupaten tidak ditemukan.');
+        }
+
+        $district->update(['periode' => $request->periode]);
+
+        // Clear cache
+        \Artisan::call('cache:clear');
+        \Artisan::call('view:clear');
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Periode berhasil diperbarui!']);
+        }
+
+        return back()->with('success', 'Periode berhasil diperbarui!');
     }
 }

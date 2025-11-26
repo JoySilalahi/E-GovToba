@@ -204,13 +204,19 @@
             <h5>Admin Desa</h5>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="#" class="active"><i class="fas fa-home"></i> Beranda</a></li>
-            <li><a href="#"><i class="fas fa-bullhorn"></i> Kelola Pengumuman</a></li>
-            <li><a href="#"><i class="fas fa-info-circle"></i> Kelola Informasi</a></li>
-            <li><a href="#"><i class="fas fa-coins"></i> Anggaran</a></li>
+            <li><a href="{{ route('village-admin.dashboard') }}" class="active"><i class="fas fa-home"></i> Beranda</a></li>
+            <li><a href="{{ route('village-admin.kelola-informasi') }}"><i class="fas fa-info-circle"></i> Kelola Informasi</a></li>
+            <li><a href="{{ route('village-admin.anggaran') }}"><i class="fas fa-coins"></i> Anggaran</a></li>
         </ul>
         <div class="sidebar-footer">
-            <a href="#"><i class="fas fa-sign-out-alt"></i> Keluar</a>
+            <a href="{{ route('logout') }}" 
+               onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
+               style="cursor: pointer;">
+                <i class="fas fa-sign-out-alt"></i> Keluar
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
         </div>
     </div>
 
@@ -253,13 +259,20 @@
 
         <!-- Visi & Misi -->
         <div class="visi-misi-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3 style="font-size: 18px; font-weight: 700; color: #2c3e50; margin: 0;">Visi & Misi Desa</h3>
+                <a href="{{ route('village-admin.kelola-informasi') }}" 
+                   style="display: inline-flex; align-items: center; gap: 6px; background: #0b79b8; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; transition: all 0.3s;">
+                    <i class="fas fa-edit"></i> Edit Visi & Misi
+                </a>
+            </div>
             <div class="visi-section">
                 <h4>Visi:</h4>
-                <p>Mewujudkan Desa Meat yang mandiri, sejahtera, dan berdaya berlandaskan gotong royong.</p>
+                <p>{{ $village->visi ?? 'Visi belum ditetapkan. Klik tombol Edit untuk menambahkan.' }}</p>
             </div>
             <div class="misi-section" style="margin-top:16px;">
                 <h4>Misi:</h4>
-                <p>Meningkatkan kualitas sumber daya manusia, mengoptimalkan potensi desa di bidang pertanian dan pariwisata, serta melestarikan adat dan budaya lokal.</p>
+                <p>{{ $village->misi ?? 'Misi belum ditetapkan. Klik tombol Edit untuk menambahkan.' }}</p>
             </div>
         </div>
 

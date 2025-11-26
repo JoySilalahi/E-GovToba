@@ -69,6 +69,221 @@
         .card-feature h3{margin-bottom:8px;font-size:16px}
         .card-feature p{color:var(--muted);font-size:14px;line-height:1.6}
 
+        /* GALLERY SECTION */
+        .gallery-section{
+            padding:64px 18px 84px;
+            background:#fff;
+        }
+        .gallery-section .container{
+            max-width:1100px;
+            margin:0 auto;
+        }
+        .gallery-section h2{
+            text-align:center;
+            font-size:28px;
+            margin-bottom:12px;
+            color:var(--dark);
+        }
+        .gallery-section .subtitle{
+            text-align:center;
+            color:var(--muted);
+            font-size:15px;
+            margin-bottom:36px;
+        }
+        .photo-grid{
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding-bottom: 20px;
+        }
+        .photo-grid::-webkit-scrollbar {
+            height: 8px;
+        }
+        .photo-grid::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .photo-grid::-webkit-scrollbar-thumb {
+            background: #0b79b8;
+            border-radius: 4px;
+        }
+        .photo-grid::-webkit-scrollbar-thumb:hover {
+            background: #096598;
+        }
+        .photo-card{
+            flex: 0 0 320px;
+            border-radius:12px;
+            overflow:hidden;
+            box-shadow:0 4px 12px rgba(0,0,0,0.08);
+            transition:transform 0.3s ease, box-shadow 0.3s ease;
+            background:#fff;
+        }
+        .photo-card:hover{
+            transform:translateY(-4px);
+            box-shadow:0 8px 24px rgba(0,0,0,0.12);
+        }
+        .photo-card img{
+            width:320px;
+            height:240px;
+            object-fit:cover;
+            display:block;
+        }
+        .photo-card-body{
+            padding:16px;
+        }
+        .photo-card-title{
+            font-size:15px;
+            font-weight:600;
+            color:var(--dark);
+            margin:0;
+        }
+        .photo-card-date{
+            font-size:13px;
+            color:var(--muted);
+            margin-top:4px;
+        }
+        .empty-gallery{
+            text-align:center;
+            padding:48px 24px;
+            color:var(--muted);
+        }
+        .empty-gallery i{
+            font-size:48px;
+            margin-bottom:16px;
+            opacity:0.5;
+        }
+
+        /* VILLAGE VISION SECTION */
+        .village-vision-section{
+            padding:64px 18px 84px;
+            background:#f8f9fa;
+        }
+        .village-vision-section .container{
+            max-width:1100px;
+            margin:0 auto;
+        }
+        .village-vision-section h2{
+            text-align:center;
+            font-size:28px;
+            margin-bottom:12px;
+            color:var(--dark);
+        }
+        .village-vision-section .subtitle{
+            text-align:center;
+            color:var(--muted);
+            font-size:15px;
+            margin-bottom:36px;
+        }
+        .vision-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+            gap:24px;
+        }
+        .vision-card{
+            background:#fff;
+            border-radius:12px;
+            padding:24px;
+            box-shadow:0 4px 12px rgba(0,0,0,0.08);
+            transition:transform 0.3s ease, box-shadow 0.3s ease;
+            border-left:4px solid var(--primary);
+        }
+        .vision-card:hover{
+            transform:translateY(-4px);
+            box-shadow:0 8px 24px rgba(0,0,0,0.12);
+        }
+        .vision-card h3{
+            font-size:18px;
+            font-weight:700;
+            color:var(--primary);
+            margin:0 0 16px 0;
+        }
+        .vision-label{
+            font-size:13px;
+            font-weight:700;
+            color:var(--dark);
+            margin:0 0 8px 0;
+            text-transform:uppercase;
+            letter-spacing:0.5px;
+        }
+        .vision-text{
+            font-size:14px;
+            color:#475569;
+            line-height:1.7;
+            margin:0 0 16px 0;
+        }
+        .vision-updated{
+            font-size:12px;
+            color:var(--muted);
+            font-style:italic;
+        }
+
+        /* Documentation Section */
+        .documentation-section{
+            padding:64px 18px 84px;
+            background:#f8fafc;
+        }
+        .documentation-section .container{
+            max-width:1100px;
+            margin:0 auto;
+        }
+        .documentation-section h2{
+            text-align:center;
+            font-size:28px;
+            margin-bottom:12px;
+            color:var(--dark);
+        }
+        .doc-card{
+            background:#fff;
+            border-radius:12px;
+            padding:24px;
+            display:flex;
+            align-items:center;
+            gap:20px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.06);
+            max-width:700px;
+            margin:0 auto;
+        }
+        .doc-icon{
+            width:60px;
+            height:60px;
+            border-radius:12px;
+            background:linear-gradient(135deg, var(--primary), #0a5c8a);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#fff;
+            font-size:28px;
+            flex-shrink:0;
+        }
+        .doc-info{
+            flex:1;
+        }
+        .doc-info h3{
+            margin:0 0 4px 0;
+            font-size:16px;
+            font-weight:600;
+            color:var(--dark);
+        }
+        .doc-download-btn{
+            background:var(--primary);
+            color:#fff;
+            padding:10px 20px;
+            border-radius:8px;
+            text-decoration:none;
+            font-weight:600;
+            font-size:14px;
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            transition:all 0.3s;
+        }
+        .doc-download-btn:hover{
+            background:#0a5c8a;
+            transform:translateY(-2px);
+            box-shadow:0 4px 12px rgba(11,121,184,0.3);
+        }
+
          /* Footer */
         footer {
             background: #2c3e50;
@@ -114,6 +329,13 @@
             .hero h1{font-size:32px}
             .grid{flex-direction:column;align-items:center}
             .nav-actions .btn{padding:6px 10px;font-size:14px}
+            .doc-card{
+                flex-direction:column;
+                text-align:center;
+            }
+            .doc-info h3{
+                font-size:15px;
+            }
         }
 
         /* Mobile expanded menu (simple) */
@@ -200,6 +422,7 @@
         </div>
     </section>
 </main>
+
 
 
 <script>
