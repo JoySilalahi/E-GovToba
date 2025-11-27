@@ -15,10 +15,18 @@ class District extends Model
         'head_of_district',
         'phone',
         'address',
+        'visi',
+        'misi',
+        'documentation_file',
     ];
 
     public function villages()
     {
         return $this->hasMany(Village::class);
+    }
+
+    public function photos()
+    {
+        return $this->hasMany(DistrictPhoto::class);
     }
 }

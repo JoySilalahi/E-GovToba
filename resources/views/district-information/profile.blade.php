@@ -138,9 +138,17 @@
         /* Main Content */
         /* use a distinct content container to avoid clashing with Bootstrap's .container */
         .content-container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 40px 20px;
+        }
+
+        /* Two Column Layout */
+        .two-column-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
         }
 
         .section {
@@ -172,9 +180,11 @@
 
         /* Bupati Section */
         .bupati-section {
-            background: #f8fafc;
+            background: white;
             border-radius: 12px;
             padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
         }
 
         .bupati-title {
@@ -188,161 +198,144 @@
         .bupati-container {
             display: flex;
             justify-content: center;
-            gap: 50px;
+            gap: 30px;
             flex-wrap: wrap;
         }
 
         .bupati-card {
             text-align: center;
-            max-width: 200px;
+            max-width: 160px;
             position: relative;
-            cursor: pointer;
         }
 
         .bupati-photo-wrapper {
             position: relative;
             width: 140px;
-            margin: 0 auto 15px;
+            margin: 0 auto 12px;
             overflow: hidden;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-        }
-
-        .bupati-card:hover .bupati-photo-wrapper {
-            transform: translateY(-8px) scale(1.03);
-            box-shadow: 0 8px 24px rgba(0, 119, 182, 0.3);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .bupati-photo {
             width: 140px;
-            height: 180px;
+            height: 160px;
             object-fit: cover;
             display: block;
-            transition: transform 0.4s ease;
-        }
-
-        .bupati-card:hover .bupati-photo {
-            transform: scale(1.05);
-        }
-
-        /* Info overlay that appears on hover */
-        .bupati-info-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            /* subtle top-to-bottom variant of the three-color palette */
-            background: linear-gradient(to bottom, rgba(25,80,122,0.95) 0%, rgba(129,167,211,0.85) 60%);
-            color: white;
-            padding: 12px 10px;
-            transform: translateY(100%);
-            transition: transform 0.4s ease;
-        }
-
-        .bupati-card:hover .bupati-info-overlay {
-            transform: translateY(0);
-        }
-
-        .info-row {
-            font-size: 10px;
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .info-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .info-icon {
-            font-size: 11px;
-            opacity: 0.9;
-        }
-
-        .info-text {
-            font-size: 10px;
-            line-height: 1.3;
         }
 
         .bupati-name {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             color: #1e293b;
-            margin-bottom: 4px;
-            transition: color 0.3s ease;
-        }
-
-        .bupati-card:hover .bupati-name {
-            color: #0077B6;
+            margin-bottom: 3px;
+            line-height: 1.3;
         }
 
         .bupati-title-text {
-            font-size: 12px;
-            color: #64748b;
-            margin-bottom: 8px;
-        }
-
-        .bupati-period {
             font-size: 11px;
-            color: #94a3b8;
+            color: #64748b;
         }
 
         /* Visi Misi */
+        .visi-misi-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .visi-misi-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 20px;
+        }
+
         .visi-box {
-            /* use the three-color gradient as a block background */
-            background: linear-gradient(135deg, #19507A 0%, #81A7D3 57%, #FFFFFF 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .visi-label {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
         }
 
         .visi-text {
-            font-size: 15px;
-            line-height: 1.6;
+            font-size: 13px;
+            line-height: 1.7;
+            color: #475569;
+        }
+
+        .misi-box {
+            margin-top: 20px;
+        }
+
+        .misi-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
         }
 
         .misi-list {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
 
         .misi-list li {
-            padding: 15px 15px 15px 40px;
-            margin-bottom: 12px;
-            background: #f8fafc;
-            border-radius: 8px;
+            padding-left: 20px;
+            margin-bottom: 8px;
             position: relative;
-            font-size: 14px;
+            font-size: 13px;
             color: #475569;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         .misi-list li:before {
-            content: "✓";
+            content: "•";
             position: absolute;
-            left: 15px;
+            left: 5px;
             color: #0077B6;
             font-weight: bold;
-            font-size: 18px;
+            font-size: 16px;
         }
 
         /* Dokumentasi */
         .dokumentasi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            display: flex;
             gap: 20px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 10px 0;
+            scrollbar-width: thin;
+        }
+
+        .dokumentasi-grid::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .dokumentasi-grid::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .dokumentasi-grid::-webkit-scrollbar-thumb {
+            background: #3498db;
+            border-radius: 10px;
+        }
+
+        .dokumentasi-grid::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
         }
 
         .doc-card {
+            position: relative;
+            min-width: 300px;
+            flex-shrink: 0;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -436,117 +429,101 @@
 
     <!-- Main Content -->
     <div class="content-container">
-        <!-- Sejarah Singkat -->
-        <div class="section">
-            <h2 class="section-title">Sejarah Singkat</h2>
-            <div class="section-content">
-                <p>
-                    Kabupaten Toba Samosir dibentuk dari pemekaran Kabupaten Tapanuli Utara 
-                    berdasarkan UU No. 12 Tahun 1998. Kabupaten ini resmi berdiri pada 8 Maret 1999 
-                    dengan Drs. Sahala Tampubolon dilantik sebagai pejabat Bupati Pertama. 
-                    Pada tahun 2000, Sahala Tampubolon terpilih sebagai Bupati definitif untuk periode 2000-2005.
-                </p>
-                <p>
-                    Awalnya kabupaten ini memiliki 12 kecamatan dan 5 kecamatan tambahan dari Kabupaten 
-                    Samosir (hasil dari 7 kecamatan dan 9 kecamatan asal). Pada tahun 2000, terdapat 
-                    penambahan 5 kecamatan baru, dan kecamatan Ronggur Nihuta dipecah menjadi 3 kecamatan 
-                    baru, sehingga total menjadi 16 kecamatan. Pada tahun 2020, nama resmi berubah dari 
-                    Toba Samosir menjadi Kabupaten Toba, yang lebih dikenal dan lebih mudah disebut, 
-                    dengan tujuan memperkuat identitas dan memudah promosi daerah.
-                </p>
-                <p>
-                    Kabupaten Toba dikenal sebagai pusat kebudayaan Batak yang kaya akan tradisi, 
-                    seni, dan warisan leluhur. Sistem kekerabatan Dalihan Natolu, musik Gondang Sabangunan, 
-                    tari Tor-tor, dan arsitektur Rumah Bolon menjadi warisan budaya yang terus dilestarikan 
-                    hingga kini. Danau Toba, yang terletak di Pulau Samosir, yang terletak disekitar wilayah 
-                    Kabupaten, menjadi salah satu ikon utama pariwisata Sumatera Utara dan Indonesia.
-                </p>
-            </div>
-        </div>
-
-        <!-- Bupati & Wakil Bupati -->
-        <div class="section">
-            <div class="bupati-section">
-                <h2 class="bupati-title">Bupati & Wakil Bupati Toba</h2>
-                <div class="bupati-container">
-                    <!-- Bupati Card -->
-                    <div class="bupati-card">
-                        <div class="bupati-photo-wrapper">
-                            <img src="{{ asset('images/bupati.jpg') }}" alt="Bupati Toba" class="bupati-photo">
-                            <div class="bupati-info-overlay">
-                                <div class="info-row">
-                                    <span class="info-icon">🎂</span>
-                                    <span class="info-text">Lahir: 15 Agustus 1975</span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="info-icon">🎓</span>
-                                    <span class="info-text">S2 Manajemen Publik</span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="info-icon">📍</span>
-                                    <span class="info-text">Balige, Toba</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bupati-name">Effendi Sintong Panangian Napitupulu</div>
-                        <div class="bupati-title-text">Bupati Toba</div>
-                        <div class="bupati-period">Periode 2021-2024</div>
-                    </div>
-
-                    <!-- Wakil Bupati Card -->
-                    <div class="bupati-card">
-                        <div class="bupati-photo-wrapper">
-                            <img src="{{ asset('images/wakil-bupati.jpg') }}" alt="Wakil Bupati" class="bupati-photo">
-                            <div class="bupati-info-overlay">
-                                <div class="info-row">
-                                    <span class="info-icon">🎂</span>
-                                    <span class="info-text">Lahir: 22 Maret 1978</span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="info-icon">🎓</span>
-                                    <span class="info-text">S2 Administrasi Negara</span>
-                                </div>
-                                <div class="info-row">
-                                    <span class="info-icon">📍</span>
-                                    <span class="info-text">Laguboti, Toba</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bupati-name">Audi Murphy Sitorus</div>
-                        <div class="bupati-title-text">Wakil Bupati Toba</div>
-                        <div class="bupati-period">Periode 2021-2024</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Visi & Misi -->
-        <div class="section">
-            <h2 class="section-title">Visi & Misi</h2>
-            
-            <div class="visi-box">
-                <div class="visi-label">Visi:</div>
-                <div class="visi-text">
-                    Mewujudkan kabupaten yang maju, sejahtera dan berdaya saing tinggi berbasis 
-                    pada potensi lokal dengan mendorong kemajuan infrastruktur, serta mempercepat 
-                    pembangunan dengan berfokus pada peningkatan kualitas hidup dan pelayanan masyarakat.
+        <!-- Two Column Layout -->
+        <div class="two-column-layout">
+            <!-- Left Column: Sejarah Singkat -->
+            <div class="section">
+                <h2 class="section-title">Sejarah Singkat</h2>
+                <div class="section-content">
+                    <p>
+                        Kabupaten Toba Samosir dibentuk dari pemekaran Kabupaten Tapanuli Utara 
+                        berdasarkan UU No. 12 Tahun 1998. Kabupaten ini resmi berdiri pada 8 Maret 1999 
+                        dengan Drs. Sahala Tampubolon dilantik sebagai pejabat Bupati Pertama. 
+                        Pada tahun 2000, Sahala Tampubolon terpilih sebagai Bupati definitif untuk periode 2000-2005.
+                    </p>
+                    <p>
+                        Awalnya kabupaten ini memiliki 12 kecamatan dan 5 kecamatan tambahan dari Kabupaten 
+                        Samosir (hasil dari 7 kecamatan dan 9 kecamatan asal). Pada tahun 2000, terdapat 
+                        penambahan 5 kecamatan baru, dan kecamatan Ronggur Nihuta dipecah menjadi 3 kecamatan 
+                        baru, sehingga total menjadi 16 kecamatan.
+                    </p>
                 </div>
             </div>
 
-            <div class="section-content">
-                <strong style="display: block; margin-bottom: 15px; font-size: 15px;">Misi:</strong>
-                <ul class="misi-list">
-                    <li>Meningkatkan kualitas sumber daya manusia yang andal, sejahtera dan berdaya saing melalui pembangunan infrastruktur, serta mempercepat reformasi birokrasi yang bersih dan benar di setiap daerah.</li>
-                    <li>Mewujudkan tata kelola pemerintahan yang bersih, transparan, akuntabel dan profesional.</li>
-                    <li>Meningkatkan kesejahteraan masyarakat dan pembangunan ekonomi kreatif berbasis pariwisata dan pertanian.</li>
-                </ul>
+            <!-- Right Column: Bupati & Visi Misi -->
+            <div>
+                <!-- Bupati & Wakil Bupati -->
+                <div class="bupati-section">
+                    <h2 class="bupati-title">Bupati & Wakil Bupati Toba</h2>
+                    <div class="bupati-container">
+                        <!-- Bupati Card -->
+                        <div class="bupati-card">
+                            <div class="bupati-photo-wrapper">
+                                <img src="{{ asset('images/bupati.jpg') }}" alt="Bupati Toba" class="bupati-photo">
+                            </div>
+                            <div class="bupati-name">Effendi Sintong Panangian Napitupulu</div>
+                            <div class="bupati-title-text">Bupati Toba</div>
+                        </div>
+
+                        <!-- Wakil Bupati Card -->
+                        <div class="bupati-card">
+                            <div class="bupati-photo-wrapper">
+                                <img src="{{ asset('images/wakil-bupati.jpg') }}" alt="Wakil Bupati" class="bupati-photo">
+                            </div>
+                            <div class="bupati-name">Audi Murphy Sitorus</div>
+                            <div class="bupati-title-text">Wakil Bupati Toba</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visi & Misi -->
+                <div class="visi-misi-section">
+                    <h2 class="visi-misi-title">Visi & Misi</h2>
+                    
+                    <div class="visi-box">
+                        <div class="visi-label">Visi :</div>
+                        <div class="visi-text">{{ $district->visi ?? 'Toba Unggul dan Bersinar' }}</div>
+                    </div>
+
+                    <div class="misi-box">
+                        <div class="misi-label">Misi :</div>
+                        <ul class="misi-list">
+                            <li>{{ $district->misi ?? 'Meningkatkan kualitas sumber daya manusia yang andal dan berbudaya, mempercepat pembangunan infrastruktur, serta mewujudkan reformasi birokrasi yang bersih dan melayani.' }}</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Dokumentasi Kegiatan -->
         <div class="section">
             <h2 class="section-title">Dokumentasi Kegiatan</h2>
-            <div class="dokumentasi-grid">
+            
+            @if($district && $district->documentation_file)
+                <div style="background: #f8f9fa; padding: 15px 20px; border-radius: 8px; margin-bottom: 25px; display: flex; align-items: center; justify-content: space-between; border-left: 4px solid #3498db;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <i class="fas fa-file-pdf" style="font-size: 24px; color: #e74c3c;"></i>
+                        <div>
+                            <h6 style="margin: 0; font-size: 14px; font-weight: 600; color: #2c3e50;">Dokumentasi Kegiatan Kabupaten Toba</h6>
+                            <p style="margin: 0; font-size: 12px; color: #7f8c8d;">File APBD tersedia untuk diunduh</p>
+                        </div>
+                    </div>
+                    <a href="{{ asset('storage/' . $district->documentation_file) }}" target="_blank" style="background: #3498db; color: white; padding: 8px 20px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap;">
+                        <i class="fas fa-download me-1"></i>Download
+                    </a>
+                </div>
+            @endif
+
+            <div style="position: relative; padding: 0 50px;">
+                <!-- Navigation Arrows -->
+                <button onclick="scrollDocs('left')" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); background: rgba(52, 152, 219, 0.9); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: all 0.3s; z-index: 10;" onmouseover="this.style.background='rgba(41, 128, 185, 1)'" onmouseout="this.style.background='rgba(52, 152, 219, 0.9)'">
+                    <i class="fas fa-chevron-left" style="font-size: 18px;"></i>
+                </button>
+                <button onclick="scrollDocs('right')" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); background: rgba(52, 152, 219, 0.9); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); transition: all 0.3s; z-index: 10;" onmouseover="this.style.background='rgba(41, 128, 185, 1)'" onmouseout="this.style.background='rgba(52, 152, 219, 0.9)'">
+                    <i class="fas fa-chevron-right" style="font-size: 18px;"></i>
+                </button>
+
+                <div id="dokumentasiGrid" class="dokumentasi-grid">
                 <div class="doc-card">
                     <img src="{{ asset('images/dokumentasi kegiatan.jpg') }}" alt="Kegiatan 1" class="doc-image">
                 </div>
@@ -556,7 +533,34 @@
                 <div class="doc-card">
                     <img src="{{ asset('images/tarian.jpg') }}" alt="Kegiatan 3" class="doc-image">
                 </div>
+
+                @if($district && $district->photos && $district->photos->count() > 0)
+                    @foreach($district->photos as $photo)
+                        <div class="doc-card">
+                            <img src="{{ asset('storage/' . $photo->photo_path) }}" alt="{{ $photo->title ?? 'Dokumentasi Kegiatan' }}" class="doc-image">
+                            @if($photo->title)
+                                <div style="padding: 10px; background: rgba(0,0,0,0.7); color: white; position: absolute; bottom: 0; left: 0; right: 0;">
+                                    <p style="margin: 0; font-size: 13px; font-weight: 500;">{{ $photo->title }}</p>
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
+                @endif
             </div>
+            </div>
+
+            <script>
+                function scrollDocs(direction) {
+                    const grid = document.getElementById('dokumentasiGrid');
+                    const scrollAmount = 320; // width of card + gap
+                    
+                    if (direction === 'left') {
+                        grid.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                    } else {
+                        grid.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                    }
+                }
+            </script>
         </div>
     </div>
 
