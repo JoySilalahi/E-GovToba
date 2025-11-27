@@ -64,4 +64,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
+    
+    // Handle GET request to logout (redirect to login)
+    Route::get('logout', function () {
+        return redirect()->route('login')->with('info', 'Silakan klik tombol logout yang tersedia.');
+    });
 });
