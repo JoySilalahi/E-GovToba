@@ -35,7 +35,10 @@ class VillageController extends Controller
      */
     public function show(string $id)
     {
-        //
+        if ($id == 1) {
+            return view('desa-meat');
+        }
+        abort(404);
     }
 
     /**

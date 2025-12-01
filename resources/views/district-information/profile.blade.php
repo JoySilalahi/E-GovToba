@@ -610,6 +610,16 @@
         <!-- Dokumentasi Kegiatan -->
         <div class="section">
             <h2 class="section-title">Dokumentasi Kegiatan</h2>
+            @if($district && $district->documentation_file)
+                <div style="margin-bottom: 18px;">
+                    <a href="{{ asset('storage/' . $district->documentation_file) }}" class="btn btn-primary" target="_blank" style="font-size:14px;">
+                        <i class="fas fa-download me-1"></i> Download Dokumentasi
+                    </a>
+                    <span style="margin-left:10px; color:#1e293b; font-size:13px; font-weight:500;">
+                        File: <strong>{{ basename($district->documentation_file) }}</strong>
+                    </span>
+                </div>
+            @endif
             <div class="dokumentasi-grid">
                 <!-- Foto Default -->
                 <div class="doc-card">
