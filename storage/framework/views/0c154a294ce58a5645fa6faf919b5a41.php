@@ -7,6 +7,10 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     <style>
         :root{
             --primary:#0b79b8;
@@ -20,7 +24,11 @@
         html,body{height:100%;margin:0;font-family:'Poppins',system-ui,Arial;color:#102030;background:var(--bg);-webkit-font-smoothing:antialiased}
         a{color:inherit;text-decoration:none}
 
+<<<<<<< Updated upstream
         /* NAV (aligned with profil kabupaten) */
+=======
+        /* NAV */
+>>>>>>> Stashed changes
         .site-nav {
             position: sticky;
             top: 0;
@@ -49,6 +57,7 @@
         .site-nav .nav-menu { display:flex; gap:28px; list-style:none; margin:0; padding:0; align-items:center; justify-content:center; flex:1 1 auto; }
         .site-nav .nav-menu a{color:var(--muted); text-decoration:none; font-weight:600; padding:8px 10px; border-radius:10px; transition:all .12s}
         .site-nav .nav-menu a.active, .site-nav .nav-menu a:hover{color:var(--primary); background:rgba(11,121,184,0.04); box-shadow:0 2px 8px rgba(11,121,184,0.04) inset}
+<<<<<<< Updated upstream
 
         /* optional right area for icons / controls */
         .site-nav .nav-right{margin-left:auto; display:flex; gap:10px; align-items:center}
@@ -61,11 +70,40 @@
         .hero h1{font-size:34px;margin:0 0 8px;font-weight:700}
         .hero p{margin:0 0 18px;opacity:0.95}
         .hero-stats{display:flex;gap:48px;margin-top:8px;align-items:center}
+=======
+        .site-nav .nav-right{margin-left:auto; display:flex; gap:10px; align-items:center}
+
+        /* HERO */
+        .hero{
+            max-width:var(--max-w);
+            margin:28px auto 10px;
+            padding:42px 28px;
+            border-radius:14px;
+            background-image:
+                linear-gradient(180deg, rgba(8,40,66,0.42), rgba(8,40,66,0.18)),
+                url('<?php echo e(asset("images/pemandangan-sawah.jpg")); ?>');
+            background-size:cover;
+            background-position:center 60%;
+            color:#fff;
+            box-shadow:0 10px 30px rgba(2,6,23,0.08);
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            text-align:center;
+        }
+        .hero h1{font-size:34px;margin:0 0 8px;font-weight:700}
+        .hero p{margin:0 0 18px;opacity:0.95}
+        .hero-stats{display:flex;gap:48px;margin-top:8px;align-items:center;justify-content:center}
+>>>>>>> Stashed changes
         .stat-item{text-align:center}
         .stat-number{font-size:22px;font-weight:800;display:block}
         .stat-label{font-size:13px;color:rgba(255,255,255,0.9)}
 
+<<<<<<< Updated upstream
         /* SEARCH - centered, floating under hero */
+=======
+        /* SEARCH */
+>>>>>>> Stashed changes
         .search-wrap{max-width:720px;margin:-28px auto 36px;position:relative;padding:0 16px}
         .search-box{background:#fff;border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 24px rgba(2,6,23,0.06)}
         .search-box input{flex:1;border:0;outline:none;font-size:15px;font-family:inherit;color:#102030}
@@ -82,6 +120,7 @@
         .card h3{margin:0 0 8px;font-size:16px;color:#0f1724}
         .card p{margin:0 0 12px;color:var(--muted);font-size:13px;line-height:1.6;flex:1}
         .meta{display:flex;gap:12px;align-items:center;font-size:13px;color:var(--muted);padding-top:12px;border-top:1px solid #f1f5f9}
+<<<<<<< Updated upstream
         .meta .mitem{display:flex;gap:8px;align-items:center}
         .btn-outline{display:inline-block;padding:8px 14px;border-radius:10px;border:1px solid rgba(11,121,184,0.18);color:var(--primary);font-weight:600;font-size:13px;text-align:center;margin-top:12px;background:white}
 
@@ -110,6 +149,13 @@
         }
          /* Footer */
         footer {
+=======
+        .btn-outline{display:inline-block;padding:8px 14px;border-radius:10px;border:1px solid rgba(11,121,184,0.18);color:var(--primary);font-weight:600;font-size:13px;text-align:center;margin-top:12px;background:white}
+        .card .small-meta{display:flex;gap:12px;margin-top:8px;font-size:13px;color:var(--muted)}
+
+        /* Footer */
+       footer {
+>>>>>>> Stashed changes
             background: #2c3e50;
             color: white;
             padding: 40px 20px 25px;
@@ -141,6 +187,25 @@
         .footer-section a:hover {
             color: white;
         }
+<<<<<<< Updated upstream
+=======
+
+        /* Responsive */
+        @media (max-width:1000px){
+            .grid{grid-template-columns:repeat(2,1fr)}
+            .hero h1{font-size:28px}
+            .search-wrap{margin-top:6px}
+            .site-nav .nav-menu{gap:16px}
+        }
+        @media (max-width:640px){
+            .site-nav .nav-menu{display:none}
+            .nav-right{display:flex}
+            .grid{grid-template-columns:1fr}
+            .hero{border-radius:10px;padding:28px 18px}
+            .search-wrap{margin:-18px auto 24px}
+            .card .thumb{height:160px}
+        }
+>>>>>>> Stashed changes
     </style>
 </head>
 <body>
@@ -156,10 +221,13 @@
                 <li><a href="/profile" class="">Profil Kabupaten</a></li>
                 <li><a href="/villages" class="active">Daftar Desa</a></li>
             </ul>
+<<<<<<< Updated upstream
 
             <div class="nav-right" aria-hidden="true">
                 <a href="#" title="Cari" style="color:var(--muted);font-size:15px"><i class="fa fa-magnifying-glass"></i></a>
             </div>
+=======
+>>>>>>> Stashed changes
         </div>
     </nav>
 

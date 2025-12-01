@@ -69,7 +69,11 @@
         .card-feature h3{margin-bottom:8px;font-size:16px}
         .card-feature p{color:var(--muted);font-size:14px;line-height:1.6}
 
+<<<<<<< Updated upstream
       /* Footer */
+=======
+         /* Footer */
+>>>>>>> Stashed changes
         footer {
             background: #2c3e50;
             color: white;
@@ -102,6 +106,10 @@
         .footer-section a:hover {
             color: white;
         }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
         /* Responsive */
         @media (max-width:980px){
             .nav-center{display:none}
@@ -200,9 +208,14 @@
     </section>
 </main>
 
+<<<<<<< Updated upstream
 <script>
     // set footer year
     document.getElementById('curYear').textContent = new Date().getFullYear();
+=======
+
+<script>
+>>>>>>> Stashed changes
 
     // mobile menu toggle
     (function(){
@@ -224,9 +237,17 @@
             }
         });
     })();
+<<<<<<< Updated upstream
     
 </script>
 </body>
 <!-- Footer -->
     <?php echo $__env->make('components.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+=======
+</script>
+<!-- Footer -->
+    <?php echo $__env->make('components.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+
+</body>
+>>>>>>> Stashed changes
 </html><?php /**PATH C:\Users\Joy Silalahi\Documents\GitHub\E-GovToba\resources\views/district-information/index.blade.php ENDPATH**/ ?>

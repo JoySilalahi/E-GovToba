@@ -23,12 +23,9 @@ Route::middleware('guest')->group(function () {
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
-    // Google OAuth Routes
-    Route::get('auth/google', [GoogleAuthController::class, 'redirectToGoogle'])
-        ->name('auth.google');
-    
-    Route::get('auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])
-        ->name('auth.google.callback');
+    // Google OAuth routes removed — Google authentication disabled.
+    // If you need to re-enable Google login later, re-add routes here
+    // and ensure `App\Http\Controllers\Auth\GoogleAuthController` exists.
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
         ->name('password.request');

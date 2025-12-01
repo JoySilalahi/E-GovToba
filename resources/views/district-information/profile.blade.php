@@ -381,8 +381,8 @@
 
             <div class="hero-stats">
                 <div class="stat-item">
-                    <span class="stat-number">8</span>
-                    <span class="stat-label">Kecamatan</span>
+                    <span class="stat-number">6</span>
+                    <span class="stat-label">Desa</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-number">7,515</span>

@@ -8,6 +8,21 @@
     <!-- Bootstrap CSS (loaded before custom styles so custom rules override it) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+<<<<<<< Updated upstream
+=======
+        :root{
+            --primary:#0b79b8;
+            --nav-h:64px;
+            --muted:#6b7280;
+            --bg-light:#edf7fe;
+            --dark:#0f1724;
+            --max-width:1200px;
+        }
+        *{box-sizing:border-box;margin:0;padding:0}
+        html,body{height:100%}
+        body{font-family:'Poppins',system-ui,-apple-system,"Segoe UI",Roboto,Arial; color:var(--dark); background:#fff;-webkit-font-smoothing:antialiased}
+        
+>>>>>>> Stashed changes
         * {
             margin: 0;
             padding: 0;
@@ -19,7 +34,11 @@
             background-color: #f8f9fa;
         }
 
+<<<<<<< Updated upstream
         /* NAV (aligned with profil kabupaten) */
+=======
+         /* NAV */
+>>>>>>> Stashed changes
         .site-nav {
             position: sticky;
             top: 0;
@@ -48,8 +67,11 @@
         .site-nav .nav-menu { display:flex; gap:28px; list-style:none; margin:0; padding:0; align-items:center; justify-content:center; flex:1 1 auto; }
         .site-nav .nav-menu a{color:var(--muted); text-decoration:none; font-weight:600; padding:8px 10px; border-radius:10px; transition:all .12s}
         .site-nav .nav-menu a.active, .site-nav .nav-menu a:hover{color:var(--primary); background:rgba(11,121,184,0.04); box-shadow:0 2px 8px rgba(11,121,184,0.04) inset}
+<<<<<<< Updated upstream
 
         /* optional right area for icons / controls */
+=======
+>>>>>>> Stashed changes
         .site-nav .nav-right{margin-left:auto; display:flex; gap:10px; align-items:center}
         /* Header / Hero */
         .hero {
@@ -341,10 +363,20 @@
             color: white;
         }
 
+<<<<<<< Updated upstream
     </style>
 </head>
 <body>
     <nav class="site-nav" role="navigation" aria-label="Utama">
+=======
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+   <nav class="site-nav" role="navigation" aria-label="Utama">
+>>>>>>> Stashed changes
         <div class="navbar-container">
             <a class="brand" href="/" aria-label="Beranda Toba Hita">
                 <img src="http://127.0.0.1:8000/images/logo.png" alt="logo Kabupaten Toba">
@@ -352,6 +384,7 @@
 
             <ul class="nav-menu" role="menubar" aria-label="Utama">
                 <li><a href="/" class="">Beranda</a></li>
+<<<<<<< Updated upstream
                 <li><a href="/profile" class="">Profil Kabupaten</a></li>
                 <li><a href="/villages" class="active">Daftar Desa</a></li>
             </ul>
@@ -359,6 +392,11 @@
             <div class="nav-right" aria-hidden="true">
                 <a href="#" title="Cari" style="color:var(--muted);font-size:15px"><i class="fa fa-magnifying-glass"></i></a>
             </div>
+=======
+                <li><a href="/profile" class="active">Profil Kabupaten</a></li>
+                <li><a href="/villages" class="">Daftar Desa</a></li>
+            </ul>
+>>>>>>> Stashed changes
         </div>
     </nav>
 
@@ -372,8 +410,13 @@
 
             <div class="hero-stats">
                 <div class="stat-item">
+<<<<<<< Updated upstream
                     <span class="stat-number">8</span>
                     <span class="stat-label">Kecamatan</span>
+=======
+                    <span class="stat-number">6</span>
+                    <span class="stat-label">Desa</span>
+>>>>>>> Stashed changes
                 </div>
                 <div class="stat-item">
                     <span class="stat-number">7,515</span>
