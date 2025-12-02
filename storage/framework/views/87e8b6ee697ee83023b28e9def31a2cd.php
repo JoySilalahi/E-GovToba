@@ -321,16 +321,8 @@
         <div>
             <!-- Visi & Misi -->
             <div class="section">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div style="margin-bottom: 20px;">
                     <h2 class="section-title" style="margin: 0;">Visi & Misi</h2>
-                    <?php if(auth()->guard()->check()): ?>
-                        <?php if(auth()->user()->isVillageAdmin() && auth()->user()->village_id == $village['id']): ?>
-                            <a href="<?php echo e(route('village-admin.kelola-informasi')); ?>" 
-                               style="display: inline-flex; align-items: center; gap: 6px; background: #0b79b8; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; transition: all 0.3s;">
-                                <i class="fas fa-edit"></i> Edit Visi & Misi
-                            </a>
-                        <?php endif; ?>
-                    <?php endif; ?>
                 </div>
                 <div class="section-content">
                     <div class="visi-label">Visi:</div>
@@ -345,12 +337,18 @@
             <div class="section">
                 <h2 class="section-title">Pengumuman</h2>
                 <div class="programs-grid">
-                    <?php $__currentLoopData = $village['programs']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $program): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <div class="program-card">
-                        <div class="program-title"><?php echo e($program['title']); ?></div>
-                        <div class="program-description"><?php echo e($program['description']); ?></div>
-                    </div>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <?php if(!empty($village['announcements'])): ?>
+                        <?php $__currentLoopData = $village['announcements']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $announcement): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="program-card">
+                                <div class="program-title"><?php echo e($announcement['title']); ?></div>
+                                <div class="program-description"><?php echo e($announcement['content']); ?></div>
+                            </div>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <?php else: ?>
+                        <div class="program-card">
+                            <div class="program-title">Belum ada pengumuman desa.</div>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
 

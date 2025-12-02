@@ -69,155 +69,6 @@
         .card-feature h3{margin-bottom:8px;font-size:16px}
         .card-feature p{color:var(--muted);font-size:14px;line-height:1.6}
 
-        /* GALLERY SECTION */
-        .gallery-section{
-            padding:64px 18px 84px;
-            background:#fff;
-        }
-        .gallery-section .container{
-            max-width:1100px;
-            margin:0 auto;
-        }
-        .gallery-section h2{
-            text-align:center;
-            font-size:28px;
-            margin-bottom:12px;
-            color:var(--dark);
-        }
-        .gallery-section .subtitle{
-            text-align:center;
-            color:var(--muted);
-            font-size:15px;
-            margin-bottom:36px;
-        }
-        .photo-grid{
-            display: flex;
-            gap: 24px;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            padding-bottom: 20px;
-        }
-        .photo-grid::-webkit-scrollbar {
-            height: 8px;
-        }
-        .photo-grid::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
-        }
-        .photo-grid::-webkit-scrollbar-thumb {
-            background: #0b79b8;
-            border-radius: 4px;
-        }
-        .photo-grid::-webkit-scrollbar-thumb:hover {
-            background: #096598;
-        }
-        .photo-card{
-            flex: 0 0 320px;
-            border-radius:12px;
-            overflow:hidden;
-            box-shadow:0 4px 12px rgba(0,0,0,0.08);
-            transition:transform 0.3s ease, box-shadow 0.3s ease;
-            background:#fff;
-        }
-        .photo-card:hover{
-            transform:translateY(-4px);
-            box-shadow:0 8px 24px rgba(0,0,0,0.12);
-        }
-        .photo-card img{
-            width:320px;
-            height:240px;
-            object-fit:cover;
-            display:block;
-        }
-        .photo-card-body{
-            padding:16px;
-        }
-        .photo-card-title{
-            font-size:15px;
-            font-weight:600;
-            color:var(--dark);
-            margin:0;
-        }
-        .photo-card-date{
-            font-size:13px;
-            color:var(--muted);
-            margin-top:4px;
-        }
-        .empty-gallery{
-            text-align:center;
-            padding:48px 24px;
-            color:var(--muted);
-        }
-        .empty-gallery i{
-            font-size:48px;
-            margin-bottom:16px;
-            opacity:0.5;
-        }
-
-        /* VILLAGE VISION SECTION */
-        .village-vision-section{
-            padding:64px 18px 84px;
-            background:#f8f9fa;
-        }
-        .village-vision-section .container{
-            max-width:1100px;
-            margin:0 auto;
-        }
-        .village-vision-section h2{
-            text-align:center;
-            font-size:28px;
-            margin-bottom:12px;
-            color:var(--dark);
-        }
-        .village-vision-section .subtitle{
-            text-align:center;
-            color:var(--muted);
-            font-size:15px;
-            margin-bottom:36px;
-        }
-        .vision-grid{
-            display:grid;
-            grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
-            gap:24px;
-        }
-        .vision-card{
-            background:#fff;
-            border-radius:12px;
-            padding:24px;
-            box-shadow:0 4px 12px rgba(0,0,0,0.08);
-            transition:transform 0.3s ease, box-shadow 0.3s ease;
-            border-left:4px solid var(--primary);
-        }
-        .vision-card:hover{
-            transform:translateY(-4px);
-            box-shadow:0 8px 24px rgba(0,0,0,0.12);
-        }
-        .vision-card h3{
-            font-size:18px;
-            font-weight:700;
-            color:var(--primary);
-            margin:0 0 16px 0;
-        }
-        .vision-label{
-            font-size:13px;
-            font-weight:700;
-            color:var(--dark);
-            margin:0 0 8px 0;
-            text-transform:uppercase;
-            letter-spacing:0.5px;
-        }
-        .vision-text{
-            font-size:14px;
-            color:#475569;
-            line-height:1.7;
-            margin:0 0 16px 0;
-        }
-        .vision-updated{
-            font-size:12px;
-            color:var(--muted);
-            font-style:italic;
-        }
-
         /* Documentation Section */
         .documentation-section{
             padding:64px 18px 84px;
@@ -371,8 +222,6 @@
         </nav>
 
         <div class="nav-actions" role="group" aria-label="Aksi">
-            <a href="/login" class="btn btn-outline">Masuk</a>
-            <a href="/register" class="btn btn-primary">Daftar</a>
             <button class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false"><i class="fa fa-bars" aria-hidden="true"></i></button>
         </div>
     </div>
@@ -383,8 +232,6 @@
         <a href="/profile">Profil Kabupaten</a>
         <a href="/villages">Daftar Desa</a>
         <div style="height:8px"></div>
-        <a href="/login" class="btn btn-outline" style="display:inline-block">Masuk</a>
-        <a href="/register" class="btn btn-primary" style="display:inline-block; margin-left:8px">Daftar</a>
     </div>
 </header>
 
@@ -393,7 +240,7 @@
         <div class="wrap">
             <h1>Membangun Toba,<br>Digitalisasi Jantung<br>Budaya Batak</h1>
             <p>Selamat datang di portal e‑Government Kabupaten Toba. Temukan informasi desa, transparansi anggaran, dan layanan publik dalam satu platform terintegrasi.</p>
-            <a class="cta" href="/villages">Jelajahi Desa Sekarang <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+            <a class="cta" href="/villages">Jelajahi Desa Sekarang</a>
         </div>
     </section>
 
@@ -402,25 +249,27 @@
             <h2 id="fitur-heading">Fitur Unggulan Toba Hita</h2>
             <div class="grid">
                 <div class="card-feature">
-                    <div class="feature-icon"><i class="fa fa-users" aria-hidden="true"></i></div>
+                        <div class="feature-icon"><i class="fa fa-headset" aria-hidden="true"></i></div>
                     <h3>Data Desa</h3>
                     <p>Kelola data penduduk lebih aman & efisien dengan antarmuka yang jelas dan export data.</p>
                 </div>
 
                 <div class="card-feature">
-                    <div class="feature-icon"><i class="fa fa-chart-bar" aria-hidden="true"></i></div>
+                        <div class="feature-icon"><i class="fa fa-chart-bar" aria-hidden="true"></i></div>
                     <h3>Transparansi Anggaran</h3>
                     <p>Lihat dan unduh laporan Anggaran Pendapatan dan Belanja Desa (APBDes) secara transparan.</p>
                 </div>
 
                 <div class="card-feature">
-                    <div class="feature-icon"><i class="fa fa-shield-alt" aria-hidden="true"></i></div>
+                        <div class="feature-icon"><i class="fa fa-shield-alt" aria-hidden="true"></i></div>
                     <h3>Layanan Digital</h3>
                     <p>Pelayanan publik lebih modern & cepat melalui formulir digital dan notifikasi.</p>
                 </div>
             </div>
         </div>
     </section>
+
+
 </main>
 
 

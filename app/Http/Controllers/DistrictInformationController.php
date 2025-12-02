@@ -99,7 +99,7 @@ class DistrictInformationController extends Controller
         
         // Ambil foto yang diupload admin
         $photos = \App\Models\DistrictPhoto::with('district')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('updated_at', 'desc')
             ->get();
         
         return view('district-information.profile', compact('district', 'photos'));
@@ -140,8 +140,8 @@ class DistrictInformationController extends Controller
         header('Pragma: no-cache');
         header('Expires: 0');
         
-        // Ambil data desa dari database
-        $villageFromDb = Village::findOrFail($id);
+        // Ambil data desa beserta pengumuman terbaru
+        $villageFromDb = Village::with('announcements')->findOrFail($id);
         
         // Format data untuk view
         $village = [
@@ -152,6 +152,12 @@ class DistrictInformationController extends Controller
             'visi' => $villageFromDb->visi ?? 'Visi belum ditetapkan. Silakan hubungi admin desa untuk informasi lebih lanjut.',
             'misi' => $villageFromDb->misi ?? 'Misi belum ditetapkan. Silakan hubungi admin desa untuk informasi lebih lanjut.',
             'updated_at' => $villageFromDb->updated_at->timestamp ?? time(),
+            'announcements' => $villageFromDb->announcements ? $villageFromDb->announcements->map(function($a) {
+                return [
+                    'title' => $a->title,
+                    'content' => $a->content
+                ];
+            })->toArray() : [],
             'programs' => [
                 [
                     'title' => 'Program Bantuan Kawasan Daerah Toba',
