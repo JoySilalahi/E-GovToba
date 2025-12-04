@@ -396,7 +396,7 @@
                 
                 <div class="form-section">
                     <h5>Buat Visi dan Misi Baru :</h5>
-                    <form action="{{ route('admin.update-visi-misi') }}" method="POST">
+                    <form action="{{ route('admin.information.update-visi-misi') }}" method="POST">
                         @csrf
                         <div class="mb-3">
                             <label for="visi" class="form-label">Visi</label>
@@ -446,47 +446,24 @@
                         <!-- Bupati -->
                         <div class="col-md-6">
                             <div class="official-photo-card">
-                                <form action="{{ route('admin.upload-bupati-photo') }}" method="POST" enctype="multipart/form-data" id="bupatiForm">
+                                <form action="{{ route('admin.information.upload-bupati-photo') }}" method="POST" enctype="multipart/form-data" id="bupatiForm">
                                     @csrf
                                     <input type="file" name="photo" id="bupatiPhoto" style="display: none;" accept="image/*" onchange="this.form.submit()">
                                     <button type="button" class="btn btn-edit-photo" onclick="document.getElementById('bupatiPhoto').click();">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </form>
-                                <div class="official-photo" onclick="showFullImage('{{ asset('images/bupati.jpg') }}?v={{ time() }}', '{{ $district->bupati_name ?? 'Bupati Toba' }}')" style="cursor: pointer;">
+                                <div class="official-photo">
                                     @if(file_exists(public_path('images/bupati.jpg')))
-                                        <img src="{{ asset('images/bupati.jpg') }}?v={{ time() }}" alt="Bupati" style="object-position: top;">
+                                        <img src="{{ asset('images/bupati.jpg') }}?v={{ time() }}" alt="Bupati">
                                     @else
                                         <i class="fas fa-user"></i>
                                     @endif
                                 </div>
                                 <div class="official-info">
-                                    <form action="{{ route('admin.update-bupati') }}" method="POST" style="text-align: left; padding: 0.5rem;">
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="mb-2">
-                                            <label style="font-size: 0.7rem; color: #666; display: block; margin-bottom: 0.2rem;">Nama Bupati</label>
-                                            <input type="text" 
-                                                   class="form-control form-control-sm" 
-                                                   name="bupati_name" 
-                                                   value="{{ $district->bupati_name ?? 'Effendi Simbolon Panangian Napitupulu' }}" 
-                                                   style="font-size: 0.8rem; padding: 0.25rem 0.5rem;"
-                                                   required>
-                                        </div>
-                                        <div class="mb-2">
-                                            <label style="font-size: 0.7rem; color: #666; display: block; margin-bottom: 0.2rem;">Periode</label>
-                                            <input type="text" 
-                                                   class="form-control form-control-sm" 
-                                                   name="periode" 
-                                                   value="{{ $district->periode ?? '2024-2025' }}" 
-                                                   style="font-size: 0.8rem; padding: 0.25rem 0.5rem;"
-                                                   placeholder="2024-2025"
-                                                   required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-sm w-100" style="font-size: 0.75rem; padding: 0.3rem;">
-                                            <i class="fas fa-save me-1"></i>Simpan
-                                        </button>
-                                    </form>
+                                    <h5>{{ $district->bupati_name ?? 'Effendi Simbolon Panangian Napitupulu' }}</h5>
+                                    <p>Bupati Toba</p>
+                                    <p>{{ $district->periode ?? '2024-2025' }}</p>
                                 </div>
                             </div>
                         </div>
@@ -494,47 +471,24 @@
                         <!-- Wakil Bupati -->
                         <div class="col-md-6">
                             <div class="official-photo-card">
-                                <form action="{{ route('admin.upload-wakil-photo') }}" method="POST" enctype="multipart/form-data" id="wakilForm">
+                                <form action="{{ route('admin.information.upload-wakil-photo') }}" method="POST" enctype="multipart/form-data" id="wakilForm">
                                     @csrf
                                     <input type="file" name="photo" id="wakilPhoto" style="display: none;" accept="image/*" onchange="this.form.submit()">
                                     <button type="button" class="btn btn-edit-photo" onclick="document.getElementById('wakilPhoto').click();">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </form>
-                                <div class="official-photo" onclick="showFullImage('{{ asset('images/wakil-bupati.jpg') }}?v={{ time() }}', '{{ $district->wakil_bupati_name ?? 'Wakil Bupati Toba' }}')" style="cursor: pointer;">
+                                <div class="official-photo">
                                     @if(file_exists(public_path('images/wakil-bupati.jpg')))
-                                        <img src="{{ asset('images/wakil-bupati.jpg') }}?v={{ time() }}" alt="Wakil Bupati" style="object-position: top;">
+                                        <img src="{{ asset('images/wakil-bupati.jpg') }}?v={{ time() }}" alt="Wakil Bupati">
                                     @else
                                         <i class="fas fa-user"></i>
                                     @endif
                                 </div>
                                 <div class="official-info">
-                                    <form action="{{ route('admin.update-wakil-bupati') }}" method="POST" style="text-align: left; padding: 0.5rem;">
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="mb-2">
-                                            <label style="font-size: 0.7rem; color: #666; display: block; margin-bottom: 0.2rem;">Nama Wakil Bupati</label>
-                                            <input type="text" 
-                                                   class="form-control form-control-sm" 
-                                                   name="wakil_bupati_name" 
-                                                   value="{{ $district->wakil_bupati_name ?? 'Audi Murphy Sitorus' }}" 
-                                                   style="font-size: 0.8rem; padding: 0.25rem 0.5rem;"
-                                                   required>
-                                        </div>
-                                        <div class="mb-2">
-                                            <label style="font-size: 0.7rem; color: #666; display: block; margin-bottom: 0.2rem;">Periode</label>
-                                            <input type="text" 
-                                                   class="form-control form-control-sm" 
-                                                   name="periode" 
-                                                   value="{{ $district->periode ?? '2024-2025' }}" 
-                                                   style="font-size: 0.8rem; padding: 0.25rem 0.5rem;"
-                                                   placeholder="2024-2025"
-                                                   required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-sm w-100" style="font-size: 0.75rem; padding: 0.3rem;">
-                                            <i class="fas fa-save me-1"></i>Simpan
-                                        </button>
-                                    </form>
+                                    <h5>{{ $district->wakil_bupati_name ?? 'Audi Murphy Sitorus' }}</h5>
+                                    <p>Wakil Bupati Toba</p>
+                                    <p>{{ $district->periode ?? '2024-2025' }}</p>
                                 </div>
                             </div>
                         </div>
@@ -546,7 +500,7 @@
             <div class="upload-card">
                 <h4>Upload dokumentasi kegiatan</h4>
                 
-                <form action="{{ route('admin.upload-photo') }}" method="POST" enctype="multipart/form-data" id="uploadForm">
+                <form action="{{ route('admin.information.upload-photo') }}" method="POST" enctype="multipart/form-data" id="uploadForm">
                     @csrf
                     <div class="upload-area" onclick="document.getElementById('fileInput').click();">
                         <i class="fas fa-cloud-upload-alt"></i>
@@ -561,56 +515,6 @@
                     </button>
                 </form>
             </div>
-
-            <!-- Daftar Foto yang Sudah Diupload -->
-            @if($district && $district->photos && $district->photos->count() > 0)
-            <div class="upload-card" style="margin-top: 1.5rem;">
-                <h4>Foto yang Sudah Diupload ({{ $district->photos->count() }})</h4>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
-                    @foreach($district->photos as $photo)
-                        <div style="border: 1px solid #e0e0e0; border-radius: 6px; overflow: hidden; background: #fff;">
-                            <img src="{{ asset('storage/' . $photo->photo_path) }}" 
-                                 alt="{{ $photo->title }}" 
-                                 style="width: 100%; height: 150px; object-fit: cover; display: block;">
-                            <div style="padding: 0.75rem;">
-                                <p style="margin: 0 0 0.5rem 0; font-weight: 600; font-size: 0.85rem; color: #2d3e50;">
-                                    {{ $photo->title ?? 'Tanpa Judul' }}
-                                </p>
-                                <p style="margin: 0 0 0.75rem 0; font-size: 0.75rem; color: #666;">
-                                    <i class="far fa-calendar"></i> {{ $photo->created_at->locale('id')->isoFormat('D MMM YYYY') }}
-                                </p>
-                                <form action="{{ route('admin.delete-photo', $photo->id) }}" 
-                                      method="POST" 
-                                      onsubmit="return confirm('Yakin ingin menghapus foto ini?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" 
-                                            style="background: #dc3545; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.8rem; cursor: pointer; width: 100%;">
-                                        <i class="fas fa-trash"></i> Hapus
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-            @endif
-        </div>
-    </div>
-
-    <!-- Modal untuk Foto Full -->
-    <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="imageModalLabel">Foto</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <img id="fullImage" src="" alt="Full Image" style="width: 100%; height: auto; max-height: 80vh; object-fit: contain;">
-                </div>
-            </div>
         </div>
     </div>
     
@@ -623,13 +527,6 @@
             } else {
                 fileName.textContent = 'no file chosen';
             }
-        }
-
-        function showFullImage(imageUrl, title) {
-            document.getElementById('fullImage').src = imageUrl;
-            document.getElementById('imageModalLabel').textContent = title;
-            const modal = new bootstrap.Modal(document.getElementById('imageModal'));
-            modal.show();
         }
     </script>
 </body>

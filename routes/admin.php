@@ -14,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     // Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/visi-misi', [DashboardController::class, 'updateVisiMisi'])->name('update-visi-misi');
+    Route::post('/upload-photo', [DashboardController::class, 'uploadPhoto'])->name('upload-photo');
+    Route::delete('/photos/{id}', [DashboardController::class, 'deletePhoto'])->name('delete-photo');
+    Route::post('/upload-bupati-photo', [DashboardController::class, 'uploadBupatiPhoto'])->name('upload-bupati-photo');
+    Route::post('/upload-wakil-photo', [DashboardController::class, 'uploadWakilPhoto'])->name('upload-wakil-photo');
+    Route::put('/update-bupati', [DashboardController::class, 'updateBupati'])->name('update-bupati');
+    Route::put('/update-wakil-bupati', [DashboardController::class, 'updateWakilBupati'])->name('update-wakil-bupati');
 
     // Information Management
     Route::get('/information', [InformationController::class, 'index'])->name('information.index');
@@ -23,8 +30,28 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/information/photos/{id}', [InformationController::class, 'deletePhoto'])->name('information.delete-photo');
     Route::post('/information/upload-bupati-photo', [InformationController::class, 'uploadBupatiPhoto'])->name('information.upload-bupati-photo');
     Route::post('/information/upload-wakil-bupati-photo', [InformationController::class, 'uploadWakilBupatiPhoto'])->name('information.upload-wakil-bupati-photo');
+    Route::post('/information/upload-wakil-photo', [InformationController::class, 'uploadWakilBupatiPhoto'])->name('information.upload-wakil-photo');
     Route::post('/information/update-names', [InformationController::class, 'updateNames'])->name('information.update-names');
     Route::post('/information/update-periode', [InformationController::class, 'updatePeriode'])->name('information.update-periode');
+    
+    // News Management
+    Route::post('/information/news', [InformationController::class, 'storeNews'])->name('information.news.store');
+    Route::put('/information/news/{id}', [InformationController::class, 'updateNews'])->name('information.news.update');
+    Route::delete('/information/news/{id}', [InformationController::class, 'deleteNews'])->name('information.news.delete');
+    
+    // Announcement Management
+    Route::post('/information/announcements', [InformationController::class, 'storeAnnouncement'])->name('information.announcements.store');
+    Route::put('/information/announcements/{id}', [InformationController::class, 'updateAnnouncement'])->name('information.announcements.update');
+    Route::delete('/information/announcements/{id}', [InformationController::class, 'deleteAnnouncement'])->name('information.announcements.delete');
+
+    // Agenda Management
+    Route::post('/information/agendas', [InformationController::class, 'storeAgenda'])->name('information.agendas.store');
+    Route::put('/information/agendas/{id}', [InformationController::class, 'updateAgenda'])->name('information.agendas.update');
+    Route::delete('/information/agendas/{id}', [InformationController::class, 'deleteAgenda'])->name('information.agendas.delete');
+
+    // Budget Management
+    Route::post('/information/budgets', [InformationController::class, 'uploadBudget'])->name('information.budgets.upload');
+    Route::delete('/information/budgets/{id}', [InformationController::class, 'deleteBudget'])->name('information.budgets.delete');
 
     // Services Management
     Route::resource('services', ServiceController::class);

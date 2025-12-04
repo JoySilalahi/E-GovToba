@@ -69,6 +69,128 @@
         .card-feature h3{margin-bottom:8px;font-size:16px}
         .card-feature p{color:var(--muted);font-size:14px;line-height:1.6}
 
+        /* News & Announcements Section */
+        .news-section{
+            padding:64px 18px;
+            background:#fff;
+        }
+        .news-section .container{
+            max-width:1100px;
+            margin:0 auto;
+        }
+        .section-header{
+            text-align:center;
+            margin-bottom:42px;
+        }
+        .section-header h2{
+            font-size:32px;
+            margin-bottom:8px;
+            color:var(--dark);
+        }
+        .section-header p{
+            color:var(--muted);
+            font-size:16px;
+        }
+        .news-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));
+            gap:24px;
+            margin-bottom:48px;
+        }
+        .news-card{
+            background:#fff;
+            border-radius:12px;
+            overflow:hidden;
+            box-shadow:0 2px 12px rgba(0,0,0,0.08);
+            transition:transform 0.3s, box-shadow 0.3s;
+            cursor:pointer;
+        }
+        .news-card:hover{
+            transform:translateY(-4px);
+            box-shadow:0 8px 24px rgba(0,0,0,0.12);
+        }
+        .news-image{
+            width:100%;
+            height:180px;
+            object-fit:cover;
+            background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#fff;
+            font-size:48px;
+        }
+        .news-content{
+            padding:20px;
+        }
+        .news-category{
+            display:inline-block;
+            background:var(--bg-light);
+            color:var(--primary);
+            padding:4px 12px;
+            border-radius:999px;
+            font-size:12px;
+            font-weight:600;
+            margin-bottom:8px;
+        }
+        .news-title{
+            font-size:18px;
+            font-weight:600;
+            margin-bottom:8px;
+            color:var(--dark);
+            line-height:1.4;
+        }
+        .news-excerpt{
+            color:var(--muted);
+            font-size:14px;
+            line-height:1.6;
+            margin-bottom:12px;
+            display:-webkit-box;
+            -webkit-line-clamp:2;
+            -webkit-box-orient:vertical;
+            overflow:hidden;
+        }
+        .news-meta{
+            display:flex;
+            gap:16px;
+            font-size:13px;
+            color:var(--muted);
+        }
+        .announcements-box{
+            background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius:12px;
+            padding:32px;
+            color:#fff;
+            margin-top:32px;
+        }
+        .announcements-box h3{
+            font-size:24px;
+            margin-bottom:20px;
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+        .announcement-item{
+            background:rgba(255,255,255,0.15);
+            backdrop-filter:blur(10px);
+            padding:16px;
+            border-radius:8px;
+            margin-bottom:12px;
+            border-left:4px solid rgba(255,255,255,0.5);
+        }
+        .announcement-item:last-child{
+            margin-bottom:0;
+        }
+        .announcement-title{
+            font-size:16px;
+            font-weight:600;
+            margin-bottom:6px;
+        }
+        .announcement-date{
+            font-size:13px;
+            opacity:0.9;
+        }
+
         /* Documentation Section */
         .documentation-section{
             padding:64px 18px 84px;
@@ -262,10 +384,64 @@
 
                 <div class="card-feature">
                         <div class="feature-icon"><i class="fa fa-shield-alt" aria-hidden="true"></i></div>
-                    <h3>Layanan Digital</h3>
+                    <h3>Layanan Informasi</h3>
                     <p>Pelayanan publik lebih modern & cepat melalui formulir digital dan notifikasi.</p>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Berita & Pengumuman Section -->
+    <section class="news-section" aria-labelledby="news-heading">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="news-heading">Berita Terkini</h2>
+                <p>Ikuti perkembangan terbaru dari Kabupaten Toba</p>
+            </div>
+
+            @if($news && $news->count() > 0)
+            <div class="news-grid">
+                @foreach($news->take(3) as $item)
+                <div class="news-card">
+                    <div class="news-image">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-category">{{ $item->category }}</span>
+                        <h3 class="news-title">{{ $item->title }}</h3>
+                        <p class="news-excerpt">{{ $item->excerpt ?? Str::limit($item->content, 100) }}</p>
+                        <div class="news-meta">
+                            <span><i class="far fa-calendar"></i> {{ $item->published_at->format('d M Y') }}</span>
+                            <span><i class="far fa-clock"></i> {{ $item->published_at->format('H:i') }}</span>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            @else
+            <div style="text-align:center;padding:40px;color:var(--muted)">
+                <i class="fas fa-newspaper" style="font-size:48px;margin-bottom:16px;opacity:0.3"></i>
+                <p>Belum ada berita terbaru</p>
+            </div>
+            @endif
+
+            <!-- Pengumuman -->
+            @if($announcements && $announcements->count() > 0)
+            <div class="announcements-box">
+                <h3>
+                    <i class="fas fa-bullhorn"></i>
+                    Pengumuman Penting
+                </h3>
+                @foreach($announcements->take(3) as $item)
+                <div class="announcement-item">
+                    <div class="announcement-title">{{ $item->title }}</div>
+                    <div class="announcement-date">
+                        <i class="far fa-calendar"></i> {{ $item->published_at->format('d M Y, H:i') }} WIB
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            @endif
         </div>
     </section>
 

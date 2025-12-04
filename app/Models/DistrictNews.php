@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DistrictAnnouncement extends Model
+class DistrictNews extends Model
 {
     protected $fillable = [
         'district_id',
+        'category',
         'title',
+        'excerpt',
         'content',
         'published_at',
         'published_by'
