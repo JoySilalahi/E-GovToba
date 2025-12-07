@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
+        api: __DIR__.'/../routes/api.php',
         commands: __DIR__.'/../routes/console.php',
         // Admin routes (uncomment after creating all controllers)
         // then: function () {
@@ -20,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
             'village-admin' => \App\Http\Middleware\VillageAdminMiddleware::class,
+            'auth.apitoken' => \App\Http\Middleware\AuthenticateWithApiToken::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

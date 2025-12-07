@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Portal Administrator</title>
+    <title>Login - Toba Hita</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS (loaded before custom styles so custom rules override it) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -178,8 +179,7 @@
             <img src="{{ asset('images/logo.png') }}" alt="Logo Toba Hita">
         </div>
         
-        <h1 class="login-title">Masuk</h1>
-        <p class="login-subtitle">Selamat datang kembali! Silakan masuk ke akun Anda</p>
+        <p class="login-subtitle">Selamat datang ke Toba Hita! Silakan masuk ke akun Anda</p>
 
         <!-- Session Status -->
         @if (session('status'))
@@ -232,31 +232,6 @@
                 Masuk
             </button>
         </form>
-
-        <!-- Divider -->
-        <div style="text-align: center; margin: 20px 0; position: relative;">
-            <hr style="border: none; border-top: 1px solid #e2e8f0;">
-            <span style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: white; padding: 0 15px; color: #64748b; font-size: 13px;">atau</span>
-        </div>
-
-        <!-- Google Login Button -->
-        <a href="{{ route('auth.google') }}" class="btn-google" style="display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 12px; background: white; color: #1e293b; border: 1px solid #e2e8f0; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.3s ease; font-family: 'Poppins', sans-serif;">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19.805 10.2303C19.805 9.55056 19.7502 8.86711 19.6336 8.19836H10.2V12.0492H15.6014C15.3773 13.2911 14.6571 14.3898 13.6025 15.0879V17.5866H16.8251C18.7174 15.8449 19.805 13.2728 19.805 10.2303Z" fill="#4285F4"/>
-                <path d="M10.2 20.0006C12.8963 20.0006 15.1721 19.1151 16.8286 17.5865L13.606 15.0879C12.7096 15.6979 11.5521 16.0433 10.2034 16.0433C7.59474 16.0433 5.38272 14.2832 4.58904 11.9169H1.26367V14.4927C2.96127 17.8695 6.41892 20.0006 10.2 20.0006V20.0006Z" fill="#34A853"/>
-                <path d="M4.58549 11.9169C4.16573 10.6749 4.16573 9.33008 4.58549 8.08811V5.51233H1.26368C-0.154712 8.33798 -0.154712 11.6671 1.26368 14.4927L4.58549 11.9169V11.9169Z" fill="#FBBC04"/>
-                <path d="M10.2 3.95805C11.6256 3.936 13.0035 4.47247 14.036 5.45722L16.8911 2.60218C15.0833 0.904587 12.6838 -0.0287217 10.2 0.000673888C6.41892 0.000673888 2.96127 2.13185 1.26367 5.51234L4.58548 8.08813C5.37545 5.71811 7.59109 3.95805 10.2 3.95805V3.95805Z" fill="#EA4335"/>
-            </svg>
-            Masuk dengan Google
-        </a>
-
-        <!-- Footer Links -->
-        <div class="footer-links">
-            Belum punya akun? 
-            <a href="{{ route('register') }}">Daftar</a>
-            <span class="separator">|</span>
-            <a href="{{ route('password.request') }}">Kembali ke beranda</a>
-        </div>
 
         <!-- Back to Home -->
         <div class="back-home">

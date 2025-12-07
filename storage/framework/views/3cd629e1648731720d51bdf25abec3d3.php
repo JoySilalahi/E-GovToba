@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toba Hita</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}" />
+    <link rel="icon" type="image/png" href="<?php echo e(asset('images/logo.png')); ?>" />
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -59,7 +59,7 @@
             background-position:center;
             background-image:
                 linear-gradient(180deg, rgba(8,40,66,0.5), rgba(8,40,66,0.3)),
-                url('{{ asset("images/pemandangan-sawah.jpg") }}');
+                url('<?php echo e(asset("images/pemandangan-sawah.jpg")); ?>');
             color:#fff;
             padding:60px 0 40px;
             display:flex;
@@ -378,6 +378,7 @@
         });
     </script>
     <!-- Footer -->
-    @include('components.footer')
+    <?php echo $__env->make('components.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 </body>
 </html>
+<?php /**PATH C:\Users\LENOVO\Documents\GitHub\E-GovToba\resources\views/district-information/villages.blade.php ENDPATH**/ ?>

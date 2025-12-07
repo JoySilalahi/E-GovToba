@@ -6,9 +6,9 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>{{ $village['name'] }} - Toba Hita</title>
+    <title><?php echo e($village['name']); ?> - Toba Hita</title>
     
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}" />
+    <link rel="icon" type="image/png" href="<?php echo e(asset('images/logo.png')); ?>" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -64,7 +64,7 @@
             padding: 80px 20px 100px;
             background-image:
                 linear-gradient(180deg, rgba(8,40,66,0.6), rgba(8,40,66,0.4)),
-                url('{{ asset('images/' . $village['image']) }}');
+                url('<?php echo e(asset('images/' . $village['image'])); ?>');
             background-size:cover;
             background-position:center center;
             color:#fff;
@@ -304,7 +304,7 @@
     <nav class="site-nav" role="navigation" aria-label="Utama">
         <div class="navbar-container">
             <a class="brand" href="/" aria-label="Beranda Toba Hita">
-                <img src="{{ asset('images/logo.png') }}" alt="logo Kabupaten Toba">
+                <img src="<?php echo e(asset('images/logo.png')); ?>" alt="logo Kabupaten Toba">
             </a>
             <ul class="nav-menu" role="menubar" aria-label="Utama">
                 <li><a href="/">Beranda</a></li>
@@ -320,8 +320,8 @@
     <!-- Hero Section -->
     <div class="hero">
         <div>
-            <h1>{{ $village['name'] }}</h1>
-            <div class="hero-population">{{ number_format($village['population']) }}</div>
+            <h1><?php echo e($village['name']); ?></h1>
+            <div class="hero-population"><?php echo e(number_format($village['population'])); ?></div>
             <div class="hero-label">Penduduk</div>
         </div>
     </div>
@@ -335,10 +335,10 @@
                     <h2 class="section-title">Visi & Misi</h2>
                     <div class="section-content">
                         <div class="visi-label">Visi:</div>
-                        <p>{{ $village['visi'] }}</p>
+                        <p><?php echo e($village['visi']); ?></p>
                         
                         <div class="misi-label">Misi:</div>
-                        <p>{{ $village['misi'] }}</p>
+                        <p><?php echo e($village['misi']); ?></p>
                     </div>
                 </div>
 
@@ -346,19 +346,19 @@
                 <div class="section">
                     <h2 class="section-title">Pengumuman Desa</h2>
                     <div class="announcements-grid">
-                        @if(!empty($village['announcements']))
-                            @foreach($village['announcements'] as $announcement)
+                        <?php if(!empty($village['announcements'])): ?>
+                            <?php $__currentLoopData = $village['announcements']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $announcement): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="announcement-card">
-                                    <div class="announcement-title">{{ $announcement['title'] }}</div>
-                                    <div class="announcement-content">{{ $announcement['content'] }}</div>
+                                    <div class="announcement-title"><?php echo e($announcement['title']); ?></div>
+                                    <div class="announcement-content"><?php echo e($announcement['content']); ?></div>
                                 </div>
-                            @endforeach
-                        @else
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        <?php else: ?>
                             <div class="announcement-card">
                                 <div class="announcement-title">Belum ada pengumuman terbaru.</div>
                                 <div class="announcement-content">Pantau terus halaman ini untuk informasi terkini dari desa.</div>
                             </div>
-                        @endif
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -366,15 +366,15 @@
                 <div class="section">
                     <h2 class="section-title">Transparansi Anggaran Desa</h2>
                     <p class="section-content" style="margin-bottom: 20px;">
-                        Dokumen laporan realisasi anggaran {{ $village['name'] }} dapat diunduh untuk transparansi dan akuntabilitas pengelolaan keuangan desa.
+                        Dokumen laporan realisasi anggaran <?php echo e($village['name']); ?> dapat diunduh untuk transparansi dan akuntabilitas pengelolaan keuangan desa.
                     </p>
                     
-                    <div class="budget-amount">{{ $village['budget'] }}</div>
+                    <div class="budget-amount"><?php echo e($village['budget']); ?></div>
                     
-                    <a href="{{ asset('documents/apbd-2025.pdf') }}" class="budget-download" download title="Unduh {{ $village['budget'] }}">
+                    <a href="<?php echo e(asset('documents/apbd-2025.pdf')); ?>" class="budget-download" download title="Unduh <?php echo e($village['budget']); ?>">
                         <span class="budget-icon"><i class="fa fa-file-pdf"></i></span>
                         <div>
-                            <div class="budget-text">{{ $village['budget'] }}</div>
+                            <div class="budget-text"><?php echo e($village['budget']); ?></div>
                             <div style="font-size:12px;color:var(--muted);margin-top:4px">Klik untuk mengunduh dokumen</div>
                         </div>
                     </a>
@@ -386,19 +386,19 @@
                 <!-- Leader Card -->
                 <div class="leader-card">
                     <div class="leader-avatar">👤</div>
-                    <div class="leader-name">{{ $village['leader']['name'] }}</div>
-                    <div class="leader-title">{{ $village['leader']['title'] }}</div>
+                    <div class="leader-name"><?php echo e($village['leader']['name']); ?></div>
+                    <div class="leader-title"><?php echo e($village['leader']['title']); ?></div>
                 </div>
 
                 <!-- Stats -->
                 <div class="stats-list">
-                    @foreach($village['stats'] as $stat)
+                    <?php $__currentLoopData = $village['stats']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <div class="stat-item">
-                        <div class="stat-value">{{ $stat['value'] }}</div>
-                        <div class="stat-label">{{ $stat['label'] }}</div>
-                        <div class="stat-sublabel">{{ $stat['sublabel'] }}</div>
+                        <div class="stat-value"><?php echo e($stat['value']); ?></div>
+                        <div class="stat-label"><?php echo e($stat['label']); ?></div>
+                        <div class="stat-sublabel"><?php echo e($stat['sublabel']); ?></div>
                     </div>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
             </div>
         </div>
@@ -408,7 +408,7 @@
     <footer>
         <div class="footer-inner">
             <div class="footer-left" style="display:flex; align-items:center; gap:16px;">
-                <img src="{{ asset('images/logo.png') }}" alt="logo" style="height:42px;">
+                <img src="<?php echo e(asset('images/logo.png')); ?>" alt="logo" style="height:42px;">
                 <div>
                     <strong>Toba Hita</strong>
                     <div class="footer-small">Portal informasi terintegrasi untuk transparansi dan pelayanan publik di Kabupaten Toba.</div>
@@ -435,10 +435,10 @@
 
     <script>
         // Auto-refresh untuk cek update visi misi setiap 10 detik
-        let lastUpdated = '{{ $village["updated_at"] ?? "" }}';
+        let lastUpdated = '<?php echo e($village["updated_at"] ?? ""); ?>';
         
         setInterval(function() {
-            fetch('/api/village-check-update/{{ $village["id"] }}')
+            fetch('/api/village-check-update/<?php echo e($village["id"]); ?>')
                 .then(response => response.json())
                 .then(data => {
                     if (data.updated_at !== lastUpdated && lastUpdated !== '') {
@@ -451,4 +451,4 @@
         }, 10000);
     </script>
 </body>
-</html>
+</html><?php /**PATH C:\Users\LENOVO\Documents\GitHub\E-GovToba\resources\views/district-information/village-detail.blade.php ENDPATH**/ ?>

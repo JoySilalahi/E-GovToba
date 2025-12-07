@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Toba Hita</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}" />
+    <link rel="icon" type="image/png" href="<?php echo e(asset('images/logo.png')); ?>" />
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -400,49 +400,49 @@
                 <p>Ikuti perkembangan terbaru dari Kabupaten Toba</p>
             </div>
 
-            @if($news && $news->count() > 0)
+            <?php if($news && $news->count() > 0): ?>
             <div class="news-grid">
-                @foreach($news->take(3) as $item)
+                <?php $__currentLoopData = $news->take(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class="news-card">
                     <div class="news-image">
                         <i class="fas fa-newspaper"></i>
                     </div>
                     <div class="news-content">
-                        <span class="news-category">{{ $item->category }}</span>
-                        <h3 class="news-title">{{ $item->title }}</h3>
-                        <p class="news-excerpt">{{ $item->excerpt ?? Str::limit($item->content, 100) }}</p>
+                        <span class="news-category"><?php echo e($item->category); ?></span>
+                        <h3 class="news-title"><?php echo e($item->title); ?></h3>
+                        <p class="news-excerpt"><?php echo e($item->excerpt ?? Str::limit($item->content, 100)); ?></p>
                         <div class="news-meta">
-                            <span><i class="far fa-calendar"></i> {{ $item->published_at->format('d M Y') }}</span>
-                            <span><i class="far fa-clock"></i> {{ $item->published_at->format('H:i') }}</span>
+                            <span><i class="far fa-calendar"></i> <?php echo e($item->published_at->format('d M Y')); ?></span>
+                            <span><i class="far fa-clock"></i> <?php echo e($item->published_at->format('H:i')); ?></span>
                         </div>
                     </div>
                 </div>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
-            @else
+            <?php else: ?>
             <div style="text-align:center;padding:40px;color:var(--muted)">
                 <i class="fas fa-newspaper" style="font-size:48px;margin-bottom:16px;opacity:0.3"></i>
                 <p>Belum ada berita terbaru</p>
             </div>
-            @endif
+            <?php endif; ?>
 
             <!-- Pengumuman -->
-            @if($announcements && $announcements->count() > 0)
+            <?php if($announcements && $announcements->count() > 0): ?>
             <div class="announcements-box">
                 <h3>
                     <i class="fas fa-bullhorn"></i>
                     Pengumuman Penting
                 </h3>
-                @foreach($announcements->take(3) as $item)
+                <?php $__currentLoopData = $announcements->take(3); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <div class="announcement-item">
-                    <div class="announcement-title">{{ $item->title }}</div>
+                    <div class="announcement-title"><?php echo e($item->title); ?></div>
                     <div class="announcement-date">
-                        <i class="far fa-calendar"></i> {{ $item->published_at->format('d M Y, H:i') }} WIB
+                        <i class="far fa-calendar"></i> <?php echo e($item->published_at->format('d M Y, H:i')); ?> WIB
                     </div>
                 </div>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
-            @endif
+            <?php endif; ?>
         </div>
     </section>
 
@@ -475,7 +475,7 @@
     })();
 </script>
 <!-- Footer -->
-    @include('components.footer')
+    <?php echo $__env->make('components.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
 </body>
-</html>
+</html><?php /**PATH C:\Users\LENOVO\Documents\GitHub\E-GovToba\resources\views/district-information/index.blade.php ENDPATH**/ ?>

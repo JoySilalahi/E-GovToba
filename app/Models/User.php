@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password',
         'role',
         'village_id',
+        'api_token',
     ];
 
     /**
@@ -66,5 +67,33 @@ class User extends Authenticatable
     public function village()
     {
         return $this->belongsTo(Village::class);
+    }
+
+    /**
+     * Generate and store a new API token for the user.
+     *
+     * We store a hashed token in the database and return the plain token
+     * so it can be used by the client in Authorization header.
+     *
+     * @return string
+     */
+    public function generateApiToken()
+    {
+        $plain = bin2hex(random_bytes(30));
+        $this->api_token = hash('sha256', $plain);
+        $this->save();
+
+        return $plain;
+    }
+
+    /**
+     * Revoke stored API token (logout)
+     *
+     * @return void
+     */
+    public function revokeApiToken()
+    {
+        $this->api_token = null;
+        $this->save();
     }
 }
