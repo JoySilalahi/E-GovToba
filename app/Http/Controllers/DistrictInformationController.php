@@ -110,70 +110,28 @@ class DistrictInformationController extends Controller
             ->orderBy('updated_at', 'desc')
             ->get();
         
-        // Ambil berita dan gabungkan dengan agenda berita
-        $newsItems = DistrictNews::orderBy('published_at', 'desc')->get();
-        $agendaBerita = DistrictAgenda::where('display_type', 'berita')
-            ->where('event_date', '>=', now()->startOfDay())
-            ->get();
+        // Ambil berita dan pengumuman (tanpa agenda)
+        $beritaList = DistrictNews::orderBy('published_at', 'desc')->take(10)->get();
+        $pengumumanList = DistrictAnnouncement::orderBy('published_at', 'desc')->take(10)->get();
         
-        // Gabungkan berita dan agenda, urutkan berdasarkan tanggal
-        $beritaCollection = collect();
-        foreach ($newsItems as $item) {
-            $beritaCollection->push((object)[
-                'type' => 'news',
-                'title' => $item->title,
-                'content' => $item->excerpt ?? \Illuminate\Support\Str::limit($item->content, 150),
-                'category' => $item->category,
-                'date' => $item->published_at,
-                'sort_date' => $item->published_at
-            ]);
-        }
-        foreach ($agendaBerita as $item) {
-            $beritaCollection->push((object)[
-                'type' => 'agenda',
-                'title' => $item->title,
-                'content' => $item->description,
-                'category' => $item->category ?? 'Agenda',
-                'date' => \Carbon\Carbon::parse($item->event_date),
-                'time_start' => $item->time_start,
-                'time_end' => $item->time_end,
-                'location' => $item->location,
-                'sort_date' => \Carbon\Carbon::parse($item->event_date)
-            ]);
-        }
-        $beritaList = $beritaCollection->sortByDesc('sort_date')->take(10);
+        // Ambil semua agenda untuk ditampilkan di kalender
+        $agendas = DistrictAgenda::orderBy('event_date', 'asc')->get();
         
-        // Ambil pengumuman dan gabungkan dengan agenda pengumuman
-        $announcementItems = DistrictAnnouncement::orderBy('published_at', 'desc')->get();
-        $agendaPengumuman = DistrictAgenda::where('display_type', 'pengumuman')
-            ->where('event_date', '>=', now()->startOfDay())
-            ->get();
-        
-        $pengumumanCollection = collect();
-        foreach ($announcementItems as $item) {
-            $pengumumanCollection->push((object)[
-                'type' => 'announcement',
-                'title' => $item->title,
-                'content' => \Illuminate\Support\Str::limit($item->content, 150),
-                'category' => 'PENTING',
-                'date' => $item->published_at,
-                'sort_date' => $item->published_at
-            ]);
+        // Format agenda untuk kalender JavaScript - group by date
+        $simulated_events = [];
+        foreach($agendas as $agenda) {
+            $dateKey = $agenda->event_date->format('Y-m-d');
+            if (!isset($simulated_events[$dateKey])) {
+                $simulated_events[$dateKey] = [];
+            }
+            $simulated_events[$dateKey][] = [
+                'title' => $agenda->title,
+                'category' => $agenda->category ?? 'Agenda',
+                'time_start' => $agenda->time_start,
+                'time_end' => $agenda->time_end,
+                'location' => $agenda->location
+            ];
         }
-        foreach ($agendaPengumuman as $item) {
-            $pengumumanCollection->push((object)[
-                'type' => 'agenda',
-                'title' => $item->title,
-                'content' => $item->description,
-                'category' => $item->category ?? 'Agenda',
-                'date' => \Carbon\Carbon::parse($item->event_date),
-                'time_start' => $item->time_start,
-                'time_end' => $item->time_end,
-                'location' => $item->location,
-                'sort_date' => \Carbon\Carbon::parse($item->event_date)
-            ]);
-        }
-        $pengumumanList = $pengumumanCollection->sortByDesc('sort_date')->take(10);
         
         // Ambil file anggaran kabupaten
         $budgets = DistrictBudget::where('district_id', $district->id ?? 1)
@@ -181,7 +139,7 @@ class DistrictInformationController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
         
-        return view('district-information.profile', compact('district', 'photos', 'beritaList', 'pengumumanList', 'budgets'));
+        return view('district-information.profile', compact('district', 'photos', 'beritaList', 'pengumumanList', 'budgets', 'agendas', 'simulated_events'));
     }
 
     public function villages()

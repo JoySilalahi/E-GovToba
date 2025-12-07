@@ -391,61 +391,6 @@
         </div>
     </section>
 
-    <!-- Berita & Pengumuman Section -->
-    <section class="news-section" aria-labelledby="news-heading">
-        <div class="container">
-            <div class="section-header">
-                <h2 id="news-heading">Berita Terkini</h2>
-                <p>Ikuti perkembangan terbaru dari Kabupaten Toba</p>
-            </div>
-
-            @if($news && $news->count() > 0)
-            <div class="news-grid">
-                @foreach($news->take(3) as $item)
-                <div class="news-card">
-                    <div class="news-image">
-                        <i class="fas fa-newspaper"></i>
-                    </div>
-                    <div class="news-content">
-                        <span class="news-category">{{ $item->category }}</span>
-                        <h3 class="news-title">{{ $item->title }}</h3>
-                        <p class="news-excerpt">{{ $item->excerpt ?? Str::limit($item->content, 100) }}</p>
-                        <div class="news-meta">
-                            <span><i class="far fa-calendar"></i> {{ $item->published_at->format('d M Y') }}</span>
-                            <span><i class="far fa-clock"></i> {{ $item->published_at->format('H:i') }}</span>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-            @else
-            <div style="text-align:center;padding:40px;color:var(--muted)">
-                <i class="fas fa-newspaper" style="font-size:48px;margin-bottom:16px;opacity:0.3"></i>
-                <p>Belum ada berita terbaru</p>
-            </div>
-            @endif
-
-            <!-- Pengumuman -->
-            @if($announcements && $announcements->count() > 0)
-            <div class="announcements-box">
-                <h3>
-                    <i class="fas fa-bullhorn"></i>
-                    Pengumuman Penting
-                </h3>
-                @foreach($announcements->take(3) as $item)
-                <div class="announcement-item">
-                    <div class="announcement-title">{{ $item->title }}</div>
-                    <div class="announcement-date">
-                        <i class="far fa-calendar"></i> {{ $item->published_at->format('d M Y, H:i') }} WIB
-                    </div>
-                </div>
-                @endforeach
-            </div>
-            @endif
-        </div>
-    </section>
-
-
 </main>
 
 

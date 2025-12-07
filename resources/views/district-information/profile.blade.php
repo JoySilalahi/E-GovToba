@@ -87,6 +87,7 @@
         .cal-header h4 { font-weight:700; font-size:18px; color:var(--text); margin: 0; }
         .cal-nav button { background: none; border: none; cursor: pointer; color: var(--primary); font-size: 16px; padding: 4px 8px; border-radius: 6px; transition: background .15s; }
         .cal-nav button:hover { background: rgba(11,121,184,0.1); }
+        .day-labels { display:grid; grid-template-columns: repeat(7,1fr); gap:8px; margin-bottom: 8px; }
         .cal-grid { display:grid; grid-template-columns: repeat(7,1fr); gap:8px; font-size:14px }
         .cal-day { padding:8px; border-radius:8px; text-align:center; color:var(--text); background:transparent; border:1px solid transparent; cursor:pointer; font-weight:700; transition:all .15s; position: relative; z-index: 1; font-size:13px; line-height: 1.1; }
         .cal-day:not(.muted):hover { background: rgba(11,121,184,0.08); border-color: rgba(11,121,184,0.2) }
@@ -159,21 +160,22 @@
 </head>
 <body>
     @php
-    $simulated_events = [
-        '2025-12-03' => [
-            (object)['title' => 'Rapat Paripurna Penutupan Tahun', 'location' => 'Gedung DPRD', 'time_start' => '14:00', 'time_end' => '18:00'],
-            (object)['title' => 'Pelatihan UMKM Go Digital', 'location' => 'Aula Kantor Bupati', 'time_start' => '09:00', 'time_end' => '12:00'],
-        ],
-        '2025-12-06' => [
-            (object)['title' => 'Festival Budaya Danau Toba', 'location' => 'Pantai Lumban Silintong', 'time_start' => '10:00', 'time_end' => '20:00'],
-        ],
-        '2025-12-15' => [
-            (object)['title' => 'Upacara Hari Jadi Kabupaten', 'location' => 'Lapangan Sisingamangaraja', 'time_start' => '08:00', 'time_end' => '11:00'],
-        ],
-        '2025-11-20' => [
-            (object)['title' => 'Bakti Sosial Pesisir', 'location' => 'Desa Wisata', 'time_start' => '15:00', 'time_end' => '18:00'],
-        ],
-    ];
+    // Build agenda data from database
+    $agenda_data = [];
+    if(isset($agendas) && $agendas->count() > 0) {
+        foreach($agendas as $agenda) {
+            $date = $agenda->event_date->format('Y-m-d');
+            if(!isset($agenda_data[$date])) {
+                $agenda_data[$date] = [];
+            }
+            $agenda_data[$date][] = (object)[
+                'title' => $agenda->title,
+                'location' => $agenda->location ?? '-',
+                'time_start' => $agenda->time_start ?? '00:00',
+                'time_end' => $agenda->time_end ?? '23:59',
+            ];
+        }
+    }
     @endphp
 
     <nav class="site-nav" role="navigation" aria-label="Utama">
@@ -274,14 +276,14 @@
                         <div class="news-list" id="newsList">
                             @if(isset($beritaList) && $beritaList->count() > 0)
                                 @foreach($beritaList as $item)
-                                <article class="news-item" data-type="berita" data-date="{{ $item->date->format('Y-m-d') }}">
+                                <article class="news-item" data-type="berita" data-date="{{ $item->published_at->format('Y-m-d') }}">
                                     <div class="news-meta">
                                         @if($item->type == 'agenda')
                                             <span class="tag" style="background:#10b981; color:white;">{{ $item->category }}</span>
                                         @else
                                             <span class="tag">{{ $item->category }}</span>
                                         @endif
-                                        <time datetime="{{ $item->date->format('Y-m-d') }}" style="margin-left:auto">{{ $item->date->translatedFormat('d M Y') }}</time>
+                                        <time datetime="{{ $item->published_at->format('Y-m-d') }}" style="margin-left:auto">{{ $item->published_at->translatedFormat('d M Y') }}</time>
                                     </div>
                                     <h3>{{ $item->title }}</h3>
                                     <p class="muted">
@@ -302,14 +304,14 @@
                             
                             @if(isset($pengumumanList) && $pengumumanList->count() > 0)
                                 @foreach($pengumumanList as $item)
-                                <article class="news-item" data-type="pengumuman" data-date="{{ $item->date->format('Y-m-d') }}" style="display:none">
+                                <article class="news-item" data-type="pengumuman" data-date="{{ $item->published_at->format('Y-m-d') }}" style="display:none">
                                     <div class="news-meta" style="color:#d97706;">
                                         @if($item->type == 'agenda')
                                             <span class="tag" style="background:#10b981; color:white;">{{ $item->category }}</span>
                                         @else
                                             <span class="tag" style="background:#fff7ed; color:#d97706;">{{ $item->category }}</span>
                                         @endif
-                                        <time datetime="{{ $item->date->format('Y-m-d') }}" style="margin-left:auto">{{ $item->date->translatedFormat('d M Y') }}</time>
+                                        <time datetime="{{ $item->published_at->format('Y-m-d') }}" style="margin-left:auto">{{ $item->published_at->translatedFormat('d M Y') }}</time>
                                     </div>
                                     <h3>{{ $item->title }}</h3>
                                     <p class="muted">

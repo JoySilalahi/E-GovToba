@@ -430,8 +430,29 @@
         <div class="container-fluid">
             <!-- Alerts -->
             @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Terjadi kesalahan:</strong>
+                    <ul class="mb-0 mt-2">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif
 
@@ -477,47 +498,24 @@
                     <div class="tab-pane fade show active" id="berita">
                         @forelse($news as $item)
                         <div class="news-item">
-                            @if($item->type == 'agenda')
-                                <span class="news-category" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">{{ $item->category }}</span>
-                            @else
-                                <span class="news-category">{{ $item->category }}</span>
-                            @endif
+                            <span class="news-category">{{ $item->category }}</span>
                             <div class="news-title">{{ $item->title }}</div>
                             <div class="news-description">
-                                @if($item->type == 'agenda')
-                                    @if($item->time_start && $item->time_end)
-                                        <i class="far fa-clock me-1"></i> {{ $item->time_start }} - {{ $item->time_end }} WIB
-                                    @endif
-                                    @if($item->location)
-                                        <br><i class="fas fa-map-marker-alt me-1"></i> {{ $item->location }}
-                                    @endif
-                                    @if($item->excerpt)
-                                        <br>{{ $item->excerpt }}
-                                    @endif
-                                @else
-                                    {{ $item->excerpt }}
-                                @endif
+                                {{ $item->excerpt }}
                             </div>
                             <div class="news-meta">
-                                <span><i class="far fa-calendar me-1"></i> {{ $item->date->translatedFormat('d M Y') }}</span>
-                                @if($item->type == 'news')
-                                    <span><i class="far fa-clock me-1"></i> {{ $item->date->format('H:i') }} WIB</span>
-                                @endif
+                                <span><i class="far fa-calendar me-1"></i> {{ $item->published_at->translatedFormat('d M Y') }}</span>
+                                <span><i class="far fa-clock me-1"></i> {{ $item->published_at->format('H:i') }} WIB</span>
                             </div>
                             <div class="news-actions">
-                                @if($item->type == 'news')
-                                    <button class="btn-icon" onclick="editNews({{ $item->id }}, '{{ $item->category }}', '{{ addslashes($item->title) }}', '{{ addslashes($item->excerpt) }}', `{{ addslashes($item->content) }}`)">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <form action="{{ route('admin.information.news.delete', $item->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus berita ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-icon"><i class="fas fa-trash"></i></button>
-                                    </form>
-                                @else
-                                    <span class="badge bg-success">Agenda</span>
-                                    <small class="text-muted ms-2">Edit di section Agenda Pemkot</small>
-                                @endif
+                                <button class="btn-icon" onclick="editNews({{ $item->id }}, '{{ $item->category }}', '{{ addslashes($item->title) }}', '{{ addslashes($item->excerpt) }}', `{{ addslashes($item->content) }}`, '{{ $item->published_at->format('Y-m-d\TH:i') }}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <form action="{{ route('admin.information.news.delete', $item->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus berita ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-icon"><i class="fas fa-trash"></i></button>
+                                </form>
                             </div>
                         </div>
                         @empty
@@ -531,40 +529,21 @@
                         <div class="news-item">
                             <div class="news-title">{{ $item->title }}</div>
                             <div class="news-description">
-                                @if($item->type == 'agenda')
-                                    @if(isset($item->time_start) && isset($item->time_end))
-                                        <i class="far fa-clock me-1"></i> {{ $item->time_start }} - {{ $item->time_end }} WIB
-                                    @endif
-                                    @if(isset($item->location) && $item->location)
-                                        <br><i class="fas fa-map-marker-alt me-1"></i> {{ $item->location }}
-                                    @endif
-                                    @if($item->content)
-                                        <br>{{ Str::limit($item->content, 150) }}
-                                    @endif
-                                @else
-                                    {{ Str::limit($item->content, 150) }}
-                                @endif
+                                {{ Str::limit($item->content, 150) }}
                             </div>
                             <div class="news-meta">
-                                <span><i class="far fa-calendar me-1"></i> {{ $item->date->translatedFormat('d M Y') }}</span>
-                                @if($item->type == 'announcement')
-                                    <span><i class="far fa-clock me-1"></i> {{ $item->date->format('H:i') }} WIB</span>
-                                @endif
+                                <span><i class="far fa-calendar me-1"></i> {{ $item->published_at->translatedFormat('d M Y') }}</span>
+                                <span><i class="far fa-clock me-1"></i> {{ $item->published_at->format('H:i') }} WIB</span>
                             </div>
                             <div class="news-actions">
-                                @if($item->type == 'announcement')
-                                    <button class="btn-icon" onclick="editAnnouncement({{ $item->id }}, '{{ addslashes($item->title) }}', `{{ addslashes($item->content) }}`)">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <form action="{{ route('admin.information.announcements.delete', $item->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus pengumuman ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-icon"><i class="fas fa-trash"></i></button>
-                                    </form>
-                                @else
-                                    <span class="badge bg-success">Agenda</span>
-                                    <small class="text-muted ms-2">Edit di section Agenda Pemkot</small>
-                                @endif
+                                <button class="btn-icon" onclick="editAnnouncement({{ $item->id }}, '{{ addslashes($item->title) }}', `{{ addslashes($item->content) }}`, '{{ $item->published_at->format('Y-m-d\TH:i') }}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <form action="{{ route('admin.information.announcements.delete', $item->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus pengumuman ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-icon"><i class="fas fa-trash"></i></button>
+                                </form>
                             </div>
                         </div>
                         @empty
@@ -674,7 +653,7 @@
                                 </div>
                                 @endif
                                 <div class="news-actions">
-                                    <button type="button" class="btn-icon" onclick="editAgenda({{ $agenda->id }}, '{{ addslashes($agenda->title) }}', '{{ addslashes($agenda->description ?? '') }}', '{{ $agenda->event_date }}', '{{ $agenda->time_start }}', '{{ $agenda->time_end }}', '{{ addslashes($agenda->location ?? '') }}', '{{ addslashes($agenda->category ?? '') }}', '{{ addslashes($agenda->participants ?? '') }}', '{{ $agenda->display_type ?? 'berita' }}')">
+                                    <button type="button" class="btn-icon" onclick="editAgenda({{ $agenda->id }}, '{{ addslashes($agenda->title) }}', '{{ addslashes($agenda->description ?? '') }}', '{{ $agenda->event_date->format('Y-m-d') }}', '{{ $agenda->time_start }}', '{{ $agenda->time_end }}', '{{ addslashes($agenda->location ?? '') }}', '{{ addslashes($agenda->category ?? '') }}', '{{ addslashes($agenda->participants ?? '') }}')">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <form action="{{ route('admin.information.agendas.delete', $agenda->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus agenda ini?')">
@@ -760,6 +739,11 @@
                             <input type="text" class="form-control" name="category" placeholder="Contoh: Pendidikan, Teknologi, Kesehatan" required>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label">Tanggal Publikasi</label>
+                            <input type="datetime-local" class="form-control" name="published_at" value="{{ date('Y-m-d\TH:i') }}" required>
+                            <small class="text-muted">Tanggal dan waktu publikasi berita</small>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Judul Berita</label>
                             <input type="text" class="form-control" name="title" required>
                         </div>
@@ -798,6 +782,11 @@
                             <input type="text" class="form-control" name="category" id="edit_news_category" required>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label">Tanggal Publikasi</label>
+                            <input type="datetime-local" class="form-control" name="published_at" id="edit_news_published_at" required>
+                            <small class="text-muted">Tanggal dan waktu publikasi berita</small>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Judul Berita</label>
                             <input type="text" class="form-control" name="title" id="edit_news_title" required>
                         </div>
@@ -831,6 +820,11 @@
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
+                            <label class="form-label">Tanggal Publikasi</label>
+                            <input type="datetime-local" class="form-control" name="published_at" value="{{ date('Y-m-d\TH:i') }}" required>
+                            <small class="text-muted">Tanggal dan waktu publikasi pengumuman</small>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Judul Pengumuman</label>
                             <input type="text" class="form-control" name="title" required>
                         </div>
@@ -861,12 +855,17 @@
                     @method('PUT')
                     <div class="modal-body">
                         <div class="mb-3">
+                            <label class="form-label">Tanggal Publikasi</label>
+                            <input type="datetime-local" class="form-control" name="published_at" id="edit_announcement_published_at" required>
+                            <small class="text-muted">Tanggal dan waktu publikasi pengumuman</small>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Judul Pengumuman</label>
                             <input type="text" class="form-control" name="title" id="edit_announcement_title" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Isi Pengumuman</label>
-                            <textarea class="form-control" name="content" id="edit_announcement_content" rows="5" required></textarea>
+                            <textarea class="form-control" name="content" id="edit_announcement_content" rows="5" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -906,14 +905,6 @@
                                 <label class="form-label">Kategori</label>
                                 <input type="text" class="form-control" name="category" placeholder="Rapat, Dialog Publik, dll">
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Tampilkan Di *</label>
-                            <select class="form-control" name="display_type" required>
-                                <option value="berita">Section Berita</option>
-                                <option value="pengumuman">Section Pengumuman</option>
-                            </select>
-                            <small class="text-muted">Pilih dimana agenda ini akan ditampilkan di halaman profil kabupaten</small>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -973,14 +964,6 @@
                                 <input type="text" class="form-control" name="category" id="edit_agenda_category">
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Tampilkan Di *</label>
-                            <select class="form-control" name="display_type" id="edit_display_type" required>
-                                <option value="berita">Section Berita</option>
-                                <option value="pengumuman">Section Pengumuman</option>
-                            </select>
-                            <small class="text-muted">Pilih dimana agenda ini akan ditampilkan di halaman profil kabupaten</small>
-                        </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Waktu Mulai</label>
@@ -1008,43 +991,6 @@
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function editNews(id, category, title, excerpt, content) {
-            document.getElementById('editNewsForm').action = `/admin/information/news/${id}`;
-            document.getElementById('edit_news_category').value = category;
-            document.getElementById('edit_news_title').value = title;
-            document.getElementById('edit_news_excerpt').value = excerpt;
-            document.getElementById('edit_news_content').value = content;
-            new bootstrap.Modal(document.getElementById('editNewsModal')).show();
-        }
-
-        function editAnnouncement(id, title, content) {
-            document.getElementById('editAnnouncementForm').action = `/admin/information/announcements/${id}`;
-            document.getElementById('edit_announcement_title').value = title;
-            document.getElementById('edit_announcement_content').value = content;
-            new bootstrap.Modal(document.getElementById('editAnnouncementModal')).show();
-        }
-
-        function editAgenda(id, title, description, eventDate, timeStart, timeEnd, location, category, participants, displayType) {
-            document.getElementById('editAgendaForm').action = `/admin/information/agendas/${id}`;
-            document.getElementById('edit_agenda_title').value = title;
-            document.getElementById('edit_agenda_description').value = description || '';
-            document.getElementById('edit_event_date').value = eventDate;
-            document.getElementById('edit_time_start').value = timeStart || '';
-            document.getElementById('edit_time_end').value = timeEnd || '';
-            document.getElementById('edit_agenda_location').value = location || '';
-            document.getElementById('edit_agenda_category').value = category || '';
-            document.getElementById('edit_agenda_participants').value = participants || '';
-            document.getElementById('edit_display_type').value = displayType || 'berita';
-            new bootstrap.Modal(document.getElementById('editAgendaModal')).show();
-        }
-
-        // Calendar click handler - untuk klik tanggal di kalender
-        document.addEventListener('DOMContentLoaded', function() {
-            const calendarDays = document.querySelectorAll('.calendar-day');
-    </script>
 
     <!-- Modal Upload Budget -->
     <div class="modal fade" id="uploadBudgetModal" tabindex="-1">
@@ -1084,24 +1030,28 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function editNews(id, category, title, excerpt, content) {
+        function editNews(id, category, title, excerpt, content, publishedAt) {
             document.getElementById('editNewsForm').action = `/admin/information/news/${id}`;
             document.getElementById('edit_news_category').value = category;
+            document.getElementById('edit_news_published_at').value = publishedAt;
             document.getElementById('edit_news_title').value = title;
             document.getElementById('edit_news_excerpt').value = excerpt || '';
             document.getElementById('edit_news_content').value = content;
             new bootstrap.Modal(document.getElementById('editNewsModal')).show();
         }
 
-        function editAnnouncement(id, title, content) {
+        function editAnnouncement(id, title, content, publishedAt) {
             document.getElementById('editAnnouncementForm').action = `/admin/information/announcements/${id}`;
+            document.getElementById('edit_announcement_published_at').value = publishedAt;
             document.getElementById('edit_announcement_title').value = title;
             document.getElementById('edit_announcement_content').value = content;
             new bootstrap.Modal(document.getElementById('editAnnouncementModal')).show();
         }
 
-        function editAgenda(id, title, description, eventDate, timeStart, timeEnd, location, category, participants, displayType) {
+        function editAgenda(id, title, description, eventDate, timeStart, timeEnd, location, category, participants) {
+            console.log('Edit agenda called with:', {id, title, eventDate});
             document.getElementById('editAgendaForm').action = `/admin/information/agendas/${id}`;
             document.getElementById('edit_agenda_title').value = title;
             document.getElementById('edit_agenda_description').value = description || '';
@@ -1111,17 +1061,20 @@
             document.getElementById('edit_agenda_location').value = location || '';
             document.getElementById('edit_agenda_category').value = category || '';
             document.getElementById('edit_agenda_participants').value = participants || '';
-            document.getElementById('edit_display_type').value = displayType || 'berita';
             new bootstrap.Modal(document.getElementById('editAgendaModal')).show();
         }
 
         // Calendar click handler - untuk klik tanggal di kalender
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, setting up event listeners');
+            
             const calendarDays = document.querySelectorAll('.calendar-day');
+            console.log('Found calendar days:', calendarDays.length);
             
             calendarDays.forEach(day => {
                 day.addEventListener('click', function() {
                     const dateStr = this.dataset.date;
+                    console.log('Calendar day clicked, date:', dateStr);
                     if (dateStr) {
                         // Set tanggal di form tambah agenda
                         document.getElementById('add_event_date').value = dateStr;
@@ -1130,6 +1083,15 @@
                     }
                 });
             });
+
+            // Tambah event listener untuk form submit debugging
+            const addAgendaForm = document.querySelector('#addAgendaModal form');
+            if (addAgendaForm) {
+                addAgendaForm.addEventListener('submit', function(e) {
+                    console.log('Form tambah agenda submitted');
+                    console.log('Form data:', new FormData(this));
+                });
+            }
         });
     </script>
 </body>

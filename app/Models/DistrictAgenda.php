@@ -15,7 +15,6 @@ class DistrictAgenda extends Model
         'time_end',
         'location',
         'category',
-        'display_type',
         'participants',
         'created_by'
     ];
