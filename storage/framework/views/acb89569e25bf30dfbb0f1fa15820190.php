@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Bootstrap JS Bundle - REQUIRED untuk modal/tooltip/popover functionality -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <style>
         * {
@@ -430,9 +432,31 @@
         <div class="container-fluid">
             <!-- Alerts -->
             <?php if(session('success')): ?>
-                <div class="alert alert-success">
-                    <?php echo e(session('success')); ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i><?php echo e(session('success')); ?>
 
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <?php endif; ?>
+
+            <?php if(session('error')): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i><?php echo e(session('error')); ?>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <?php endif; ?>
+
+            <?php if($errors->any()): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Terjadi kesalahan:</strong>
+                    <ul class="mb-0 mt-2">
+                        <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <li><?php echo e($error); ?></li>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             <?php endif; ?>
 
@@ -470,6 +494,11 @@
                             <i class="fas fa-bullhorn me-2"></i> Pengumuman
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#desa">
+                            <i class="fas fa-map-marked-alt me-2"></i> Daftar Desa
+                        </a>
+                    </li>
                 </ul>
 
                 <!-- Tab Content -->
@@ -478,50 +507,25 @@
                     <div class="tab-pane fade show active" id="berita">
                         <?php $__empty_1 = true; $__currentLoopData = $news; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                         <div class="news-item">
-                            <?php if($item->type == 'agenda'): ?>
-                                <span class="news-category" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);"><?php echo e($item->category); ?></span>
-                            <?php else: ?>
-                                <span class="news-category"><?php echo e($item->category); ?></span>
-                            <?php endif; ?>
+                            <span class="news-category"><?php echo e($item->category); ?></span>
                             <div class="news-title"><?php echo e($item->title); ?></div>
                             <div class="news-description">
-                                <?php if($item->type == 'agenda'): ?>
-                                    <?php if($item->time_start && $item->time_end): ?>
-                                        <i class="far fa-clock me-1"></i> <?php echo e($item->time_start); ?> - <?php echo e($item->time_end); ?> WIB
-                                    <?php endif; ?>
-                                    <?php if($item->location): ?>
-                                        <br><i class="fas fa-map-marker-alt me-1"></i> <?php echo e($item->location); ?>
+                                <?php echo e($item->excerpt); ?>
 
-                                    <?php endif; ?>
-                                    <?php if($item->excerpt): ?>
-                                        <br><?php echo e($item->excerpt); ?>
-
-                                    <?php endif; ?>
-                                <?php else: ?>
-                                    <?php echo e($item->excerpt); ?>
-
-                                <?php endif; ?>
                             </div>
                             <div class="news-meta">
                                 <span><i class="far fa-calendar me-1"></i> <?php echo e($item->date->translatedFormat('d M Y')); ?></span>
-                                <?php if($item->type == 'news'): ?>
-                                    <span><i class="far fa-clock me-1"></i> <?php echo e($item->date->format('H:i')); ?> WIB</span>
-                                <?php endif; ?>
+                                <span><i class="far fa-clock me-1"></i> <?php echo e($item->date->format('H:i')); ?> WIB</span>
                             </div>
                             <div class="news-actions">
-                                <?php if($item->type == 'news'): ?>
-                                    <button class="btn-icon" onclick="editNews(<?php echo e($item->id); ?>, '<?php echo e($item->category); ?>', '<?php echo e(addslashes($item->title)); ?>', '<?php echo e(addslashes($item->excerpt)); ?>', `<?php echo e(addslashes($item->content)); ?>`)">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <form action="<?php echo e(route('admin.information.news.delete', $item->id)); ?>" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus berita ini?')">
-                                        <?php echo csrf_field(); ?>
-                                        <?php echo method_field('DELETE'); ?>
-                                        <button type="submit" class="btn-icon"><i class="fas fa-trash"></i></button>
-                                    </form>
-                                <?php else: ?>
-                                    <span class="badge bg-success">Agenda</span>
-                                    <small class="text-muted ms-2">Edit di section Agenda Pemkot</small>
-                                <?php endif; ?>
+                                <button class="btn-icon" onclick="editNews(<?php echo e($item->id); ?>, '<?php echo e($item->category); ?>', '<?php echo e(addslashes($item->title)); ?>', '<?php echo e(addslashes($item->excerpt)); ?>', `<?php echo e(addslashes($item->content)); ?>`, '<?php echo e($item->date->format('Y-m-d\TH:i')); ?>')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <form action="<?php echo e(route('admin.information.news.delete', $item->id)); ?>" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus berita ini?')">
+                                    <?php echo csrf_field(); ?>
+                                    <?php echo method_field('DELETE'); ?>
+                                    <button type="submit" class="btn-icon"><i class="fas fa-trash"></i></button>
+                                </form>
                             </div>
                         </div>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -535,48 +539,89 @@
                         <div class="news-item">
                             <div class="news-title"><?php echo e($item->title); ?></div>
                             <div class="news-description">
-                                <?php if($item->type == 'agenda'): ?>
-                                    <?php if(isset($item->time_start) && isset($item->time_end)): ?>
-                                        <i class="far fa-clock me-1"></i> <?php echo e($item->time_start); ?> - <?php echo e($item->time_end); ?> WIB
-                                    <?php endif; ?>
-                                    <?php if(isset($item->location) && $item->location): ?>
-                                        <br><i class="fas fa-map-marker-alt me-1"></i> <?php echo e($item->location); ?>
+                                <?php echo e(Str::limit($item->content, 150)); ?>
 
-                                    <?php endif; ?>
-                                    <?php if($item->content): ?>
-                                        <br><?php echo e(Str::limit($item->content, 150)); ?>
-
-                                    <?php endif; ?>
-                                <?php else: ?>
-                                    <?php echo e(Str::limit($item->content, 150)); ?>
-
-                                <?php endif; ?>
                             </div>
                             <div class="news-meta">
                                 <span><i class="far fa-calendar me-1"></i> <?php echo e($item->date->translatedFormat('d M Y')); ?></span>
-                                <?php if($item->type == 'announcement'): ?>
-                                    <span><i class="far fa-clock me-1"></i> <?php echo e($item->date->format('H:i')); ?> WIB</span>
-                                <?php endif; ?>
+                                <span><i class="far fa-clock me-1"></i> <?php echo e($item->date->format('H:i')); ?> WIB</span>
                             </div>
                             <div class="news-actions">
-                                <?php if($item->type == 'announcement'): ?>
-                                    <button class="btn-icon" onclick="editAnnouncement(<?php echo e($item->id); ?>, '<?php echo e(addslashes($item->title)); ?>', `<?php echo e(addslashes($item->content)); ?>`)">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <form action="<?php echo e(route('admin.information.announcements.delete', $item->id)); ?>" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus pengumuman ini?')">
-                                        <?php echo csrf_field(); ?>
-                                        <?php echo method_field('DELETE'); ?>
-                                        <button type="submit" class="btn-icon"><i class="fas fa-trash"></i></button>
-                                    </form>
-                                <?php else: ?>
-                                    <span class="badge bg-success">Agenda</span>
-                                    <small class="text-muted ms-2">Edit di section Agenda Pemkot</small>
-                                <?php endif; ?>
+                                <button class="btn-icon" onclick="editAnnouncement(<?php echo e($item->id); ?>, '<?php echo e(addslashes($item->title)); ?>', `<?php echo e(addslashes($item->content)); ?>`, '<?php echo e($item->date->format('Y-m-d\TH:i')); ?>')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <form action="<?php echo e(route('admin.information.announcements.delete', $item->id)); ?>" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus pengumuman ini?')">
+                                    <?php echo csrf_field(); ?>
+                                    <?php echo method_field('DELETE'); ?>
+                                    <button type="submit" class="btn-icon"><i class="fas fa-trash"></i></button>
+                                </form>
                             </div>
                         </div>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                         <p class="text-muted">Belum ada pengumuman.</p>
                         <?php endif; ?>
+                    </div>
+
+                    <!-- Daftar Desa Tab -->
+                    <div class="tab-pane fade" id="desa">
+                        <div style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                            <h5 style="margin: 0;">Daftar Desa di Kabupaten Toba</h5>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addVillageModal">
+                                <i class="fas fa-plus me-2"></i> Tambah Desa
+                            </button>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead style="background: #f8fafc;">
+                                    <tr>
+                                        <th style="width: 5%">No</th>
+                                        <th style="width: 10%">Gambar</th>
+                                        <th style="width: 18%">Nama Desa</th>
+                                        <th style="width: 12%">Populasi</th>
+                                        <th style="width: 10%">Luas Area</th>
+                                        <th style="width: 25%">Deskripsi</th>
+                                        <th style="width: 20%">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $__empty_1 = true; $__currentLoopData = $villages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $village): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                    <tr>
+                                        <td><?php echo e($index + 1); ?></td>
+                                        <td>
+                                            <?php if($village->image): ?>
+                                                <img src="<?php echo e(asset('storage/' . $village->image)); ?>" alt="<?php echo e($village->name); ?>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
+                                            <?php else: ?>
+                                                <div style="width: 60px; height: 60px; background: #e9ecef; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-image text-muted"></i>
+                                                </div>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td><strong><?php echo e($village->name); ?></strong></td>
+                                        <td><?php echo e(number_format($village->population)); ?> jiwa</td>
+                                        <td><?php echo e($village->area); ?> km²</td>
+                                        <td><?php echo e(Str::limit($village->description ?? '-', 50)); ?></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="editVillage(<?php echo e($village->id); ?>, '<?php echo e($village->name); ?>', <?php echo e($village->population); ?>, <?php echo e($village->area); ?>, '<?php echo e(addslashes($village->description ?? '')); ?>', '<?php echo e($village->image ?? ''); ?>')">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </button>
+                                            <form action="<?php echo e(route('admin.villages.destroy', $village->id)); ?>" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus desa <?php echo e($village->name); ?>?')">
+                                                <?php echo csrf_field(); ?>
+                                                <?php echo method_field('DELETE'); ?>
+                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash"></i> Hapus
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                    <tr>
+                                        <td colspan="7" class="text-center text-muted">Belum ada data desa</td>
+                                    </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -585,10 +630,10 @@
             <div class="section-card">
                 <div class="section-header">
                     <div>
-                        <h2>Agenda Pemkot</h2>
+                        <h2>Agenda Pemkab</h2>
                         <p class="section-subtitle">Transparansi kegiatan pemerintahan untuk membangun kepercayaan publik</p>
                     </div>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAgendaModal">
+                    <button class="btn btn-primary" onclick="openAddAgendaModal()">
                         <i class="fas fa-plus me-2"></i> Tambah Agenda
                     </button>
                 </div>
@@ -680,8 +725,17 @@
                                     <span><?php echo e($agenda->participants); ?></span>
                                 </div>
                                 <?php endif; ?>
+                                <?php if($agenda->status): ?>
+                                <div class="agenda-detail">
+                                    <i class="fas fa-<?php echo e($agenda->status == 'selesai' ? 'check-circle' : 'clock'); ?>"></i>
+                                    <span style="color: <?php echo e($agenda->status == 'selesai' ? '#28a745' : '#ffc107'); ?>; font-weight: 600;">
+                                        <?php echo e(ucfirst($agenda->status)); ?>
+
+                                    </span>
+                                </div>
+                                <?php endif; ?>
                                 <div class="news-actions">
-                                    <button type="button" class="btn-icon" onclick="editAgenda(<?php echo e($agenda->id); ?>, '<?php echo e(addslashes($agenda->title)); ?>', '<?php echo e(addslashes($agenda->description ?? '')); ?>', '<?php echo e($agenda->event_date); ?>', '<?php echo e($agenda->time_start); ?>', '<?php echo e($agenda->time_end); ?>', '<?php echo e(addslashes($agenda->location ?? '')); ?>', '<?php echo e(addslashes($agenda->category ?? '')); ?>', '<?php echo e(addslashes($agenda->participants ?? '')); ?>', '<?php echo e($agenda->display_type ?? 'berita'); ?>')">
+                                    <button type="button" class="btn-icon" onclick="editAgenda(<?php echo e($agenda->id); ?>, '<?php echo e(addslashes($agenda->title)); ?>', '<?php echo e(addslashes($agenda->description ?? '')); ?>', '<?php echo e($agenda->event_date->format('Y-m-d')); ?>', '<?php echo e($agenda->time_start); ?>', '<?php echo e($agenda->time_end); ?>', '<?php echo e(addslashes($agenda->location ?? '')); ?>', '<?php echo e(addslashes($agenda->category ?? '')); ?>', '<?php echo e(addslashes($agenda->participants ?? '')); ?>', '<?php echo e($agenda->status ?? 'mendatang'); ?>')">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <form action="<?php echo e(route('admin.information.agendas.delete', $agenda->id)); ?>" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus agenda ini?')">
@@ -767,6 +821,11 @@
                             <input type="text" class="form-control" name="category" placeholder="Contoh: Pendidikan, Teknologi, Kesehatan" required>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label">Tanggal Publikasi</label>
+                            <input type="datetime-local" class="form-control" name="published_at" value="<?php echo e(date('Y-m-d\TH:i')); ?>" required>
+                            <small class="text-muted">Tanggal dan waktu publikasi berita</small>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Judul Berita</label>
                             <input type="text" class="form-control" name="title" required>
                         </div>
@@ -805,6 +864,11 @@
                             <input type="text" class="form-control" name="category" id="edit_news_category" required>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label">Tanggal Publikasi</label>
+                            <input type="datetime-local" class="form-control" name="published_at" id="edit_news_published_at" required>
+                            <small class="text-muted">Tanggal dan waktu publikasi berita</small>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Judul Berita</label>
                             <input type="text" class="form-control" name="title" id="edit_news_title" required>
                         </div>
@@ -838,6 +902,11 @@
                     <?php echo csrf_field(); ?>
                     <div class="modal-body">
                         <div class="mb-3">
+                            <label class="form-label">Tanggal Publikasi</label>
+                            <input type="datetime-local" class="form-control" name="published_at" value="<?php echo e(date('Y-m-d\TH:i')); ?>" required>
+                            <small class="text-muted">Tanggal dan waktu publikasi pengumuman</small>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Judul Pengumuman</label>
                             <input type="text" class="form-control" name="title" required>
                         </div>
@@ -868,12 +937,17 @@
                     <?php echo method_field('PUT'); ?>
                     <div class="modal-body">
                         <div class="mb-3">
+                            <label class="form-label">Tanggal Publikasi</label>
+                            <input type="datetime-local" class="form-control" name="published_at" id="edit_announcement_published_at" required>
+                            <small class="text-muted">Tanggal dan waktu publikasi pengumuman</small>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Judul Pengumuman</label>
                             <input type="text" class="form-control" name="title" id="edit_announcement_title" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Isi Pengumuman</label>
-                            <textarea class="form-control" name="content" id="edit_announcement_content" rows="5" required></textarea>
+                            <textarea class="form-control" name="content" id="edit_announcement_content" rows="5" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -914,14 +988,6 @@
                                 <input type="text" class="form-control" name="category" placeholder="Rapat, Dialog Publik, dll">
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Tampilkan Di *</label>
-                            <select class="form-control" name="display_type" required>
-                                <option value="berita">Section Berita</option>
-                                <option value="pengumuman">Section Pengumuman</option>
-                            </select>
-                            <small class="text-muted">Pilih dimana agenda ini akan ditampilkan di halaman profil kabupaten</small>
-                        </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Waktu Mulai</label>
@@ -939,6 +1005,13 @@
                         <div class="mb-3">
                             <label class="form-label">Peserta/Undangan</label>
                             <input type="text" class="form-control" name="participants" placeholder="Kepala Dinas, Masyarakat, dll">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status Agenda</label>
+                            <select class="form-control" name="status">
+                                <option value="mendatang">Mendatang</option>
+                                <option value="selesai">Selesai</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -980,14 +1053,6 @@
                                 <input type="text" class="form-control" name="category" id="edit_agenda_category">
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Tampilkan Di *</label>
-                            <select class="form-control" name="display_type" id="edit_display_type" required>
-                                <option value="berita">Section Berita</option>
-                                <option value="pengumuman">Section Pengumuman</option>
-                            </select>
-                            <small class="text-muted">Pilih dimana agenda ini akan ditampilkan di halaman profil kabupaten</small>
-                        </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Waktu Mulai</label>
@@ -1006,6 +1071,13 @@
                             <label class="form-label">Peserta/Undangan</label>
                             <input type="text" class="form-control" name="participants" id="edit_agenda_participants">
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status Agenda</label>
+                            <select class="form-control" name="status" id="edit_agenda_status">
+                                <option value="mendatang">Mendatang</option>
+                                <option value="selesai">Selesai</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -1015,43 +1087,6 @@
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function editNews(id, category, title, excerpt, content) {
-            document.getElementById('editNewsForm').action = `/admin/information/news/${id}`;
-            document.getElementById('edit_news_category').value = category;
-            document.getElementById('edit_news_title').value = title;
-            document.getElementById('edit_news_excerpt').value = excerpt;
-            document.getElementById('edit_news_content').value = content;
-            new bootstrap.Modal(document.getElementById('editNewsModal')).show();
-        }
-
-        function editAnnouncement(id, title, content) {
-            document.getElementById('editAnnouncementForm').action = `/admin/information/announcements/${id}`;
-            document.getElementById('edit_announcement_title').value = title;
-            document.getElementById('edit_announcement_content').value = content;
-            new bootstrap.Modal(document.getElementById('editAnnouncementModal')).show();
-        }
-
-        function editAgenda(id, title, description, eventDate, timeStart, timeEnd, location, category, participants, displayType) {
-            document.getElementById('editAgendaForm').action = `/admin/information/agendas/${id}`;
-            document.getElementById('edit_agenda_title').value = title;
-            document.getElementById('edit_agenda_description').value = description || '';
-            document.getElementById('edit_event_date').value = eventDate;
-            document.getElementById('edit_time_start').value = timeStart || '';
-            document.getElementById('edit_time_end').value = timeEnd || '';
-            document.getElementById('edit_agenda_location').value = location || '';
-            document.getElementById('edit_agenda_category').value = category || '';
-            document.getElementById('edit_agenda_participants').value = participants || '';
-            document.getElementById('edit_display_type').value = displayType || 'berita';
-            new bootstrap.Modal(document.getElementById('editAgendaModal')).show();
-        }
-
-        // Calendar click handler - untuk klik tanggal di kalender
-        document.addEventListener('DOMContentLoaded', function() {
-            const calendarDays = document.querySelectorAll('.calendar-day');
-    </script>
 
     <!-- Modal Upload Budget -->
     <div class="modal fade" id="uploadBudgetModal" tabindex="-1">
@@ -1091,24 +1126,113 @@
         </div>
     </div>
 
+    <!-- Modal Tambah Desa -->
+    <div class="modal fade" id="addVillageModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Desa Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="<?php echo e(route('admin.villages.store')); ?>" method="POST" enctype="multipart/form-data">
+                    <?php echo csrf_field(); ?>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nama Desa</label>
+                            <input type="text" class="form-control" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Populasi (jiwa)</label>
+                            <input type="number" class="form-control" name="population" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Luas Area (km²)</label>
+                            <input type="number" step="0.01" class="form-control" name="area" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Deskripsi</label>
+                            <textarea class="form-control" name="description" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Gambar Desa (opsional)</label>
+                            <input type="file" class="form-control" name="image" accept="image/*">
+                            <small class="text-muted">Format: JPG, PNG, GIF. Maksimal 2MB</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit Desa -->
+    <div class="modal fade" id="editVillageModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Desa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="editVillageForm" method="POST" enctype="multipart/form-data">
+                    <?php echo csrf_field(); ?>
+                    <?php echo method_field('PUT'); ?>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nama Desa</label>
+                            <input type="text" class="form-control" name="name" id="edit_village_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Populasi (jiwa)</label>
+                            <input type="number" class="form-control" name="population" id="edit_village_population" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Luas Area (km²)</label>
+                            <input type="number" step="0.01" class="form-control" name="area" id="edit_village_area" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Deskripsi</label>
+                            <textarea class="form-control" name="description" id="edit_village_description" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Gambar Desa Baru (opsional)</label>
+                            <input type="file" class="form-control" name="image" id="edit_village_image" accept="image/*">
+                            <small class="text-muted">Kosongkan jika tidak ingin mengganti gambar. Format: JPG, PNG, GIF. Maksimal 2MB</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function editNews(id, category, title, excerpt, content) {
+        function editNews(id, category, title, excerpt, content, publishedAt) {
             document.getElementById('editNewsForm').action = `/admin/information/news/${id}`;
             document.getElementById('edit_news_category').value = category;
+            document.getElementById('edit_news_published_at').value = publishedAt;
             document.getElementById('edit_news_title').value = title;
             document.getElementById('edit_news_excerpt').value = excerpt || '';
             document.getElementById('edit_news_content').value = content;
             new bootstrap.Modal(document.getElementById('editNewsModal')).show();
         }
 
-        function editAnnouncement(id, title, content) {
+        function editAnnouncement(id, title, content, publishedAt) {
             document.getElementById('editAnnouncementForm').action = `/admin/information/announcements/${id}`;
+            document.getElementById('edit_announcement_published_at').value = publishedAt;
             document.getElementById('edit_announcement_title').value = title;
             document.getElementById('edit_announcement_content').value = content;
             new bootstrap.Modal(document.getElementById('editAnnouncementModal')).show();
         }
 
-        function editAgenda(id, title, description, eventDate, timeStart, timeEnd, location, category, participants, displayType) {
+        function editAgenda(id, title, description, eventDate, timeStart, timeEnd, location, category, participants, status) {
+            console.log('Edit agenda called with:', {id, title, eventDate});
             document.getElementById('editAgendaForm').action = `/admin/information/agendas/${id}`;
             document.getElementById('edit_agenda_title').value = title;
             document.getElementById('edit_agenda_description').value = description || '';
@@ -1118,27 +1242,99 @@
             document.getElementById('edit_agenda_location').value = location || '';
             document.getElementById('edit_agenda_category').value = category || '';
             document.getElementById('edit_agenda_participants').value = participants || '';
-            document.getElementById('edit_display_type').value = displayType || 'berita';
+            document.getElementById('edit_agenda_status').value = status || 'mendatang';
             new bootstrap.Modal(document.getElementById('editAgendaModal')).show();
+        }
+
+        function editVillage(id, name, population, area, description, image) {
+            document.getElementById('editVillageForm').action = `/admin/villages/${id}`;
+            document.getElementById('edit_village_name').value = name;
+            document.getElementById('edit_village_population').value = population;
+            document.getElementById('edit_village_area').value = area;
+            document.getElementById('edit_village_description').value = description || '';
+            // Clear file input - user needs to select new file if they want to change it
+            document.getElementById('edit_village_image').value = '';
+            new bootstrap.Modal(document.getElementById('editVillageModal')).show();
+        }
+
+        // FUNCTION: Buka modal tambah agenda
+        function openAddAgendaModal() {
+            console.log('[DEBUG] openAddAgendaModal() called');
+            const modal = document.getElementById('addAgendaModal');
+            if (!modal) {
+                console.error('[ERROR] Modal element #addAgendaModal tidak ditemukan!');
+                alert('Error: Modal tidak ditemukan. Refresh halaman dan coba lagi.');
+                return;
+            }
+            
+            if (typeof bootstrap === 'undefined') {
+                console.error('[ERROR] Bootstrap library tidak loaded!');
+                alert('Error: Bootstrap belum loaded. Refresh halaman dan coba lagi.');
+                return;
+            }
+            
+            console.log('[DEBUG] Membuka modal...');
+            try {
+                const bsModal = new bootstrap.Modal(modal);
+                bsModal.show();
+                console.log('[DEBUG] Modal berhasil dibuka');
+            } catch(err) {
+                console.error('[ERROR] Error membuka modal:', err);
+                alert('Error: ' + err.message);
+            }
         }
 
         // Calendar click handler - untuk klik tanggal di kalender
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, setting up event listeners');
+            
+            // Setup tombol "+ Tambah Agenda" untuk membuka modal
+            const addAgendaBtns = document.querySelectorAll('[data-bs-target="#addAgendaModal"]');
+            console.log('Found Add Agenda buttons:', addAgendaBtns.length);
+            
+            addAgendaBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    console.log('Add Agenda button clicked!');
+                    e.preventDefault();
+                    const modal = document.getElementById('addAgendaModal');
+                    if (modal) {
+                        console.log('Opening modal...');
+                        const bsModal = new bootstrap.Modal(modal);
+                        bsModal.show();
+                    } else {
+                        console.error('Modal element not found!');
+                    }
+                });
+            });
+            
             const calendarDays = document.querySelectorAll('.calendar-day');
+            console.log('Found calendar days:', calendarDays.length);
             
             calendarDays.forEach(day => {
                 day.addEventListener('click', function() {
                     const dateStr = this.dataset.date;
+                    console.log('Calendar day clicked, date:', dateStr);
                     if (dateStr) {
                         // Set tanggal di form tambah agenda
                         document.getElementById('add_event_date').value = dateStr;
                         // Buka modal
-                        new bootstrap.Modal(document.getElementById('addAgendaModal')).show();
+                        const modal = document.getElementById('addAgendaModal');
+                        if (modal) {
+                            new bootstrap.Modal(modal).show();
+                        }
                     }
                 });
             });
+
+            // Tambah event listener untuk form submit debugging
+            const addAgendaForm = document.querySelector('#addAgendaModal form');
+            if (addAgendaForm) {
+                addAgendaForm.addEventListener('submit', function(e) {
+                    console.log('Form tambah agenda submitted');
+                    console.log('Form data:', new FormData(this));
+                });
+            }
         });
     </script>
 </body>
-</html>
-<?php /**PATH C:\Users\LENOVO\Documents\GitHub\E-GovToba\resources\views/admin/information/index.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\Users\ASUS\OneDrive\Documents\GitHub\E-GovToba\resources\views/admin/information/index.blade.php ENDPATH**/ ?>

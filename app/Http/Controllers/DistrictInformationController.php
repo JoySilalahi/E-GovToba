@@ -5,10 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Village;
 use App\Models\District;
-use App\Models\DistrictNews;
-use App\Models\DistrictAnnouncement;
-use App\Models\DistrictAgenda;
-use App\Models\DistrictBudget;
 
 class DistrictInformationController extends Controller
 {
@@ -27,10 +23,6 @@ class DistrictInformationController extends Controller
             ->orderBy('created_at', 'desc')
             ->limit(6)
             ->get();
-        
-        // Ambil berita dan pengumuman terbaru
-        $news = DistrictNews::orderBy('published_at', 'desc')->limit(5)->get();
-        $announcements = DistrictAnnouncement::orderBy('published_at', 'desc')->limit(5)->get();
         
         // Ambil desa dengan visi & misi terbaru
         $villagesWithVision = Village::whereNotNull('visi')
@@ -82,7 +74,7 @@ class DistrictInformationController extends Controller
             ]
         ];
 
-        return view('district-information.index', compact('statistics', 'features', 'tourismSpots', 'district', 'photos', 'villagesWithVision', 'news', 'announcements'));
+        return view('district-information.index', compact('statistics', 'features', 'tourismSpots', 'district', 'photos', 'villagesWithVision'));
     }
 
     public function tourism()
@@ -107,39 +99,43 @@ class DistrictInformationController extends Controller
         
         // Ambil foto yang diupload admin
         $photos = \App\Models\DistrictPhoto::with('district')
-            ->orderBy('updated_at', 'desc')
-            ->get();
-        
-        // Ambil berita dan pengumuman (tanpa agenda)
-        $beritaList = DistrictNews::orderBy('published_at', 'desc')->take(10)->get();
-        $pengumumanList = DistrictAnnouncement::orderBy('published_at', 'desc')->take(10)->get();
-        
-        // Ambil semua agenda untuk ditampilkan di kalender
-        $agendas = DistrictAgenda::orderBy('event_date', 'asc')->get();
-        
-        // Format agenda untuk kalender JavaScript - group by date
-        $simulated_events = [];
-        foreach($agendas as $agenda) {
-            $dateKey = $agenda->event_date->format('Y-m-d');
-            if (!isset($simulated_events[$dateKey])) {
-                $simulated_events[$dateKey] = [];
-            }
-            $simulated_events[$dateKey][] = [
-                'title' => $agenda->title,
-                'category' => $agenda->category ?? 'Agenda',
-                'time_start' => $agenda->time_start,
-                'time_end' => $agenda->time_end,
-                'location' => $agenda->location
-            ];
-        }
-        
-        // Ambil file anggaran kabupaten
-        $budgets = DistrictBudget::where('district_id', $district->id ?? 1)
-            ->orderBy('year', 'desc')
             ->orderBy('created_at', 'desc')
             ->get();
         
-        return view('district-information.profile', compact('district', 'photos', 'beritaList', 'pengumumanList', 'budgets', 'agendas', 'simulated_events'));
+        // Ambil data budget
+        $budgets = \App\Models\DistrictBudget::where('district_id', $district->id ?? 1)
+            ->orderBy('year', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Ambil agenda dari database dan format untuk frontend
+        $agendas = \App\Models\DistrictAgenda::where('district_id', $district->id ?? 1)
+            ->where('status', '!=', 'selesai')  // hanya tampilkan agenda yang belum selesai
+            ->orderBy('event_date', 'asc')
+            ->get();
+
+        // Format agenda data untuk JavaScript
+        $simulated_events = [];
+        foreach ($agendas as $agenda) {
+            $dateStr = $agenda->event_date->format('Y-m-d');
+            if (!isset($simulated_events[$dateStr])) {
+                $simulated_events[$dateStr] = [];
+            }
+            $simulated_events[$dateStr][] = [
+                'id' => $agenda->id,
+                'title' => $agenda->title,
+                'location' => $agenda->location ?? 'Lokasi tidak ditentukan',
+                'time_start' => $agenda->time_start ?? '09:00',
+                'time_end' => $agenda->time_end ?? '10:00',
+                'status' => $agenda->status ?? 'mendatang',
+                'category' => $agenda->category ?? 'Umum'
+            ];
+        }
+
+        // Ambil agenda mendatang untuk sidebar
+        $upcoming_agendas = $agendas->take(5);
+        
+        return view('district-information.profile', compact('district', 'photos', 'budgets', 'simulated_events', 'upcoming_agendas'));
     }
 
     public function villages()
@@ -153,10 +149,38 @@ class DistrictInformationController extends Controller
         $villagesFromDb = Village::with('district')->get();
         
         $villages = $villagesFromDb->map(function($village) {
+            // determine image URL: if stored (storage/public) use storage path, otherwise fallback to public images folder
+            if ($village->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($village->image)) {
+                $imageUrl = asset('storage/' . $village->image);
+            } else {
+                // Normalize name: remove leading 'desa ' if present
+                $normalized = preg_replace('/^desa\s+/i', '', trim($village->name));
+                $base = 'desa ' . strtolower($normalized);
+                $candidates = ["{$base}.jpg", "{$base}.jpeg", "{$base}.png"];
+                $found = null;
+                foreach ($candidates as $c) {
+                    if (file_exists(public_path('images/' . $c))) { $found = $c; break; }
+                }
+                if ($found) {
+                    $imageUrl = asset('images/' . $found);
+                } else {
+                    // try fuzzy match: look for files containing a main token from the name
+                    $tokens = preg_split('/\s+/', $normalized);
+                    $token = $tokens[0] ?? $normalized;
+                    $matches = glob(public_path('images/desa*' . $token . '*'));
+                    if (!empty($matches)) {
+                        // use first match (basename)
+                        $imageUrl = asset('images/' . basename($matches[0]));
+                    } else {
+                        $imageUrl = asset('images/pemandangan-sawah.jpg');
+                    }
+                }
+            }
+
             return [
                 'id' => $village->id,
                 'name' => $village->name,
-                'image' => $village->image ?? 'desa ' . strtolower($village->name) . '.jpg',
+                'image' => $imageUrl,
                 'description' => $village->description ?? 'Desa ' . $village->name,
                 'population' => $village->population,
                 'area' => $village->area . ' km²'
@@ -177,24 +201,43 @@ class DistrictInformationController extends Controller
         header('Pragma: no-cache');
         header('Expires: 0');
         
-        // Ambil data desa beserta pengumuman terbaru
-        $villageFromDb = Village::with('announcements')->findOrFail($id);
+        // Ambil data desa dari database
+        $villageFromDb = Village::findOrFail($id);
         
         // Format data untuk view
+        // prepare image URL for detail view
+        if ($villageFromDb->image && \Illuminate\Support\Facades\Storage::disk('public')->exists($villageFromDb->image)) {
+            $detailImage = asset('storage/' . $villageFromDb->image);
+        } else {
+            $normalized = preg_replace('/^desa\s+/i', '', trim($villageFromDb->name));
+            $base = 'desa ' . strtolower($normalized);
+            $candidates = ["{$base}.jpg", "{$base}.jpeg", "{$base}.png"];
+            $found = null;
+            foreach ($candidates as $c) {
+                if (file_exists(public_path('images/' . $c))) { $found = $c; break; }
+            }
+            if ($found) {
+                $detailImage = asset('images/' . $found);
+            } else {
+                $tokens = preg_split('/\s+/', $normalized);
+                $token = $tokens[0] ?? $normalized;
+                $matches = glob(public_path('images/desa*' . $token . '*'));
+                if (!empty($matches)) {
+                    $detailImage = asset('images/' . basename($matches[0]));
+                } else {
+                    $detailImage = asset('images/pemandangan-sawah.jpg');
+                }
+            }
+        }
+
         $village = [
             'id' => $villageFromDb->id,
             'name' => $villageFromDb->name,
-            'image' => $villageFromDb->image ?? 'desa ' . strtolower($villageFromDb->name) . '.jpg',
+            'image' => $detailImage,
             'population' => $villageFromDb->population,
             'visi' => $villageFromDb->visi ?? 'Visi belum ditetapkan. Silakan hubungi admin desa untuk informasi lebih lanjut.',
             'misi' => $villageFromDb->misi ?? 'Misi belum ditetapkan. Silakan hubungi admin desa untuk informasi lebih lanjut.',
             'updated_at' => $villageFromDb->updated_at->timestamp ?? time(),
-            'announcements' => $villageFromDb->announcements ? $villageFromDb->announcements->map(function($a) {
-                return [
-                    'title' => $a->title,
-                    'content' => $a->content
-                ];
-            })->toArray() : [],
             'programs' => [
                 [
                     'title' => 'Program Bantuan Kawasan Daerah Toba',

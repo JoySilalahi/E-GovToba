@@ -19,9 +19,76 @@ class InformationController extends Controller
         // Assuming we have one district (Kabupaten Toba)
         $district = District::with('photos')->first();
         
-        // Ambil berita dan pengumuman (tanpa agenda)
-        $news = DistrictNews::orderBy('published_at', 'desc')->get();
-        $announcements = DistrictAnnouncement::orderBy('published_at', 'desc')->get();
+        // Gabungkan berita dengan agenda berita
+        $newsItems = DistrictNews::orderBy('published_at', 'desc')->get();
+        $agendaBerita = DistrictAgenda::where('display_type', 'berita')
+            ->where('event_date', '>=', now()->startOfDay())
+            ->get();
+        
+        $beritaCollection = collect();
+        foreach ($newsItems as $item) {
+            $beritaCollection->push((object)[
+                'id' => $item->id,
+                'type' => 'news',
+                'title' => $item->title,
+                'excerpt' => $item->excerpt,
+                'content' => $item->content,
+                'category' => $item->category,
+                'date' => $item->published_at,
+                'sort_date' => $item->published_at
+            ]);
+        }
+        foreach ($agendaBerita as $item) {
+            $beritaCollection->push((object)[
+                'id' => $item->id,
+                'type' => 'agenda',
+                'title' => $item->title,
+                'excerpt' => $item->description,
+                'content' => $item->description,
+                'category' => $item->category ?? 'Agenda',
+                'date' => \Carbon\Carbon::parse($item->event_date),
+                'time_start' => $item->time_start,
+                'time_end' => $item->time_end,
+                'location' => $item->location,
+                'display_type' => $item->display_type,
+                'sort_date' => \Carbon\Carbon::parse($item->event_date)
+            ]);
+        }
+        $news = $beritaCollection->sortByDesc('sort_date');
+        
+        // Gabungkan pengumuman dengan agenda pengumuman
+        $announcementItems = DistrictAnnouncement::orderBy('published_at', 'desc')->get();
+        $agendaPengumuman = DistrictAgenda::where('display_type', 'pengumuman')
+            ->where('event_date', '>=', now()->startOfDay())
+            ->get();
+        
+        $pengumumanCollection = collect();
+        foreach ($announcementItems as $item) {
+            $pengumumanCollection->push((object)[
+                'id' => $item->id,
+                'type' => 'announcement',
+                'title' => $item->title,
+                'content' => $item->content,
+                'date' => $item->published_at,
+                'sort_date' => $item->published_at
+            ]);
+        }
+        foreach ($agendaPengumuman as $item) {
+            $pengumumanCollection->push((object)[
+                'id' => $item->id,
+                'type' => 'agenda',
+                'title' => $item->title,
+                'content' => $item->description,
+                'category' => $item->category ?? 'Agenda',
+                'date' => \Carbon\Carbon::parse($item->event_date),
+                'time_start' => $item->time_start,
+                'time_end' => $item->time_end,
+                'location' => $item->location,
+                'display_type' => $item->display_type,
+                'sort_date' => \Carbon\Carbon::parse($item->event_date)
+            ]);
+        }
+        $announcements = $pengumumanCollection->sortByDesc('sort_date');
         
         $agendas = DistrictAgenda::orderBy('event_date', 'asc')->get();
         
@@ -31,7 +98,10 @@ class InformationController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
         
-        return view('admin.information.index', compact('district', 'news', 'announcements', 'agendas', 'budgets'));
+        // Get villages for the new Daftar Desa tab
+        $villages = \App\Models\Village::orderBy('name', 'asc')->get();
+        
+        return view('admin.information.index', compact('district', 'news', 'announcements', 'agendas', 'budgets', 'villages'));
     }
 
     public function updateVisiMisi(Request $request)
@@ -242,7 +312,6 @@ class InformationController extends Controller
             'title' => 'required|string|max:255',
             'excerpt' => 'nullable|string',
             'content' => 'required|string',
-            'published_at' => 'required|date',
         ]);
 
         $district = District::first();
@@ -253,7 +322,7 @@ class InformationController extends Controller
             'title' => $request->title,
             'excerpt' => $request->excerpt,
             'content' => $request->content,
-            'published_at' => $request->published_at,
+            'published_at' => now(),
             'published_by' => auth()->id()
         ]);
 
@@ -270,7 +339,6 @@ class InformationController extends Controller
             'title' => 'required|string|max:255',
             'excerpt' => 'nullable|string',
             'content' => 'required|string',
-            'published_at' => 'required|date',
         ]);
 
         $news = DistrictNews::findOrFail($id);
@@ -279,7 +347,6 @@ class InformationController extends Controller
             'title' => $request->title,
             'excerpt' => $request->excerpt,
             'content' => $request->content,
-            'published_at' => $request->published_at,
         ]);
 
         \Artisan::call('cache:clear');
@@ -305,7 +372,6 @@ class InformationController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'published_at' => 'required|date',
         ]);
 
         $district = District::first();
@@ -314,7 +380,7 @@ class InformationController extends Controller
             'district_id' => $district->id,
             'title' => $request->title,
             'content' => $request->content,
-            'published_at' => $request->published_at,
+            'published_at' => now(),
             'published_by' => auth()->id()
         ]);
 
@@ -329,14 +395,12 @@ class InformationController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'published_at' => 'required|date',
         ]);
 
         $announcement = DistrictAnnouncement::findOrFail($id);
         $announcement->update([
             'title' => $request->title,
             'content' => $request->content,
-            'published_at' => $request->published_at,
         ]);
 
         \Artisan::call('cache:clear');
@@ -359,45 +423,40 @@ class InformationController extends Controller
     // Agenda Management
     public function storeAgenda(Request $request)
     {
-        try {
-            \Log::info('Store agenda called', $request->all());
-            
-            $request->validate([
-                'title' => 'required|string|max:255',
-                'description' => 'nullable|string',
-                'event_date' => 'required|date',
-                'time_start' => 'nullable',
-                'time_end' => 'nullable',
-                'location' => 'nullable|string|max:255',
-                'category' => 'nullable|string|max:100',
-                'participants' => 'nullable|string|max:255',
-            ]);
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'event_date' => 'required|date',
+            'time_start' => 'nullable|date_format:H:i',
+            'time_end' => 'nullable|date_format:H:i',
+            'location' => 'nullable|string|max:255',
+            'category' => 'nullable|string|max:100',
+            'display_type' => 'required|in:berita,pengumuman',
+            'status' => 'nullable|in:mendatang,selesai',
+            'participants' => 'nullable|string|max:255',
+        ]);
 
-            $district = District::first();
-            
-            $agenda = DistrictAgenda::create([
-                'district_id' => $district->id,
-                'title' => $request->title,
-                'description' => $request->description,
-                'event_date' => $request->event_date,
-                'time_start' => $request->time_start,
-                'time_end' => $request->time_end,
-                'location' => $request->location,
-                'category' => $request->category,
-                'participants' => $request->participants,
-                'created_by' => auth()->id(),
-            ]);
+        $district = District::first();
+        
+        DistrictAgenda::create([
+            'district_id' => $district->id,
+            'title' => $request->title,
+            'description' => $request->description,
+            'event_date' => $request->event_date,
+            'time_start' => $request->time_start,
+            'time_end' => $request->time_end,
+            'location' => $request->location,
+            'category' => $request->category,
+            'display_type' => $request->display_type,
+            'status' => $request->status ?? 'mendatang',
+            'participants' => $request->participants,
+            'created_by' => auth()->id(),
+        ]);
 
-            \Log::info('Agenda created', ['id' => $agenda->id]);
+        \Artisan::call('cache:clear');
+        \Artisan::call('view:clear');
 
-            \Artisan::call('cache:clear');
-            \Artisan::call('view:clear');
-
-            return back()->with('success', 'Agenda berhasil ditambahkan!');
-        } catch (\Exception $e) {
-            \Log::error('Error storing agenda: ' . $e->getMessage());
-            return back()->with('error', 'Gagal menambahkan agenda: ' . $e->getMessage());
-        }
+        return back()->with('success', 'Agenda berhasil ditambahkan!');
     }
 
     public function updateAgenda(Request $request, $id)
@@ -406,10 +465,12 @@ class InformationController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'event_date' => 'required|date',
-            'time_start' => 'nullable',
-            'time_end' => 'nullable',
+            'time_start' => 'nullable|date_format:H:i',
+            'time_end' => 'nullable|date_format:H:i',
             'location' => 'nullable|string|max:255',
             'category' => 'nullable|string|max:100',
+            'display_type' => 'required|in:berita,pengumuman',
+            'status' => 'nullable|in:mendatang,selesai',
             'participants' => 'nullable|string|max:255',
         ]);
 
@@ -422,6 +483,8 @@ class InformationController extends Controller
             'time_end' => $request->time_end,
             'location' => $request->location,
             'category' => $request->category,
+            'display_type' => $request->display_type,
+            'status' => $request->status ?? 'mendatang',
             'participants' => $request->participants,
         ]);
 

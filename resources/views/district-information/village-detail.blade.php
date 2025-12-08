@@ -6,9 +6,9 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>{{ $village['name'] }} - Toba Hita</title>
+    <title>{{ $village['name'] }}- Toba Hita</title>
     
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}" />
+    <link rel="icon" type="image/png" href="http://127.0.0.1:8000/images/logo.png" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -64,7 +64,7 @@
             padding: 80px 20px 100px;
             background-image:
                 linear-gradient(180deg, rgba(8,40,66,0.6), rgba(8,40,66,0.4)),
-                url('{{ asset('images/' . $village['image']) }}');
+                url('{{ $village["image"] }}');
             background-size:cover;
             background-position:center center;
             color:#fff;
@@ -131,6 +131,71 @@
             margin-top: 24px;
         }
 
+        /* Announcement Search & Filter */
+        .announcement-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 42px 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(11, 121, 184, 0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 10px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-select:hover {
+            border-color: var(--primary);
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(11, 121, 184, 0.1);
+        }
+
         /* Announcements */
         .announcements-grid {
             display: flex;
@@ -144,6 +209,46 @@
             padding: 20px;
             border-radius: 12px;
             box-shadow:0 2px 8px rgba(11,121,184,0.08);
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .announcement-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(11,121,184,0.15);
+        }
+
+        .announcement-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
+        .announcement-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--primary);
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .announcement-new {
+            background: #ef4444;
+            padding: 4px 10px;
+            font-size: 10px;
+            border-radius: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
         .announcement-title {
@@ -157,6 +262,33 @@
             font-size: 14px;
             color: #64748b;
             line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .announcement-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .announcement-meta i {
+            margin-right: 4px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--muted);
+        }
+
+        .no-results i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.3;
         }
 
         /* Budget */
@@ -290,6 +422,8 @@
             .content-grid{grid-template-columns:1fr;}
             .sidebar{position:static;margin-top:24px;}
             .hero h1{font-size:36px}
+            .announcement-controls{flex-direction: column;}
+            .search-box{min-width: 100%;}
         }
         @media (max-width:640px){
             .hero h1{font-size:28px}
@@ -304,7 +438,7 @@
     <nav class="site-nav" role="navigation" aria-label="Utama">
         <div class="navbar-container">
             <a class="brand" href="/" aria-label="Beranda Toba Hita">
-                <img src="{{ asset('images/logo.png') }}" alt="logo Kabupaten Toba">
+                <img src="http://127.0.0.1:8000/images/logo.png" alt="logo Kabupaten Toba">
             </a>
             <ul class="nav-menu" role="menubar" aria-label="Utama">
                 <li><a href="/">Beranda</a></li>
@@ -321,7 +455,7 @@
     <div class="hero">
         <div>
             <h1>{{ $village['name'] }}</h1>
-            <div class="hero-population">{{ number_format($village['population']) }}</div>
+            <div class="hero-population">{{ $village['population'] ?? 0 }}</div>
             <div class="hero-label">Penduduk</div>
         </div>
     </div>
@@ -335,30 +469,130 @@
                     <h2 class="section-title">Visi & Misi</h2>
                     <div class="section-content">
                         <div class="visi-label">Visi:</div>
-                        <p>{{ $village['visi'] }}</p>
-                        
+                        <p>{{ $village['visi'] ?? 'Visi belum ditetapkan. Silakan hubungi admin desa untuk informasi lebih lanjut.' }}</p>
+
                         <div class="misi-label">Misi:</div>
-                        <p>{{ $village['misi'] }}</p>
+                        <p>{{ $village['misi'] ?? 'Misi belum ditetapkan. Silakan hubungi admin desa untuk informasi lebih lanjut.' }}</p>
                     </div>
                 </div>
 
                 <!-- Pengumuman -->
                 <div class="section">
                     <h2 class="section-title">Pengumuman Desa</h2>
-                    <div class="announcements-grid">
-                        @if(!empty($village['announcements']))
-                            @foreach($village['announcements'] as $announcement)
-                                <div class="announcement-card">
-                                    <div class="announcement-title">{{ $announcement['title'] }}</div>
-                                    <div class="announcement-content">{{ $announcement['content'] }}</div>
-                                </div>
-                            @endforeach
-                        @else
-                            <div class="announcement-card">
-                                <div class="announcement-title">Belum ada pengumuman terbaru.</div>
-                                <div class="announcement-content">Pantau terus halaman ini untuk informasi terkini dari desa.</div>
+                    
+                    <!-- Search & Filter Controls -->
+                    <div class="announcement-controls">
+                        <div class="search-box">
+                            <input 
+                                type="text" 
+                                id="searchInput" 
+                                placeholder="Cari pengumuman..." 
+                                onkeyup="filterAnnouncements()"
+                            />
+                            <i class="fas fa-search"></i>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <select id="categoryFilter" class="filter-select" onchange="filterAnnouncements()">
+                                <option value="">Semua Kategori</option>
+                                <option value="administrasi">Administrasi & Layanan</option>
+                                <option value="bantuan">Program & Bantuan Sosial</option>
+                                <option value="kegiatan">Kegiatan Desa</option>
+                                <option value="keuangan">Keuangan & Transparansi</option>
+                                <option value="pembangunan">Pembangunan & Infrastruktur</option>
+                                <option value="rekrutmen">Rekrutmen & Lowongan</option>
+                                <option value="keamanan">Keamanan & Himbauan</option>
+                                <option value="kesehatan">Kesehatan & Lingkungan</option>
+                            </select>
+                            
+                            <select id="yearFilter" class="filter-select" onchange="filterAnnouncements()">
+                                <option value="">Semua Tahun</option>
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Announcements Grid -->
+                    <div class="announcements-grid" id="announcementsContainer">
+                        <!-- Sample Announcements (akan diganti dengan data real dari backend) -->
+                        <div class="announcement-card" data-category="kesehatan" data-year="2025" data-new="true">
+                            <div class="announcement-header">
+                                <span class="announcement-badge">Kesehatan & Lingkungan</span>
+                                <span class="announcement-new">BARU</span>
                             </div>
-                        @endif
+                            <div class="announcement-title">Jadwal Vaksinasi COVID-19 Booster</div>
+                            <div class="announcement-content">
+                                Pelaksanaan vaksinasi booster COVID-19 akan dilaksanakan pada hari Minggu, 15 Desember 2025 di Balai Desa Meat. Mohon membawa KTP dan kartu vaksinasi sebelumnya.
+                            </div>
+                            <div class="announcement-meta">
+                                <span><i class="far fa-calendar"></i>7 Des 2025</span>
+                                <span><i class="far fa-clock"></i>08:00 - 14:00</span>
+                            </div>
+                        </div>
+
+                        <div class="announcement-card" data-category="kegiatan" data-year="2025">
+                            <div class="announcement-header">
+                                <span class="announcement-badge">Kegiatan Desa</span>
+                            </div>
+                            <div class="announcement-title">Gotong Royong Bersih Desa</div>
+                            <div class="announcement-content">
+                                Mengajak seluruh warga untuk berpartisipasi dalam kegiatan gotong royong membersihkan lingkungan desa pada hari Sabtu, 14 Desember 2025 pukul 07:00 WIB.
+                            </div>
+                            <div class="announcement-meta">
+                                <span><i class="far fa-calendar"></i>5 Des 2025</span>
+                                <span><i class="far fa-user"></i>Karang Taruna</span>
+                            </div>
+                        </div>
+
+                        <div class="announcement-card" data-category="administrasi" data-year="2025">
+                            <div class="announcement-header">
+                                <span class="announcement-badge">Administrasi & Layanan</span>
+                            </div>
+                            <div class="announcement-title">Libur Pelayanan Kantor Desa</div>
+                            <div class="announcement-content">
+                                Pelayanan administrasi di kantor desa akan libur pada tanggal 25 Desember 2025 dalam rangka Hari Natal. Pelayanan kembali normal pada tanggal 26 Desember 2025.
+                            </div>
+                            <div class="announcement-meta">
+                                <span><i class="far fa-calendar"></i>3 Des 2025</span>
+                                <span><i class="far fa-building"></i>Kantor Desa</span>
+                            </div>
+                        </div>
+
+                        <div class="announcement-card" data-category="bantuan" data-year="2025">
+                            <div class="announcement-header">
+                                <span class="announcement-badge">Program & Bantuan Sosial</span>
+                            </div>
+                            <div class="announcement-title">Pendaftaran Penerima Bantuan Sosial 2025</div>
+                            <div class="announcement-content">
+                                Dibuka pendaftaran untuk penerima bantuan sosial tahun 2025. Persyaratan: KK, KTP, Surat Keterangan Tidak Mampu. Pendaftaran ditutup tanggal 20 Desember 2025.
+                            </div>
+                            <div class="announcement-meta">
+                                <span><i class="far fa-calendar"></i>1 Des 2025</span>
+                                <span><i class="far fa-file-alt"></i>Daftar sekarang</span>
+                            </div>
+                        </div>
+
+                        <div class="announcement-card" data-category="keuangan" data-year="2024">
+                            <div class="announcement-header">
+                                <span class="announcement-badge">Keuangan & Transparansi</span>
+                            </div>
+                            <div class="announcement-title">Laporan Realisasi APBDes 2024</div>
+                            <div class="announcement-content">
+                                Laporan realisasi Anggaran Pendapatan dan Belanja Desa tahun 2024 telah tersedia untuk diunduh. Silakan akses melalui menu Transparansi Anggaran.
+                            </div>
+                            <div class="announcement-meta">
+                                <span><i class="far fa-calendar"></i>28 Nov 2024</span>
+                                <span><i class="far fa-file-pdf"></i>Unduh PDF</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- No Results Message -->
+                    <div class="no-results" id="noResults" style="display: none;">
+                        <i class="fas fa-search"></i>
+                        <p>Tidak ada pengumuman yang sesuai dengan pencarian Anda.</p>
                     </div>
                 </div>
 
@@ -368,13 +602,13 @@
                     <p class="section-content" style="margin-bottom: 20px;">
                         Dokumen laporan realisasi anggaran {{ $village['name'] }} dapat diunduh untuk transparansi dan akuntabilitas pengelolaan keuangan desa.
                     </p>
-                    
-                    <div class="budget-amount">{{ $village['budget'] }}</div>
-                    
-                    <a href="{{ asset('documents/apbd-2025.pdf') }}" class="budget-download" download title="Unduh {{ $village['budget'] }}">
+
+                    <div class="budget-amount">{{ $village['budget'] ?? 'APBD 2025' }}</div>
+
+                    <a href="{{ $village['budget_file'] ?? url('documents/apbd-2025.pdf') }}" class="budget-download" download title="Unduh Anggaran">
                         <span class="budget-icon"><i class="fa fa-file-pdf"></i></span>
                         <div>
-                            <div class="budget-text">{{ $village['budget'] }}</div>
+                            <div class="budget-text">{{ $village['budget'] ?? 'APBD 2025' }}</div>
                             <div style="font-size:12px;color:var(--muted);margin-top:4px">Klik untuk mengunduh dokumen</div>
                         </div>
                     </a>
@@ -386,19 +620,27 @@
                 <!-- Leader Card -->
                 <div class="leader-card">
                     <div class="leader-avatar">👤</div>
-                    <div class="leader-name">{{ $village['leader']['name'] }}</div>
-                    <div class="leader-title">{{ $village['leader']['title'] }}</div>
+                    <div class="leader-name">{{ $village['leader']['name'] ?? 'Kepala Desa' }}</div>
+                    <div class="leader-title">{{ $village['leader']['title'] ?? 'Kepala Desa' }}</div>
                 </div>
 
                 <!-- Stats -->
                 <div class="stats-list">
-                    @foreach($village['stats'] as $stat)
-                    <div class="stat-item">
-                        <div class="stat-value">{{ $stat['value'] }}</div>
-                        <div class="stat-label">{{ $stat['label'] }}</div>
-                        <div class="stat-sublabel">{{ $stat['sublabel'] }}</div>
-                    </div>
-                    @endforeach
+                    @if(!empty($village['stats']) && is_array($village['stats']))
+                        @foreach($village['stats'] as $stat)
+                            <div class="stat-item">
+                                <div class="stat-value">{{ $stat['value'] }}</div>
+                                <div class="stat-label">{{ $stat['label'] }}</div>
+                                <div class="stat-sublabel">{{ $stat['sublabel'] }}</div>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="stat-item">
+                            <div class="stat-value">0</div>
+                            <div class="stat-label">Agenda Mendatang</div>
+                            <div class="stat-sublabel">Kegiatan</div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -408,7 +650,7 @@
     <footer>
         <div class="footer-inner">
             <div class="footer-left" style="display:flex; align-items:center; gap:16px;">
-                <img src="{{ asset('images/logo.png') }}" alt="logo" style="height:42px;">
+                <img src="http://127.0.0.1:8000/images/logo.png" alt="logo" style="height:42px;">
                 <div>
                     <strong>Toba Hita</strong>
                     <div class="footer-small">Portal informasi terintegrasi untuk transparansi dan pelayanan publik di Kabupaten Toba.</div>
@@ -434,11 +676,49 @@
     </footer>
 
     <script>
+        // Filter Announcements Function
+        function filterAnnouncements() {
+            const searchText = document.getElementById('searchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const yearFilter = document.getElementById('yearFilter').value;
+            
+            const cards = document.querySelectorAll('.announcement-card');
+            const container = document.getElementById('announcementsContainer');
+            const noResults = document.getElementById('noResults');
+            
+            let visibleCount = 0;
+            
+            cards.forEach(card => {
+                const title = card.querySelector('.announcement-title').textContent.toLowerCase();
+                const content = card.querySelector('.announcement-content').textContent.toLowerCase();
+                const category = card.dataset.category || '';
+                const year = card.dataset.year || '';
+                
+                const matchesSearch = title.includes(searchText) || content.includes(searchText);
+                const matchesCategory = !categoryFilter || category === categoryFilter;
+                const matchesYear = !yearFilter || year === yearFilter;
+                
+                if (matchesSearch && matchesCategory && matchesYear) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Show/hide no results message
+            if (visibleCount === 0) {
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+            }
+        }
+
         // Auto-refresh untuk cek update visi misi setiap 10 detik
-        let lastUpdated = '{{ $village["updated_at"] ?? "" }}';
-        
+        let lastUpdated = {{ $village['updated_at'] ?? time() }};
+
         setInterval(function() {
-            fetch('/api/village-check-update/{{ $village["id"] }}')
+            fetch('/api/village-check-update/{{ $village['id'] }}')
                 .then(response => response.json())
                 .then(data => {
                     if (data.updated_at !== lastUpdated && lastUpdated !== '') {
@@ -449,6 +729,18 @@
                 })
                 .catch(error => console.log('Check update error:', error));
         }, 10000);
+
+        // Auto-hide "BARU" badge after 7 days
+        document.addEventListener('DOMContentLoaded', function() {
+            const newBadges = document.querySelectorAll('.announcement-new');
+            const currentDate = new Date();
+            
+            newBadges.forEach(badge => {
+                const card = badge.closest('.announcement-card');
+                const dateText = card.querySelector('.announcement-meta span').textContent;
+                // Implement date comparison logic here if needed
+            });
+        });
     </script>
 </body>
 </html>

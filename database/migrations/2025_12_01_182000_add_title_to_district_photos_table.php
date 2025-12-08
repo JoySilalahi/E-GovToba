@@ -5,13 +5,28 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
     public function up() {
-        Schema::table('district_photos', function (Blueprint $table) {
-            $table->string('title')->nullable()->after('photo_path');
-        });
+        if (! Schema::hasTable('district_photos')) {
+            Schema::create('district_photos', function (Blueprint $table) {
+                $table->id();
+                $table->timestamps();
+            });
+        }
+
+        if (Schema::hasTable('district_photos') && ! Schema::hasColumn('district_photos', 'title')) {
+            Schema::table('district_photos', function (Blueprint $table) {
+                $table->string('title')->nullable();
+            });
+        }
     }
     public function down() {
-        Schema::table('district_photos', function (Blueprint $table) {
-            $table->dropColumn('title');
-        });
+        if (Schema::hasTable('district_photos') && Schema::hasColumn('district_photos', 'title')) {
+            Schema::table('district_photos', function (Blueprint $table) {
+                try {
+                    $table->dropColumn('title');
+                } catch (\Exception $e) {
+                    // ignore on DBs that don't support drop
+                }
+            });
+        }
     }
 };

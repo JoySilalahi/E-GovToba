@@ -5,13 +5,30 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
     public function up() {
-        Schema::table('district_photos', function (Blueprint $table) {
-            $table->string('photo_path')->nullable()->after('district_id');
-        });
+        if (! Schema::hasTable('district_photos')) {
+            Schema::create('district_photos', function (Blueprint $table) {
+                $table->id();
+                $table->timestamps();
+            });
+        }
+
+        if (Schema::hasTable('district_photos') && ! Schema::hasColumn('district_photos', 'photo_path')) {
+            Schema::table('district_photos', function (Blueprint $table) {
+                // SQLite does not support ->after(), but it's harmless to include on other DBs
+                $table->string('photo_path')->nullable();
+            });
+        }
     }
     public function down() {
-        Schema::table('district_photos', function (Blueprint $table) {
-            $table->dropColumn('photo_path');
-        });
+        if (Schema::hasTable('district_photos') && Schema::hasColumn('district_photos', 'photo_path')) {
+            Schema::table('district_photos', function (Blueprint $table) {
+                // Note: dropping columns on SQLite may not be supported in older versions
+                try {
+                    $table->dropColumn('photo_path');
+                } catch (\Exception $e) {
+                    // ignore; manual cleanup may be required
+                }
+            });
+        }
     }
 };

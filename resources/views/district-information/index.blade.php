@@ -3,8 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Toba Hita</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}" />
+    <title>Beranda - Toba Hita</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -70,126 +69,153 @@
         .card-feature h3{margin-bottom:8px;font-size:16px}
         .card-feature p{color:var(--muted);font-size:14px;line-height:1.6}
 
-        /* News & Announcements Section */
-        .news-section{
-            padding:64px 18px;
+        /* GALLERY SECTION */
+        .gallery-section{
+            padding:64px 18px 84px;
             background:#fff;
         }
-        .news-section .container{
+        .gallery-section .container{
             max-width:1100px;
             margin:0 auto;
         }
-        .section-header{
+        .gallery-section h2{
             text-align:center;
-            margin-bottom:42px;
-        }
-        .section-header h2{
-            font-size:32px;
-            margin-bottom:8px;
+            font-size:28px;
+            margin-bottom:12px;
             color:var(--dark);
         }
-        .section-header p{
+        .gallery-section .subtitle{
+            text-align:center;
             color:var(--muted);
-            font-size:16px;
+            font-size:15px;
+            margin-bottom:36px;
         }
-        .news-grid{
-            display:grid;
-            grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));
-            gap:24px;
-            margin-bottom:48px;
+        .photo-grid{
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding-bottom: 20px;
         }
-        .news-card{
-            background:#fff;
+        .photo-grid::-webkit-scrollbar {
+            height: 8px;
+        }
+        .photo-grid::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .photo-grid::-webkit-scrollbar-thumb {
+            background: #0b79b8;
+            border-radius: 4px;
+        }
+        .photo-grid::-webkit-scrollbar-thumb:hover {
+            background: #096598;
+        }
+        .photo-card{
+            flex: 0 0 320px;
             border-radius:12px;
             overflow:hidden;
-            box-shadow:0 2px 12px rgba(0,0,0,0.08);
-            transition:transform 0.3s, box-shadow 0.3s;
-            cursor:pointer;
+            box-shadow:0 4px 12px rgba(0,0,0,0.08);
+            transition:transform 0.3s ease, box-shadow 0.3s ease;
+            background:#fff;
         }
-        .news-card:hover{
+        .photo-card:hover{
             transform:translateY(-4px);
             box-shadow:0 8px 24px rgba(0,0,0,0.12);
         }
-        .news-image{
-            width:100%;
-            height:180px;
+        .photo-card img{
+            width:320px;
+            height:240px;
             object-fit:cover;
-            background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            color:#fff;
-            font-size:48px;
+            display:block;
         }
-        .news-content{
-            padding:20px;
-        }
-        .news-category{
-            display:inline-block;
-            background:var(--bg-light);
-            color:var(--primary);
-            padding:4px 12px;
-            border-radius:999px;
-            font-size:12px;
-            font-weight:600;
-            margin-bottom:8px;
-        }
-        .news-title{
-            font-size:18px;
-            font-weight:600;
-            margin-bottom:8px;
-            color:var(--dark);
-            line-height:1.4;
-        }
-        .news-excerpt{
-            color:var(--muted);
-            font-size:14px;
-            line-height:1.6;
-            margin-bottom:12px;
-            display:-webkit-box;
-            -webkit-line-clamp:2;
-            -webkit-box-orient:vertical;
-            overflow:hidden;
-        }
-        .news-meta{
-            display:flex;
-            gap:16px;
-            font-size:13px;
-            color:var(--muted);
-        }
-        .announcements-box{
-            background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius:12px;
-            padding:32px;
-            color:#fff;
-            margin-top:32px;
-        }
-        .announcements-box h3{
-            font-size:24px;
-            margin-bottom:20px;
-            display:flex;
-            align-items:center;
-            gap:12px;
-        }
-        .announcement-item{
-            background:rgba(255,255,255,0.15);
-            backdrop-filter:blur(10px);
+        .photo-card-body{
             padding:16px;
-            border-radius:8px;
-            margin-bottom:12px;
-            border-left:4px solid rgba(255,255,255,0.5);
         }
-        .announcement-item:last-child{
-            margin-bottom:0;
-        }
-        .announcement-title{
-            font-size:16px;
+        .photo-card-title{
+            font-size:15px;
             font-weight:600;
-            margin-bottom:6px;
+            color:var(--dark);
+            margin:0;
         }
-        .announcement-date{
+        .photo-card-date{
             font-size:13px;
-            opacity:0.9;
+            color:var(--muted);
+            margin-top:4px;
+        }
+        .empty-gallery{
+            text-align:center;
+            padding:48px 24px;
+            color:var(--muted);
+        }
+        .empty-gallery i{
+            font-size:48px;
+            margin-bottom:16px;
+            opacity:0.5;
+        }
+
+        /* VILLAGE VISION SECTION */
+        .village-vision-section{
+            padding:64px 18px 84px;
+            background:#f8f9fa;
+        }
+        .village-vision-section .container{
+            max-width:1100px;
+            margin:0 auto;
+        }
+        .village-vision-section h2{
+            text-align:center;
+            font-size:28px;
+            margin-bottom:12px;
+            color:var(--dark);
+        }
+        .village-vision-section .subtitle{
+            text-align:center;
+            color:var(--muted);
+            font-size:15px;
+            margin-bottom:36px;
+        }
+        .vision-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+            gap:24px;
+        }
+        .vision-card{
+            background:#fff;
+            border-radius:12px;
+            padding:24px;
+            box-shadow:0 4px 12px rgba(0,0,0,0.08);
+            transition:transform 0.3s ease, box-shadow 0.3s ease;
+            border-left:4px solid var(--primary);
+        }
+        .vision-card:hover{
+            transform:translateY(-4px);
+            box-shadow:0 8px 24px rgba(0,0,0,0.12);
+        }
+        .vision-card h3{
+            font-size:18px;
+            font-weight:700;
+            color:var(--primary);
+            margin:0 0 16px 0;
+        }
+        .vision-label{
+            font-size:13px;
+            font-weight:700;
+            color:var(--dark);
+            margin:0 0 8px 0;
+            text-transform:uppercase;
+            letter-spacing:0.5px;
+        }
+        .vision-text{
+            font-size:14px;
+            color:#475569;
+            line-height:1.7;
+            margin:0 0 16px 0;
+        }
+        .vision-updated{
+            font-size:12px;
+            color:var(--muted);
+            font-style:italic;
         }
 
         /* Documentation Section */
@@ -363,7 +389,7 @@
         <div class="wrap">
             <h1>Membangun Toba,<br>Digitalisasi Jantung<br>Budaya Batak</h1>
             <p>Selamat datang di portal e‑Government Kabupaten Toba. Temukan informasi desa, transparansi anggaran, dan layanan publik dalam satu platform terintegrasi.</p>
-            <a class="cta" href="/villages">Jelajahi Desa Sekarang</a>
+            <a class="cta" href="/villages">Jelajahi Desa Sekarang <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
         </div>
     </section>
 
@@ -372,26 +398,25 @@
             <h2 id="fitur-heading">Fitur Unggulan Toba Hita</h2>
             <div class="grid">
                 <div class="card-feature">
-                        <div class="feature-icon"><i class="fa fa-headset" aria-hidden="true"></i></div>
+                    <div class="feature-icon"><i class="fa fa-users" aria-hidden="true"></i></div>
                     <h3>Data Desa</h3>
                     <p>Kelola data penduduk lebih aman & efisien dengan antarmuka yang jelas dan export data.</p>
                 </div>
 
                 <div class="card-feature">
-                        <div class="feature-icon"><i class="fa fa-chart-bar" aria-hidden="true"></i></div>
+                    <div class="feature-icon"><i class="fa fa-chart-bar" aria-hidden="true"></i></div>
                     <h3>Transparansi Anggaran</h3>
                     <p>Lihat dan unduh laporan Anggaran Pendapatan dan Belanja Desa (APBDes) secara transparan.</p>
                 </div>
 
                 <div class="card-feature">
-                        <div class="feature-icon"><i class="fa fa-shield-alt" aria-hidden="true"></i></div>
+                    <div class="feature-icon"><i class="fa fa-shield-alt" aria-hidden="true"></i></div>
                     <h3>Layanan Informasi</h3>
                     <p>Pelayanan publik lebih modern & cepat melalui formulir digital dan notifikasi.</p>
                 </div>
             </div>
         </div>
     </section>
-
 </main>
 
 
