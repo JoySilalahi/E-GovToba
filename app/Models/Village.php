@@ -16,12 +16,14 @@ class Village extends Model
         'head_of_village',
         'phone',
         'address',
+        'email',
         'visi',
         'misi',
         'budget_file',
         'village_head',
         'population',
         'area',
+        'description',
         'image',
     ];
 

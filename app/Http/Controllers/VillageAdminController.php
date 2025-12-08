@@ -51,6 +51,12 @@ class VillageAdminController extends Controller
         $village = auth()->user()->village;
         return view('village-admin.kelola-informasi', compact('village'));
     }
+
+    public function visiMisi()
+    {
+        $village = auth()->user()->village;
+        return view('village-admin.visi-misi', compact('village'));
+    }
     
     public function updateVisiMisi(Request $request)
     {
@@ -81,21 +87,32 @@ class VillageAdminController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'date' => 'required|date',
-            'type' => 'nullable|in:meeting,program,evaluasi',
-            'status' => 'required|in:pending,progress,done',
+            'category' => 'nullable|string',
+            'published_date' => 'required|date',
+            'effective_date' => 'required|date',
+            'end_date' => 'required|date',
+            'location' => 'nullable|string',
+            'contact' => 'nullable|string',
         ]);
         
         Announcement::create([
             'village_id' => $village->id,
             'title' => $request->title,
             'content' => $request->content,
-            'date' => $request->date,
-            'type' => $request->type ?? 'meeting',
-            'status' => $request->status,
+            'date' => $request->published_date,
+            'category' => $request->category,
+            'effective_date' => $request->effective_date,
+            'end_date' => $request->end_date,
+            'location' => $request->location,
+            'contact' => $request->contact,
+            'status' => 'published',
         ]);
         
-        return back()->with('success', 'Pengumuman berhasil ditambahkan!');
+        // Clear cache agar tampil di halaman publik
+        \Artisan::call('cache:clear');
+        \Artisan::call('view:clear');
+        
+        return back()->with('success', 'Pengumuman berhasil dipublikasikan dan langsung terlihat di halaman publik!');
     }
     
     public function updateAnnouncement(Request $request, $id)

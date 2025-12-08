@@ -211,11 +211,11 @@
 
                 <div class="hero-stats" role="list">
                     <div class="stat-item" role="listitem">
-                        <span class="stat-number">6</span>
+                        <span class="stat-number">{{ $totalVillages ?? 0 }}</span>
                         <span class="stat-label">Desa</span>
                     </div>
                     <div class="stat-item" role="listitem">
-                        <span class="stat-number">7.515</span>
+                        <span class="stat-number">{{ $totalPopulation ?? 0 }}</span>
                         <span class="stat-label">Penduduk</span>
                     </div>
                 </div>
@@ -232,89 +232,21 @@
 
         <div class="container">
             <div class="grid" id="villagesGrid">
-                <article class="card" data-name="desa mea6t">
-                    <div class="thumb"><img src="http://127.0.0.1:8000/images/desa meat.jpg" alt="Desa Meat"></div>
+                @foreach($villages as $v)
+                <article class="card" data-name="{{ strtolower($v['name']) }}">
+                    <div class="thumb"><img src="{{ $v['image'] }}" alt="Desa {{ $v['name'] }}"></div>
                     <div class="body">
-                        <h3>Desa Meat</h3>
-                        <div class="small-meta">Desa pertanian • Pemandangan sawah</div>
-                        <p>Desa dengan sawah terasering dan pemandangan Danau Toba. Komoditas pertanian utama dan adat lokal kuat.</p>
+                        <h3>{{ $v['name'] }}</h3>
+                        <div class="small-meta">Desa • Informasi Umum</div>
+                        <p>{{ $v['description'] }}</p>
                         <div class="meta">
-                            <div class="mitem"><i class="fa fa-users" style="color:var(--primary)"></i> 900</div>
-                            <div class="mitem"><i class="fa fa-ruler-combined" style="color:var(--primary)"></i> 15.2 km²</div>
-                            <div style="margin-left:auto"><a class="btn-outline" href="/villages/1">Lihat Detail</a></div>
+                            <div class="mitem"><i class="fa fa-users" style="color:var(--primary)"></i> {{ $v['population'] ?? 0 }}</div>
+                            <div class="mitem"><i class="fa fa-ruler-combined" style="color:var(--primary)"></i> {{ $v['area'] }}</div>
+                            <div style="margin-left:auto"><a class="btn-outline" href="/villages/{{ $v['id'] }}">Lihat Detail</a></div>
                         </div>
                     </div>
                 </article>
-
-                <article class="card" data-name="desa aek bolon julu">
-                    <div class="thumb"><img src="http://127.0.0.1:8000/images/desa aek bolon julu.jpg" alt="Desa Aek Bolon Julu"></div>
-                    <div class="body">
-                        <h3>Desa Aek Bolon Julu</h3>
-                        <div class="small-meta">Rumah adat • Wisata budaya</div>
-                        <p>Desa berarsitektur tradisional Batak, memiliki rumah adat dan potensi wisata budaya.</p>
-                        <div class="meta">
-                            <div class="mitem"><i class="fa fa-users" style="color:var(--primary)"></i> 258</div>
-                            <div class="mitem"><i class="fa fa-ruler-combined" style="color:var(--primary)"></i> 9.7 km²</div>
-                            <div style="margin-left:auto"><a class="btn-outline" href="/villages/2">Lihat Detail</a></div>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="card" data-name="desa pangombusan">
-                    <div class="thumb"><img src="http://127.0.0.1:8000/images/desa pangombusan.jpg" alt="Desa Pangombusan"></div>
-                    <div class="body">
-                        <h3>Desa Pangombusan</h3>
-                        <div class="small-meta">Pesisir • Perikanan</div>
-                        <p>Desa pertanian dengan daerah pesisir dan akses ke perikanan lokal serta ulos tradisional.</p>
-                        <div class="meta">
-                            <div class="mitem"><i class="fa fa-users" style="color:var(--primary)"></i> 3.354</div>
-                            <div class="mitem"><i class="fa fa-ruler-combined" style="color:var(--primary)"></i> 25.1 km²</div>
-                            <div style="margin-left:auto"><a class="btn-outline" href="/villages/3">Lihat Detail</a></div>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="card" data-name="desa pareparean">
-                    <div class="thumb"><img src="http://127.0.0.1:8000/images/desa pareparean.jpg" alt="Desa Pareparean"></div>
-                    <div class="body">
-                        <h3>Desa Pareparean</h3>
-                        <div class="small-meta">Kerajinan • Wisata</div>
-                        <p>Pusat kerajinan ulos tradisional, dikelilingi bukit dan jalur wisata budaya.</p>
-                        <div class="meta">
-                            <div class="mitem"><i class="fa fa-users" style="color:var(--primary)"></i> 900</div>
-                            <div class="mitem"><i class="fa fa-ruler-combined" style="color:var(--primary)"></i> 15.2 km²</div>
-                            <div style="margin-left:auto"><a class="btn-outline" href="/villages/4">Lihat Detail</a></div>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="card" data-name="desa pintu bosi">
-                    <div class="thumb"><img src="http://127.0.0.1:8000/images/desa pintu bosi.jpg" alt="Desa Pintu Bosi"></div>
-                    <div class="body">
-                        <h3>Desa Pintu Bosi</h3>
-                        <div class="small-meta">Pasar lokal • Koperasi</div>
-                        <p>Desa yang dikenal dengan pasar lokal dan kegiatan koperasi pertanian.</p>
-                        <div class="meta">
-                            <div class="mitem"><i class="fa fa-users" style="color:var(--primary)"></i> 258</div>
-                            <div class="mitem"><i class="fa fa-ruler-combined" style="color:var(--primary)"></i> 9.7 km²</div>
-                            <div style="margin-left:auto"><a class="btn-outline" href="/villages/5">Lihat Detail</a></div>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="card" data-name="desa sigumpar toba">
-                    <div class="thumb"><img src="images/desa sigumpar.jpeg" alt="Desa Sigumpar Toba"></div>
-                    <div class="body">
-                        <h3>Desa Sigumpar Toba</h3>
-                        <div class="small-meta">Ekowisata • Kebun buah</div>
-                        <p>Desa dengan ekowisata dan kebun buah lokal, cocok untuk kunjungan keluarga.</p>
-                        <div class="meta">
-                            <div class="mitem"><i class="fa fa-users" style="color:var(--primary)"></i> 3.354</div>
-                            <div class="mitem"><i class="fa fa-ruler-combined" style="color:var(--primary)"></i> 25.1 km²</div>
-                            <div style="margin-left:auto"><a class="btn-outline" href="/villages/6">Lihat Detail</a></div>
-                        </div>
-                    </div>
-                </article>
+                @endforeach
             </div>
         </div>
     </main>

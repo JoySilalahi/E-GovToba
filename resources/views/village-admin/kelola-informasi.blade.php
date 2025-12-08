@@ -3,170 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toba Hita - Admin Desa {{ $village->name }}</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}" />
+    <title>Kelola Pengumuman - Admin Desa {{ $village->name }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f7fa;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1b232f; }
 
         .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            width: 250px;
-            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
-            color: white;
-            overflow-y: auto;
-            z-index: 1000;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            position: fixed; top: 0; left: 0; height: 100vh; width: 260px;
+            background: linear-gradient(180deg,#34495e 0%,#2c3e50 100%);
+            color: #fff; overflow-y: auto; z-index: 1000; box-shadow: 4px 0 12px rgba(0,0,0,0.1);
+            display: flex; flex-direction: column;
         }
+        .sidebar-header { padding: 24px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.06); flex-shrink: 0; }
+        .sidebar-header h5 { font-size: 18px; font-weight:700; margin:0; }
+        .sidebar-menu { list-style:none; padding:20px 0; flex-grow: 1; }
+        .sidebar-menu li { margin: 0; }
+        .sidebar-menu a { display:flex; align-items:center; padding:12px 20px; color:rgba(255,255,255,0.85); text-decoration:none; font-weight:500; border-left:4px solid transparent; transition:all .2s; }
+        .sidebar-menu a.active, .sidebar-menu a:hover { background: rgba(255,255,255,0.06); color:#fff; border-left-color:#5280b9; }
+        .sidebar-menu i { width:20px; margin-right:12px; font-size:16px; }
+        .sidebar-footer { padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
+        .main-content { margin-left:260px; padding:32px; min-height:100vh; transition:margin-left .3s; }
 
-        .sidebar-header {
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .sidebar-header h5 {
-            margin: 10px 0 0 0;
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-            padding: 20px 0;
-        }
-
-        .sidebar-menu li {
-            margin: 5px 0;
-        }
-
-        .sidebar-menu a {
-            display: block;
-            padding: 12px 20px;
-            color: rgba(255,255,255,0.9);
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .sidebar-menu a:hover,
-        .sidebar-menu a.active {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border-left: 4px solid #3498db;
-        }
-
-        .sidebar-menu i {
-            width: 20px;
-            margin-right: 10px;
-        }
-
-        .main-content {
-            margin-left: 250px;
-            padding: 20px;
-            min-height: 100vh;
-        }
-
-        .header-welcome {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        .header-welcome h4 {
-            color: #2c3e50;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .form-card {
-            background: #e8f4f8;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        .form-card h5 {
-            color: #2c3e50;
-            font-weight: 600;
-            margin-bottom: 25px;
-        }
-
-        .form-label {
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 8px;
-        }
-
-        .form-control, .form-select {
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            padding: 10px 15px;
-        }
-
-        .form-control:focus, .form-select:focus {
-            border-color: #3498db;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-        }
-
-        .btn-group-custom {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .btn-custom {
-            border: 2px solid #cbd5e1;
-            background: white;
-            color: #64748b;
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-size: 14px;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .btn-custom:hover {
-            border-color: #3498db;
-            color: #3498db;
-        }
-
-        .btn-custom.active {
-            background: #3498db;
-            border-color: #3498db;
-            color: white;
-        }
-
-        .btn-publish {
-            background: #0ea5e9;
-            color: white;
-            padding: 12px 40px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s;
-            float: right;
-        }
-
-        .btn-publish:hover {
-            background: #0284c7;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
-        }
+        .form-container { background:#fff; border-radius:12px; padding:24px 24px 32px; box-shadow:0 6px 18px rgba(14,30,60,0.04); border:1px solid #eef6fb; }
+        .form-container h3 { font-size:18px; font-weight:700; color:#0f1724; margin-bottom:18px; display:flex; align-items:center; gap:10px; }
+        .form-label { font-size:14px; font-weight:700; color:#334155; margin-bottom:6px; display:block; }
+        .form-control { border:1px solid #cbd5e1; border-radius:10px; padding:10px 12px; font-size:14px; }
+        .form-control:focus { border-color:#0b79b8; box-shadow:0 0 0 .15rem rgba(11,121,184,0.12); }
+        textarea.form-control { min-height:120px; }
+        .category-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:10px; }
+        .category-item { border:1px solid #dbe3ec; border-radius:10px; padding:10px 12px; display:flex; align-items:center; gap:10px; cursor:pointer; transition:all .15s; }
+        .category-item input { display:none; }
+        .category-item span { font-weight:600; color:#334155; font-size:14px; }
+        .category-item:hover { border-color:#0b79b8; background:#f1f7ff; }
+        .category-item input:checked + span { color:#0b79b8; }
+        .hint { font-size:12px; color:#94a3b8; margin-top:4px; }
+        .btn-primary-custom { background:#0b79b8; border:none; padding:10px 18px; border-radius:8px; font-weight:700; font-size:14px; }
+        .btn-primary-custom:hover { background:#096598; }
+        .btn-secondary-custom { background:#e2e8f0; border:1px solid #cbd5e1; color:#475569; padding:10px 18px; border-radius:8px; font-weight:600; font-size:14px; }
+        .btn-secondary-custom:hover { background:#cbd5e1; }
+        .two-col { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap:14px; }
     </style>
 </head>
 <body>
@@ -177,13 +55,13 @@
             <h5>Admin Desa</h5>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="{{ route('village-admin.dashboard') }}"><i class="fas fa-home"></i> Beranda</a></li>
-            <li><a href="{{ route('village-admin.kelola-informasi') }}" class="active"><i class="fas fa-info-circle"></i> Kelola Informasi</a></li>
-            <li><a href="{{ route('village-admin.anggaran') }}"><i class="fas fa-coins"></i> Anggaran</a></li>
+            <li><a href="{{ route('village-admin.dashboard') }}" class="{{ request()->routeIs('village-admin.dashboard') ? 'active' : '' }}"><i class="fas fa-home"></i> Beranda</a></li>
+            <li><a href="{{ route('village-admin.kelola-informasi') }}" class="{{ request()->routeIs('village-admin.kelola-informasi') ? 'active' : '' }}"><i class="fas fa-bullhorn"></i> Kelola Pengumuman</a></li>
+            <li><a href="{{ route('village-admin.visi-misi') }}" class="{{ request()->routeIs('village-admin.visi-misi') ? 'active' : '' }}"><i class="fas fa-lightbulb"></i> Visi & Misi</a></li>
+            <li><a href="{{ route('village-admin.anggaran') }}" class="{{ request()->routeIs('village-admin.anggaran') ? 'active' : '' }}"><i class="fas fa-coins"></i> Anggaran</a></li>
         </ul>
-        <div style="position: absolute; bottom: 20px; left: 20px; right: 20px;">
-            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
-               style="display: block; padding: 12px; background: rgba(220,38,38,0.2); color: white; text-align: center; border-radius: 8px; text-decoration: none;">
+        <div class="sidebar-footer">
+            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="font-size: 14px;">
                 <i class="fas fa-sign-out-alt"></i> Keluar
             </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -194,108 +72,91 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Welcome Header -->
-        <div class="header-welcome">
-            <h4>Selamat Datang, Admin Desa {{ $village->name }} !</h4>
+        <div style="margin-bottom:20px;">
+            <h3 style="font-size:22px; font-weight:800; color:#0f1724; margin:0;">Kelola Pengumuman</h3>
+            <p style="margin:6px 0 0 0; color:#64748b;">Tambah atau perbarui pengumuman untuk Desa {{ $village->name }}.</p>
         </div>
 
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="fas fa-check-circle"></i> {{ session('success') }}
+                <i class="fas fa-check-circle me-1"></i> {{ session('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
 
-        <!-- Form Edit Visi & Misi Desa -->
-        <div class="form-card" style="margin-bottom: 24px;">
-            <h5>Edit Visi & Misi Desa {{ $village->name }}</h5>
-            <p style="color: #64748b; font-size: 14px; margin-bottom: 20px;">
-                Perubahan akan langsung terlihat di halaman <strong>Detail Desa</strong> untuk pengunjung
-            </p>
-            
-            <form action="{{ route('village-admin.visi-misi.update') }}" method="POST">
-                @csrf
-                
-                <div class="mb-4">
-                    <label class="form-label">Visi Desa</label>
-                    <textarea 
-                        name="visi" 
-                        class="form-control" 
-                        rows="3" 
-                        placeholder="Masukkan visi desa..."
-                        required>{{ old('visi', $village->visi ?? '') }}</textarea>
-                    <small style="color: #64748b; font-size: 12px;">Visi adalah gambaran masa depan yang ingin dicapai oleh desa</small>
-                </div>
+        <div class="form-container">
+            <h3><i class="fas fa-pen-fancy"></i> Buat Pengumuman Baru</h3>
 
-                <div class="mb-4">
-                    <label class="form-label">Misi Desa</label>
-                    <textarea 
-                        name="misi" 
-                        class="form-control" 
-                        rows="5" 
-                        placeholder="Masukkan misi desa..."
-                        required>{{ old('misi', $village->misi ?? '') }}</textarea>
-                    <small style="color: #64748b; font-size: 12px;">Misi adalah langkah-langkah strategis untuk mewujudkan visi</small>
-                </div>
-
-                <div class="text-end">
-                    <button type="submit" class="btn-publish">
-                        <i class="fas fa-save"></i> Simpan Visi & Misi
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <!-- Form Buat Agenda -->
-        <div class="form-card">
-            <h5>Buat Agenda Baru :</h5>
-            
             <form action="{{ route('village-admin.announcements.store') }}" method="POST">
                 @csrf
-                
-                <div class="mb-4">
-                    <label class="form-label">Judul</label>
-                    <input type="text" name="title" class="form-control" placeholder="Masukkan judul agenda..." required>
+
+                <div class="mb-3">
+                    <label class="form-label">Judul Pengumuman *</label>
+                    <input type="text" name="title" class="form-control" placeholder="Contoh: Jadwal Vaksinasi COVID-19 Booster" required>
                 </div>
 
-                <div class="mb-4">
-                    <label class="form-label">Tanggal</label>
-                    <input type="date" name="date" class="form-control" value="{{ date('Y-m-d') }}" required>
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label">Jenis Agenda</label>
-                    <div class="btn-group-custom">
-                        <button type="button" class="btn-custom active" onclick="selectType(this, 'meeting')">
-                            Meeting
-                        </button>
-                        <button type="button" class="btn-custom" onclick="selectType(this, 'program')">
-                            Program
-                        </button>
-                        <button type="button" class="btn-custom" onclick="selectType(this, 'evaluasi')">
-                            Evaluasi
-                        </button>
+                <div class="mb-3">
+                    <label class="form-label">Kategori Pengumuman *</label>
+                    <div class="category-grid">
+                        @php
+                            $categories = [
+                                'administrasi' => '📋 Administrasi & Layanan',
+                                'bantuan' => '💰 Program & Bantuan Sosial',
+                                'kegiatan' => '🎪 Kegiatan Desa',
+                                'keuangan' => '💼 Keuangan & Transparansi',
+                                'pembangunan' => '🏗️ Pembangunan & Infrastruktur',
+                                'rekrutmen' => '👥 Rekrutmen & Lowongan',
+                                'keamanan' => '🚨 Keamanan & Himbauan',
+                                'kesehatan' => '🏥 Kesehatan & Kebersihan',
+                            ];
+                        @endphp
+                        @foreach($categories as $value => $label)
+                            <label class="category-item">
+                                <input type="radio" name="category" value="{{ $value }}" required>
+                                <span>{{ $label }}</span>
+                            </label>
+                        @endforeach
                     </div>
-                    <input type="hidden" name="type" id="agendaType" value="meeting">
+                    <div class="hint">Pilih kategori yang sesuai untuk pengumuman ini</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Isi Pengumuman / Deskripsi Lengkap *</label>
+                    <textarea name="content" class="form-control" placeholder="Tulis konten pengumuman dengan jelas dan detail..." required></textarea>
+                    <div class="hint">Jelaskan secara detail agar masyarakat dapat memahami dengan baik</div>
+                </div>
+
+                <div class="two-col">
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal Diterbitkan *</label>
+                        <input type="date" name="published_date" class="form-control" value="{{ date('Y-m-d') }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal Berlaku *</label>
+                        <input type="date" name="effective_date" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal Berakhir *</label>
+                        <input type="date" name="end_date" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Lokasi / Tempat (Opsional)</label>
+                    <input type="text" name="location" class="form-control" placeholder="Contoh: Balai Desa Meat, Kantor Kecamatan, dll">
                 </div>
 
                 <div class="mb-4">
-                    <label class="form-label">Deskripsi</label>
-                    <textarea name="content" class="form-control" rows="4" placeholder="Masukkan deskripsi agenda..." required></textarea>
+                    <label class="form-label">Kontak / Informasi Lebih Lanjut (Opsional)</label>
+                    <input type="text" name="contact" class="form-control" placeholder="Contoh: +62 812 3456 7890 atau email@desa.id">
                 </div>
 
-                <div class="mb-4">
-                    <label class="form-label">Status</label>
-                    <select name="status" class="form-select" required>
-                        <option value="pending">Pending</option>
-                        <option value="progress">Progress</option>
-                        <option value="done">Done</option>
-                    </select>
-                </div>
-
-                <div class="text-end">
-                    <button type="submit" class="btn-publish">
-                        <i class="fas fa-paper-plane"></i> Publikasikan
+                <div style="display:flex; gap:10px;">
+                    <button type="submit" class="btn btn-primary-custom">
+                        <i class="fas fa-paper-plane me-1"></i> Publikasikan Pengumuman
+                    </button>
+                    <button type="reset" class="btn btn-secondary-custom">
+                        <i class="fas fa-undo me-1"></i> Reset
                     </button>
                 </div>
             </form>

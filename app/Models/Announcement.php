@@ -13,11 +13,18 @@ class Announcement extends Model
         'content',
         'date',
         'type',
-        'status'
+        'status',
+        'category',
+        'effective_date',
+        'end_date',
+        'location',
+        'contact',
     ];
 
     protected $casts = [
         'date' => 'date',
+        'effective_date' => 'date',
+        'end_date' => 'date',
     ];
 
     public function village(): BelongsTo
