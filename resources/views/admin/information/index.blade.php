@@ -1254,6 +1254,25 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded, setting up event listeners');
             
+            // Setup tombol "+ Tambah Agenda" untuk membuka modal
+            const addAgendaBtns = document.querySelectorAll('[data-bs-target="#addAgendaModal"]');
+            console.log('Found Add Agenda buttons:', addAgendaBtns.length);
+            
+            addAgendaBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    console.log('Add Agenda button clicked!');
+                    e.preventDefault();
+                    const modal = document.getElementById('addAgendaModal');
+                    if (modal) {
+                        console.log('Opening modal...');
+                        const bsModal = new bootstrap.Modal(modal);
+                        bsModal.show();
+                    } else {
+                        console.error('Modal element not found!');
+                    }
+                });
+            });
+            
             const calendarDays = document.querySelectorAll('.calendar-day');
             console.log('Found calendar days:', calendarDays.length);
             
@@ -1265,7 +1284,10 @@
                         // Set tanggal di form tambah agenda
                         document.getElementById('add_event_date').value = dateStr;
                         // Buka modal
-                        new bootstrap.Modal(document.getElementById('addAgendaModal')).show();
+                        const modal = document.getElementById('addAgendaModal');
+                        if (modal) {
+                            new bootstrap.Modal(modal).show();
+                        }
                     }
                 });
             });
@@ -1280,5 +1302,8 @@
             }
         });
     </script>
+    
+    <!-- Bootstrap Bundle JS (PENTING! Untuk modal functionality) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
