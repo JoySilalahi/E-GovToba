@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Bootstrap JS Bundle - REQUIRED untuk modal/tooltip/popover functionality -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <style>
         * {
@@ -627,7 +629,7 @@
                         <h2>Agenda Pemkab</h2>
                         <p class="section-subtitle">Transparansi kegiatan pemerintahan untuk membangun kepercayaan publik</p>
                     </div>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAgendaModal" onclick="console.log('Button clicked'); console.log('Modal element:', document.getElementById('addAgendaModal'));">
+                    <button class="btn btn-primary" onclick="openAddAgendaModal()">
                         <i class="fas fa-plus me-2"></i> Tambah Agenda
                     </button>
                 </div>
@@ -1250,6 +1252,33 @@
             new bootstrap.Modal(document.getElementById('editVillageModal')).show();
         }
 
+        // FUNCTION: Buka modal tambah agenda
+        function openAddAgendaModal() {
+            console.log('[DEBUG] openAddAgendaModal() called');
+            const modal = document.getElementById('addAgendaModal');
+            if (!modal) {
+                console.error('[ERROR] Modal element #addAgendaModal tidak ditemukan!');
+                alert('Error: Modal tidak ditemukan. Refresh halaman dan coba lagi.');
+                return;
+            }
+            
+            if (typeof bootstrap === 'undefined') {
+                console.error('[ERROR] Bootstrap library tidak loaded!');
+                alert('Error: Bootstrap belum loaded. Refresh halaman dan coba lagi.');
+                return;
+            }
+            
+            console.log('[DEBUG] Membuka modal...');
+            try {
+                const bsModal = new bootstrap.Modal(modal);
+                bsModal.show();
+                console.log('[DEBUG] Modal berhasil dibuka');
+            } catch(err) {
+                console.error('[ERROR] Error membuka modal:', err);
+                alert('Error: ' + err.message);
+            }
+        }
+
         // Calendar click handler - untuk klik tanggal di kalender
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded, setting up event listeners');
@@ -1302,8 +1331,5 @@
             }
         });
     </script>
-    
-    <!-- Bootstrap Bundle JS (PENTING! Untuk modal functionality) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
