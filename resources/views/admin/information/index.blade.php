@@ -430,8 +430,29 @@
         <div class="container-fluid">
             <!-- Alerts -->
             @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Terjadi kesalahan:</strong>
+                    <ul class="mb-0 mt-2">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif
 
@@ -469,6 +490,11 @@
                             <i class="fas fa-bullhorn me-2"></i> Pengumuman
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#desa">
+                            <i class="fas fa-map-marked-alt me-2"></i> Daftar Desa
+                        </a>
+                    </li>
                 </ul>
 
                 <!-- Tab Content -->
@@ -477,47 +503,24 @@
                     <div class="tab-pane fade show active" id="berita">
                         @forelse($news as $item)
                         <div class="news-item">
-                            @if($item->type == 'agenda')
-                                <span class="news-category" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">{{ $item->category }}</span>
-                            @else
-                                <span class="news-category">{{ $item->category }}</span>
-                            @endif
+                            <span class="news-category">{{ $item->category }}</span>
                             <div class="news-title">{{ $item->title }}</div>
                             <div class="news-description">
-                                @if($item->type == 'agenda')
-                                    @if($item->time_start && $item->time_end)
-                                        <i class="far fa-clock me-1"></i> {{ $item->time_start }} - {{ $item->time_end }} WIB
-                                    @endif
-                                    @if($item->location)
-                                        <br><i class="fas fa-map-marker-alt me-1"></i> {{ $item->location }}
-                                    @endif
-                                    @if($item->excerpt)
-                                        <br>{{ $item->excerpt }}
-                                    @endif
-                                @else
-                                    {{ $item->excerpt }}
-                                @endif
+                                {{ $item->excerpt }}
                             </div>
                             <div class="news-meta">
                                 <span><i class="far fa-calendar me-1"></i> {{ $item->date->translatedFormat('d M Y') }}</span>
-                                @if($item->type == 'news')
-                                    <span><i class="far fa-clock me-1"></i> {{ $item->date->format('H:i') }} WIB</span>
-                                @endif
+                                <span><i class="far fa-clock me-1"></i> {{ $item->date->format('H:i') }} WIB</span>
                             </div>
                             <div class="news-actions">
-                                @if($item->type == 'news')
-                                    <button class="btn-icon" onclick="editNews({{ $item->id }}, '{{ $item->category }}', '{{ addslashes($item->title) }}', '{{ addslashes($item->excerpt) }}', `{{ addslashes($item->content) }}`)">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <form action="{{ route('admin.information.news.delete', $item->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus berita ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-icon"><i class="fas fa-trash"></i></button>
-                                    </form>
-                                @else
-                                    <span class="badge bg-success">Agenda</span>
-                                    <small class="text-muted ms-2">Edit di section Agenda Pemkot</small>
-                                @endif
+                                <button class="btn-icon" onclick="editNews({{ $item->id }}, '{{ $item->category }}', '{{ addslashes($item->title) }}', '{{ addslashes($item->excerpt) }}', `{{ addslashes($item->content) }}`, '{{ $item->date->format('Y-m-d\TH:i') }}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <form action="{{ route('admin.information.news.delete', $item->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus berita ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-icon"><i class="fas fa-trash"></i></button>
+                                </form>
                             </div>
                         </div>
                         @empty
@@ -531,45 +534,88 @@
                         <div class="news-item">
                             <div class="news-title">{{ $item->title }}</div>
                             <div class="news-description">
-                                @if($item->type == 'agenda')
-                                    @if(isset($item->time_start) && isset($item->time_end))
-                                        <i class="far fa-clock me-1"></i> {{ $item->time_start }} - {{ $item->time_end }} WIB
-                                    @endif
-                                    @if(isset($item->location) && $item->location)
-                                        <br><i class="fas fa-map-marker-alt me-1"></i> {{ $item->location }}
-                                    @endif
-                                    @if($item->content)
-                                        <br>{{ Str::limit($item->content, 150) }}
-                                    @endif
-                                @else
-                                    {{ Str::limit($item->content, 150) }}
-                                @endif
+                                {{ Str::limit($item->content, 150) }}
                             </div>
                             <div class="news-meta">
                                 <span><i class="far fa-calendar me-1"></i> {{ $item->date->translatedFormat('d M Y') }}</span>
-                                @if($item->type == 'announcement')
-                                    <span><i class="far fa-clock me-1"></i> {{ $item->date->format('H:i') }} WIB</span>
-                                @endif
+                                <span><i class="far fa-clock me-1"></i> {{ $item->date->format('H:i') }} WIB</span>
                             </div>
                             <div class="news-actions">
-                                @if($item->type == 'announcement')
-                                    <button class="btn-icon" onclick="editAnnouncement({{ $item->id }}, '{{ addslashes($item->title) }}', `{{ addslashes($item->content) }}`)">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <form action="{{ route('admin.information.announcements.delete', $item->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus pengumuman ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-icon"><i class="fas fa-trash"></i></button>
-                                    </form>
-                                @else
-                                    <span class="badge bg-success">Agenda</span>
-                                    <small class="text-muted ms-2">Edit di section Agenda Pemkot</small>
-                                @endif
+                                <button class="btn-icon" onclick="editAnnouncement({{ $item->id }}, '{{ addslashes($item->title) }}', `{{ addslashes($item->content) }}`, '{{ $item->date->format('Y-m-d\TH:i') }}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <form action="{{ route('admin.information.announcements.delete', $item->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus pengumuman ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-icon"><i class="fas fa-trash"></i></button>
+                                </form>
                             </div>
                         </div>
                         @empty
                         <p class="text-muted">Belum ada pengumuman.</p>
                         @endforelse
+                    </div>
+
+                    <!-- Daftar Desa Tab -->
+                    <div class="tab-pane fade" id="desa">
+                        <div style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                            <h5 style="margin: 0;">Daftar Desa di Kabupaten Toba</h5>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addVillageModal">
+                                <i class="fas fa-plus me-2"></i> Tambah Desa
+                            </button>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead style="background: #f8fafc;">
+                                    <tr>
+                                        <th style="width: 5%">No</th>
+                                        <th style="width: 10%">Gambar</th>
+                                        <th style="width: 18%">Nama Desa</th>
+                                        <th style="width: 12%">Populasi</th>
+                                        <th style="width: 10%">Luas Area</th>
+                                        <th style="width: 25%">Deskripsi</th>
+                                        <th style="width: 20%">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse($villages as $index => $village)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>
+                                            @if($village->image)
+                                                <img src="{{ asset('storage/' . $village->image) }}" alt="{{ $village->name }}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
+                                            @else
+                                                <div style="width: 60px; height: 60px; background: #e9ecef; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-image text-muted"></i>
+                                                </div>
+                                            @endif
+                                        </td>
+                                        <td><strong>{{ $village->name }}</strong></td>
+                                        <td>{{ number_format($village->population) }} jiwa</td>
+                                        <td>{{ $village->area }} km²</td>
+                                        <td>{{ Str::limit($village->description ?? '-', 50) }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="editVillage({{ $village->id }}, '{{ $village->name }}', {{ $village->population }}, {{ $village->area }}, '{{ addslashes($village->description ?? '') }}', '{{ $village->image ?? '' }}')">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </button>
+                                            <form action="{{ route('admin.villages.destroy', $village->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus desa {{ $village->name }}?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash"></i> Hapus
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td colspan="7" class="text-center text-muted">Belum ada data desa</td>
+                                    </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -578,10 +624,10 @@
             <div class="section-card">
                 <div class="section-header">
                     <div>
-                        <h2>Agenda Pemkot</h2>
+                        <h2>Agenda Pemkab</h2>
                         <p class="section-subtitle">Transparansi kegiatan pemerintahan untuk membangun kepercayaan publik</p>
                     </div>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAgendaModal">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAgendaModal" onclick="console.log('Button clicked'); console.log('Modal element:', document.getElementById('addAgendaModal'));">
                         <i class="fas fa-plus me-2"></i> Tambah Agenda
                     </button>
                 </div>
@@ -673,8 +719,16 @@
                                     <span>{{ $agenda->participants }}</span>
                                 </div>
                                 @endif
+                                @if($agenda->status)
+                                <div class="agenda-detail">
+                                    <i class="fas fa-{{ $agenda->status == 'selesai' ? 'check-circle' : 'clock' }}"></i>
+                                    <span style="color: {{ $agenda->status == 'selesai' ? '#28a745' : '#ffc107' }}; font-weight: 600;">
+                                        {{ ucfirst($agenda->status) }}
+                                    </span>
+                                </div>
+                                @endif
                                 <div class="news-actions">
-                                    <button type="button" class="btn-icon" onclick="editAgenda({{ $agenda->id }}, '{{ addslashes($agenda->title) }}', '{{ addslashes($agenda->description ?? '') }}', '{{ $agenda->event_date }}', '{{ $agenda->time_start }}', '{{ $agenda->time_end }}', '{{ addslashes($agenda->location ?? '') }}', '{{ addslashes($agenda->category ?? '') }}', '{{ addslashes($agenda->participants ?? '') }}', '{{ $agenda->display_type ?? 'berita' }}')">
+                                    <button type="button" class="btn-icon" onclick="editAgenda({{ $agenda->id }}, '{{ addslashes($agenda->title) }}', '{{ addslashes($agenda->description ?? '') }}', '{{ $agenda->event_date->format('Y-m-d') }}', '{{ $agenda->time_start }}', '{{ $agenda->time_end }}', '{{ addslashes($agenda->location ?? '') }}', '{{ addslashes($agenda->category ?? '') }}', '{{ addslashes($agenda->participants ?? '') }}', '{{ $agenda->status ?? 'mendatang' }}')">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <form action="{{ route('admin.information.agendas.delete', $agenda->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus agenda ini?')">
@@ -760,6 +814,11 @@
                             <input type="text" class="form-control" name="category" placeholder="Contoh: Pendidikan, Teknologi, Kesehatan" required>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label">Tanggal Publikasi</label>
+                            <input type="datetime-local" class="form-control" name="published_at" value="{{ date('Y-m-d\TH:i') }}" required>
+                            <small class="text-muted">Tanggal dan waktu publikasi berita</small>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Judul Berita</label>
                             <input type="text" class="form-control" name="title" required>
                         </div>
@@ -798,6 +857,11 @@
                             <input type="text" class="form-control" name="category" id="edit_news_category" required>
                         </div>
                         <div class="mb-3">
+                            <label class="form-label">Tanggal Publikasi</label>
+                            <input type="datetime-local" class="form-control" name="published_at" id="edit_news_published_at" required>
+                            <small class="text-muted">Tanggal dan waktu publikasi berita</small>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Judul Berita</label>
                             <input type="text" class="form-control" name="title" id="edit_news_title" required>
                         </div>
@@ -831,6 +895,11 @@
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
+                            <label class="form-label">Tanggal Publikasi</label>
+                            <input type="datetime-local" class="form-control" name="published_at" value="{{ date('Y-m-d\TH:i') }}" required>
+                            <small class="text-muted">Tanggal dan waktu publikasi pengumuman</small>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Judul Pengumuman</label>
                             <input type="text" class="form-control" name="title" required>
                         </div>
@@ -861,12 +930,17 @@
                     @method('PUT')
                     <div class="modal-body">
                         <div class="mb-3">
+                            <label class="form-label">Tanggal Publikasi</label>
+                            <input type="datetime-local" class="form-control" name="published_at" id="edit_announcement_published_at" required>
+                            <small class="text-muted">Tanggal dan waktu publikasi pengumuman</small>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label">Judul Pengumuman</label>
                             <input type="text" class="form-control" name="title" id="edit_announcement_title" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Isi Pengumuman</label>
-                            <textarea class="form-control" name="content" id="edit_announcement_content" rows="5" required></textarea>
+                            <textarea class="form-control" name="content" id="edit_announcement_content" rows="5" required>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -907,14 +981,6 @@
                                 <input type="text" class="form-control" name="category" placeholder="Rapat, Dialog Publik, dll">
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Tampilkan Di *</label>
-                            <select class="form-control" name="display_type" required>
-                                <option value="berita">Section Berita</option>
-                                <option value="pengumuman">Section Pengumuman</option>
-                            </select>
-                            <small class="text-muted">Pilih dimana agenda ini akan ditampilkan di halaman profil kabupaten</small>
-                        </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Waktu Mulai</label>
@@ -932,6 +998,13 @@
                         <div class="mb-3">
                             <label class="form-label">Peserta/Undangan</label>
                             <input type="text" class="form-control" name="participants" placeholder="Kepala Dinas, Masyarakat, dll">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status Agenda</label>
+                            <select class="form-control" name="status">
+                                <option value="mendatang">Mendatang</option>
+                                <option value="selesai">Selesai</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -973,14 +1046,6 @@
                                 <input type="text" class="form-control" name="category" id="edit_agenda_category">
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Tampilkan Di *</label>
-                            <select class="form-control" name="display_type" id="edit_display_type" required>
-                                <option value="berita">Section Berita</option>
-                                <option value="pengumuman">Section Pengumuman</option>
-                            </select>
-                            <small class="text-muted">Pilih dimana agenda ini akan ditampilkan di halaman profil kabupaten</small>
-                        </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Waktu Mulai</label>
@@ -999,6 +1064,13 @@
                             <label class="form-label">Peserta/Undangan</label>
                             <input type="text" class="form-control" name="participants" id="edit_agenda_participants">
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status Agenda</label>
+                            <select class="form-control" name="status" id="edit_agenda_status">
+                                <option value="mendatang">Mendatang</option>
+                                <option value="selesai">Selesai</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -1008,43 +1080,6 @@
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function editNews(id, category, title, excerpt, content) {
-            document.getElementById('editNewsForm').action = `/admin/information/news/${id}`;
-            document.getElementById('edit_news_category').value = category;
-            document.getElementById('edit_news_title').value = title;
-            document.getElementById('edit_news_excerpt').value = excerpt;
-            document.getElementById('edit_news_content').value = content;
-            new bootstrap.Modal(document.getElementById('editNewsModal')).show();
-        }
-
-        function editAnnouncement(id, title, content) {
-            document.getElementById('editAnnouncementForm').action = `/admin/information/announcements/${id}`;
-            document.getElementById('edit_announcement_title').value = title;
-            document.getElementById('edit_announcement_content').value = content;
-            new bootstrap.Modal(document.getElementById('editAnnouncementModal')).show();
-        }
-
-        function editAgenda(id, title, description, eventDate, timeStart, timeEnd, location, category, participants, displayType) {
-            document.getElementById('editAgendaForm').action = `/admin/information/agendas/${id}`;
-            document.getElementById('edit_agenda_title').value = title;
-            document.getElementById('edit_agenda_description').value = description || '';
-            document.getElementById('edit_event_date').value = eventDate;
-            document.getElementById('edit_time_start').value = timeStart || '';
-            document.getElementById('edit_time_end').value = timeEnd || '';
-            document.getElementById('edit_agenda_location').value = location || '';
-            document.getElementById('edit_agenda_category').value = category || '';
-            document.getElementById('edit_agenda_participants').value = participants || '';
-            document.getElementById('edit_display_type').value = displayType || 'berita';
-            new bootstrap.Modal(document.getElementById('editAgendaModal')).show();
-        }
-
-        // Calendar click handler - untuk klik tanggal di kalender
-        document.addEventListener('DOMContentLoaded', function() {
-            const calendarDays = document.querySelectorAll('.calendar-day');
-    </script>
 
     <!-- Modal Upload Budget -->
     <div class="modal fade" id="uploadBudgetModal" tabindex="-1">
@@ -1084,24 +1119,113 @@
         </div>
     </div>
 
+    <!-- Modal Tambah Desa -->
+    <div class="modal fade" id="addVillageModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Desa Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="{{ route('admin.villages.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nama Desa</label>
+                            <input type="text" class="form-control" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Populasi (jiwa)</label>
+                            <input type="number" class="form-control" name="population" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Luas Area (km²)</label>
+                            <input type="number" step="0.01" class="form-control" name="area" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Deskripsi</label>
+                            <textarea class="form-control" name="description" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Gambar Desa (opsional)</label>
+                            <input type="file" class="form-control" name="image" accept="image/*">
+                            <small class="text-muted">Format: JPG, PNG, GIF. Maksimal 2MB</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit Desa -->
+    <div class="modal fade" id="editVillageModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Desa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="editVillageForm" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nama Desa</label>
+                            <input type="text" class="form-control" name="name" id="edit_village_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Populasi (jiwa)</label>
+                            <input type="number" class="form-control" name="population" id="edit_village_population" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Luas Area (km²)</label>
+                            <input type="number" step="0.01" class="form-control" name="area" id="edit_village_area" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Deskripsi</label>
+                            <textarea class="form-control" name="description" id="edit_village_description" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Gambar Desa Baru (opsional)</label>
+                            <input type="file" class="form-control" name="image" id="edit_village_image" accept="image/*">
+                            <small class="text-muted">Kosongkan jika tidak ingin mengganti gambar. Format: JPG, PNG, GIF. Maksimal 2MB</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function editNews(id, category, title, excerpt, content) {
+        function editNews(id, category, title, excerpt, content, publishedAt) {
             document.getElementById('editNewsForm').action = `/admin/information/news/${id}`;
             document.getElementById('edit_news_category').value = category;
+            document.getElementById('edit_news_published_at').value = publishedAt;
             document.getElementById('edit_news_title').value = title;
             document.getElementById('edit_news_excerpt').value = excerpt || '';
             document.getElementById('edit_news_content').value = content;
             new bootstrap.Modal(document.getElementById('editNewsModal')).show();
         }
 
-        function editAnnouncement(id, title, content) {
+        function editAnnouncement(id, title, content, publishedAt) {
             document.getElementById('editAnnouncementForm').action = `/admin/information/announcements/${id}`;
+            document.getElementById('edit_announcement_published_at').value = publishedAt;
             document.getElementById('edit_announcement_title').value = title;
             document.getElementById('edit_announcement_content').value = content;
             new bootstrap.Modal(document.getElementById('editAnnouncementModal')).show();
         }
 
-        function editAgenda(id, title, description, eventDate, timeStart, timeEnd, location, category, participants, displayType) {
+        function editAgenda(id, title, description, eventDate, timeStart, timeEnd, location, category, participants, status) {
+            console.log('Edit agenda called with:', {id, title, eventDate});
             document.getElementById('editAgendaForm').action = `/admin/information/agendas/${id}`;
             document.getElementById('edit_agenda_title').value = title;
             document.getElementById('edit_agenda_description').value = description || '';
@@ -1111,17 +1235,32 @@
             document.getElementById('edit_agenda_location').value = location || '';
             document.getElementById('edit_agenda_category').value = category || '';
             document.getElementById('edit_agenda_participants').value = participants || '';
-            document.getElementById('edit_display_type').value = displayType || 'berita';
+            document.getElementById('edit_agenda_status').value = status || 'mendatang';
             new bootstrap.Modal(document.getElementById('editAgendaModal')).show();
+        }
+
+        function editVillage(id, name, population, area, description, image) {
+            document.getElementById('editVillageForm').action = `/admin/villages/${id}`;
+            document.getElementById('edit_village_name').value = name;
+            document.getElementById('edit_village_population').value = population;
+            document.getElementById('edit_village_area').value = area;
+            document.getElementById('edit_village_description').value = description || '';
+            // Clear file input - user needs to select new file if they want to change it
+            document.getElementById('edit_village_image').value = '';
+            new bootstrap.Modal(document.getElementById('editVillageModal')).show();
         }
 
         // Calendar click handler - untuk klik tanggal di kalender
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, setting up event listeners');
+            
             const calendarDays = document.querySelectorAll('.calendar-day');
+            console.log('Found calendar days:', calendarDays.length);
             
             calendarDays.forEach(day => {
                 day.addEventListener('click', function() {
                     const dateStr = this.dataset.date;
+                    console.log('Calendar day clicked, date:', dateStr);
                     if (dateStr) {
                         // Set tanggal di form tambah agenda
                         document.getElementById('add_event_date').value = dateStr;
@@ -1130,6 +1269,15 @@
                     }
                 });
             });
+
+            // Tambah event listener untuk form submit debugging
+            const addAgendaForm = document.querySelector('#addAgendaModal form');
+            if (addAgendaForm) {
+                addAgendaForm.addEventListener('submit', function(e) {
+                    console.log('Form tambah agenda submitted');
+                    console.log('Form data:', new FormData(this));
+                });
+            }
         });
     </script>
 </body>

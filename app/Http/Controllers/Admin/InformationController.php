@@ -98,7 +98,10 @@ class InformationController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
         
-        return view('admin.information.index', compact('district', 'news', 'announcements', 'agendas', 'budgets'));
+        // Get villages for the new Daftar Desa tab
+        $villages = \App\Models\Village::orderBy('name', 'asc')->get();
+        
+        return view('admin.information.index', compact('district', 'news', 'announcements', 'agendas', 'budgets', 'villages'));
     }
 
     public function updateVisiMisi(Request $request)
@@ -429,6 +432,7 @@ class InformationController extends Controller
             'location' => 'nullable|string|max:255',
             'category' => 'nullable|string|max:100',
             'display_type' => 'required|in:berita,pengumuman',
+            'status' => 'nullable|in:mendatang,selesai',
             'participants' => 'nullable|string|max:255',
         ]);
 
@@ -444,6 +448,7 @@ class InformationController extends Controller
             'location' => $request->location,
             'category' => $request->category,
             'display_type' => $request->display_type,
+            'status' => $request->status ?? 'mendatang',
             'participants' => $request->participants,
             'created_by' => auth()->id(),
         ]);
@@ -465,6 +470,7 @@ class InformationController extends Controller
             'location' => 'nullable|string|max:255',
             'category' => 'nullable|string|max:100',
             'display_type' => 'required|in:berita,pengumuman',
+            'status' => 'nullable|in:mendatang,selesai',
             'participants' => 'nullable|string|max:255',
         ]);
 
@@ -478,6 +484,7 @@ class InformationController extends Controller
             'location' => $request->location,
             'category' => $request->category,
             'display_type' => $request->display_type,
+            'status' => $request->status ?? 'mendatang',
             'participants' => $request->participants,
         ]);
 
