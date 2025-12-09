@@ -6,7 +6,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>{{ $village['name'] }}- Toba Hita</title>
+    <title><?php echo e($village['name']); ?>- Toba Hita</title>
     
     <link rel="icon" type="image/png" href="http://127.0.0.1:8000/images/logo.png" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -64,7 +64,7 @@
             padding: 80px 20px 100px;
             background-image:
                 linear-gradient(180deg, rgba(8,40,66,0.6), rgba(8,40,66,0.4)),
-                url('{{ $village["image"] }}');
+                url('<?php echo e($village["image"]); ?>');
             background-size:cover;
             background-position:center center;
             color:#fff;
@@ -454,8 +454,8 @@
     <!-- Hero Section -->
     <div class="hero">
         <div>
-            <h1>{{ $village['name'] }}</h1>
-            <div class="hero-population">{{ $village['population'] ?? 0 }}</div>
+            <h1><?php echo e($village['name']); ?></h1>
+            <div class="hero-population"><?php echo e($village['population'] ?? 0); ?></div>
             <div class="hero-label">Penduduk</div>
         </div>
     </div>
@@ -469,10 +469,10 @@
                     <h2 class="section-title">Visi & Misi</h2>
                     <div class="section-content">
                         <div class="visi-label">Visi:</div>
-                        <p>{{ $village['visi'] ?? 'Visi belum ditetapkan. Silakan hubungi admin desa untuk informasi lebih lanjut.' }}</p>
+                        <p><?php echo e($village['visi'] ?? 'Visi belum ditetapkan. Silakan hubungi admin desa untuk informasi lebih lanjut.'); ?></p>
 
                         <div class="misi-label">Misi:</div>
-                        <p>{{ $village['misi'] ?? 'Misi belum ditetapkan. Silakan hubungi admin desa untuk informasi lebih lanjut.' }}</p>
+                        <p><?php echo e($village['misi'] ?? 'Misi belum ditetapkan. Silakan hubungi admin desa untuk informasi lebih lanjut.'); ?></p>
                     </div>
                 </div>
 
@@ -600,15 +600,15 @@
                 <div class="section">
                     <h2 class="section-title">Transparansi Anggaran Desa</h2>
                     <p class="section-content" style="margin-bottom: 20px;">
-                        Dokumen laporan realisasi anggaran {{ $village['name'] }} dapat diunduh untuk transparansi dan akuntabilitas pengelolaan keuangan desa.
+                        Dokumen laporan realisasi anggaran <?php echo e($village['name']); ?> dapat diunduh untuk transparansi dan akuntabilitas pengelolaan keuangan desa.
                     </p>
 
-                    <div class="budget-amount">{{ $village['budget'] ?? 'APBD 2025' }}</div>
+                    <div class="budget-amount"><?php echo e($village['budget'] ?? 'APBD 2025'); ?></div>
 
-                    <a href="{{ $village['budget_file'] ?? url('documents/apbd-2025.pdf') }}" class="budget-download" download title="Unduh Anggaran">
+                    <a href="<?php echo e($village['budget_file'] ?? url('documents/apbd-2025.pdf')); ?>" class="budget-download" download title="Unduh Anggaran">
                         <span class="budget-icon"><i class="fa fa-file-pdf"></i></span>
                         <div>
-                            <div class="budget-text">{{ $village['budget'] ?? 'APBD 2025' }}</div>
+                            <div class="budget-text"><?php echo e($village['budget'] ?? 'APBD 2025'); ?></div>
                             <div style="font-size:12px;color:var(--muted);margin-top:4px">Klik untuk mengunduh dokumen</div>
                         </div>
                     </a>
@@ -620,27 +620,27 @@
                 <!-- Leader Card -->
                 <div class="leader-card">
                     <div class="leader-avatar">👤</div>
-                    <div class="leader-name">{{ $village['leader']['name'] ?? 'Kepala Desa' }}</div>
-                    <div class="leader-title">{{ $village['leader']['title'] ?? 'Kepala Desa' }}</div>
+                    <div class="leader-name"><?php echo e($village['leader']['name'] ?? 'Kepala Desa'); ?></div>
+                    <div class="leader-title"><?php echo e($village['leader']['title'] ?? 'Kepala Desa'); ?></div>
                 </div>
 
                 <!-- Stats -->
                 <div class="stats-list">
-                    @if(!empty($village['stats']) && is_array($village['stats']))
-                        @foreach($village['stats'] as $stat)
+                    <?php if(!empty($village['stats']) && is_array($village['stats'])): ?>
+                        <?php $__currentLoopData = $village['stats']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $stat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <div class="stat-item">
-                                <div class="stat-value">{{ $stat['value'] }}</div>
-                                <div class="stat-label">{{ $stat['label'] }}</div>
-                                <div class="stat-sublabel">{{ $stat['sublabel'] }}</div>
+                                <div class="stat-value"><?php echo e($stat['value']); ?></div>
+                                <div class="stat-label"><?php echo e($stat['label']); ?></div>
+                                <div class="stat-sublabel"><?php echo e($stat['sublabel']); ?></div>
                             </div>
-                        @endforeach
-                    @else
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <?php else: ?>
                         <div class="stat-item">
                             <div class="stat-value">0</div>
                             <div class="stat-label">Agenda Mendatang</div>
                             <div class="stat-sublabel">Kegiatan</div>
                         </div>
-                    @endif
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -715,10 +715,10 @@
         }
 
         // Auto-refresh untuk cek update visi misi setiap 10 detik
-        let lastUpdated = {{ $village['updated_at'] ?? time() }};
+        let lastUpdated = <?php echo e($village['updated_at'] ?? time()); ?>;
 
         setInterval(function() {
-            fetch('/api/village-check-update/{{ $village['id'] }}')
+            fetch('/api/village-check-update/<?php echo e($village['id']); ?>')
                 .then(response => response.json())
                 .then(data => {
                     if (data.updated_at !== lastUpdated && lastUpdated !== '') {
@@ -743,4 +743,4 @@
         });
     </script>
 </body>
-</html>
+</html><?php /**PATH C:\Users\ASUS\Documents\E-GovToba\resources\views/district-information/village-detail.blade.php ENDPATH**/ ?>

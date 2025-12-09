@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toba Hita</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}" />
+    <title>Admin Desa {{ $village->name ?? 'Dashboard' }}</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -17,15 +16,17 @@
             position: fixed; top: 0; left: 0; height: 100vh; width: 260px;
             background: linear-gradient(180deg,#34495e 0%,#2c3e50 100%);
             color: #fff; overflow-y: auto; z-index: 1000; box-shadow: 4px 0 12px rgba(0,0,0,0.1);
+            display: flex; flex-direction: column;
         }
-        .sidebar-header { padding: 24px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .sidebar-header { padding: 24px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.06); flex-shrink: 0; }
         .sidebar-header h5 { font-size: 18px; font-weight:700; margin:0; }
-        .sidebar-menu { list-style:none; padding:20px 0; }
+        .sidebar-menu { list-style:none; padding:20px 0; flex-grow: 1; }
+        .sidebar-menu li { margin: 0; }
         .sidebar-menu a { display:flex; align-items:center; padding:12px 20px; color:rgba(255,255,255,0.85); text-decoration:none; font-weight:500; border-left:4px solid transparent; transition:all .2s; }
         .sidebar-menu a.active, .sidebar-menu a:hover { background: rgba(255,255,255,0.06); color:#fff; border-left-color:#5280b9; }
         .sidebar-menu i { width:20px; margin-right:12px; font-size:16px; }
-        .sidebar-footer { position:absolute; bottom:20px; width:100%; padding:0 20px; }
-        .sidebar-footer a { color:rgba(255,255,255,0.85); text-decoration:none; display:flex; align-items:center; padding:12px 0; }
+        .sidebar-footer { padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
+        .sidebar-footer a { color:rgba(255,255,255,0.85); text-decoration:none; display:flex; align-items:center; padding:12px 0; font-size:14px; font-weight:500; }
 
         /* Main Content */
         .main-content { margin-left:260px; padding:32px; min-height:100vh; transition:margin-left .3s; }
@@ -39,19 +40,160 @@
         .visi-section h4, .misi-section h4 { font-size:14px; font-weight:600; color:#475569; margin-bottom:8px; }
         .visi-section p, .misi-section p { color:#64748b; line-height:1.6; }
 
-        /* Pengumuman Form */
-        .pengumuman-section { background:#fff; padding:20px; border-radius:12px; margin-bottom:20px; box-shadow:0 6px 18px rgba(14,30,60,0.04); border:1px solid #eef6fb; }
-        .pengumuman-section h3 { font-size:18px; font-weight:700; color:#0f1724; margin-bottom:14px; }
-        .form-label { font-size:14px; font-weight:600; color:#475569; margin-bottom:8px; display:block; }
-        .form-control { border:1px solid #e2e8f0; border-radius:8px; padding:10px 12px; font-size:14px; }
-        .form-control:focus { border-color:#0077B6; box-shadow:0 0 0 .15rem rgba(59,130,246,0.12); }
-        .btn-publis {
-            background:#0b79b8; color:#fff; border:none;
-            padding:6px 12px; border-radius:10px; font-size:13px; font-weight:600;
-            cursor:pointer; transition:background .15s, transform .06s; display:inline-block; margin-top:8px;
-            box-shadow:none; min-width:0; height:auto; line-height:normal;
+        /* Pengumuman Form - Enhanced */
+        .pengumuman-section { 
+            background:#fff; 
+            padding:28px; 
+            border-radius:12px; 
+            margin-bottom:20px; 
+            box-shadow:0 6px 18px rgba(14,30,60,0.04); 
+            border:1px solid #eef6fb;
         }
-        .btn-publis:hover { background:#096598; transform:translateY(-1px); }
+        .pengumuman-section h3 { 
+            font-size:18px; 
+            font-weight:700; 
+            color:#0f1724; 
+            margin-bottom:20px;
+            display:flex;
+            align-items:center;
+            gap:10px;
+        }
+
+        .form-group-wrapper {
+            margin-bottom:18px;
+        }
+
+        .form-label { 
+            font-size:14px; 
+            font-weight:600; 
+            color:#475569; 
+            margin-bottom:8px; 
+            display:block;
+        }
+
+        .form-control, .form-select, textarea { 
+            border:1px solid #e2e8f0; 
+            border-radius:8px; 
+            padding:10px 12px; 
+            font-size:14px;
+            font-family: inherit;
+            background:#fff;
+            transition:all .2s;
+            width:100%;
+        }
+
+        .form-control:focus, .form-select:focus, textarea:focus { 
+            border-color:#0b79b8; 
+            box-shadow:0 0 0 .15rem rgba(11,121,184,0.12);
+            outline:none;
+        }
+
+        textarea {
+            resize:vertical;
+            min-height:100px;
+        }
+
+        .form-row-2col {
+            display:grid;
+            grid-template-columns: 1fr 1fr;
+            gap:16px;
+        }
+
+        .form-row-3col {
+            display:grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap:16px;
+        }
+
+        .category-grid {
+            display:grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap:12px;
+            margin-top:10px;
+        }
+
+        .category-option {
+            position:relative;
+            display:none;
+        }
+
+        .category-option input[type="radio"] {
+            position:absolute;
+            opacity:0;
+            cursor:pointer;
+        }
+
+        .category-label {
+            display:block;
+            padding:12px 14px;
+            border:2px solid #e2e8f0;
+            border-radius:8px;
+            cursor:pointer;
+            transition:all .2s;
+            background:#fff;
+            font-weight:500;
+            color:#475569;
+        }
+
+        .category-option input[type="radio"]:checked + .category-label {
+            border-color:#0b79b8;
+            background:#eff6ff;
+            color:#0b79b8;
+        }
+
+        .category-option.show {
+            display:block;
+        }
+
+        .hint-text {
+            font-size:12px;
+            color:#94a3b8;
+            margin-top:6px;
+            font-weight:400;
+        }
+
+        .form-actions {
+            display:flex;
+            gap:12px;
+            margin-top:24px;
+        }
+
+        .btn-publis {
+            background:#0b79b8; 
+            color:#fff; 
+            border:none;
+            padding:10px 24px; 
+            border-radius:8px; 
+            font-size:14px; 
+            font-weight:600;
+            cursor:pointer; 
+            transition:background .15s, transform .06s;
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+        }
+
+        .btn-publis:hover { 
+            background:#096598; 
+            transform:translateY(-1px);
+        }
+
+        .btn-reset {
+            background:#f1f5f9;
+            color:#475569;
+            border:1px solid #e2e8f0;
+            padding:10px 24px;
+            border-radius:8px;
+            font-size:14px;
+            font-weight:600;
+            cursor:pointer;
+            transition:all .15s;
+        }
+
+        .btn-reset:hover {
+            background:#e2e8f0;
+            border-color:#cbd5e1;
+        }
 
         /* Content Grid */
         .content-grid { display:grid; grid-template-columns: 320px 1fr; gap:24px; margin-top:10px; align-items:start; }
@@ -70,16 +212,16 @@
         .agenda-status.menunggu { background:#fee2e2; color:#dc2626; }
         .edit-agenda { margin-left:auto; background:none; border:none; color:#64748b; font-size:13px; cursor:pointer; padding:6px; }
 
-        /* Right panel: stats stacked center, profile right */
+        /* Right panel */
         .right-panel { display:flex; gap:36px; align-items:flex-start; width:100%; justify-content:space-between; }
         .stats-column { display:flex; flex-direction:column; gap:28px; flex:0 0 620px; min-width:0; align-self:flex-start; }
 
-        /* Stat card styling - stacked with decorative bracket and top line */
+        /* Stat card */
         .stat-card {
             position:relative;
             background:#fff;
             border-radius:14px;
-            padding:28px 22px 28px 96px; /* left space for bracket + icon */
+            padding:28px 22px 28px 96px;
             box-shadow:0 12px 36px rgba(18,38,63,0.04);
             min-height:120px;
             overflow:visible;
@@ -125,10 +267,14 @@
         .stat-content h5 { margin:0; color:#6a7b8b; font-size:16px; font-weight:700; }
         .stat-content .stat-value { font-size:32px; font-weight:800; color:#08122a; margin-top:14px; }
 
-        /* Kepala Desa Card - fixed width portrait on right */
+        /* Kepala Desa Card */
         .kepala-desa-card {
             flex:0 0 260px;
-            background:#fff; padding:18px; border-radius:12px; box-shadow:0 6px 18px rgba(14,30,60,0.04); text-align:center;
+            background:#fff; 
+            padding:18px; 
+            border-radius:12px; 
+            box-shadow:0 6px 18px rgba(14,30,60,0.04); 
+            text-align:center;
         }
         .kepala-desa-photo {
             width:260px;
@@ -150,30 +296,6 @@
         .kepala-desa-name { font-size:16px; font-weight:700; color:#0f1724; margin-bottom:6px; }
         .kepala-desa-title { font-size:13px; color:#64748b; margin:0; font-weight:600; }
 
-        /* Input-with-button (edit inside input/textarea) */
-        .input-with-btn { position:relative; }
-        .input-with-btn .form-control { padding-right:110px; box-sizing:border-box; }
-        .input-with-btn.textarea .form-control { padding-right:90px; }
-        .input-btn {
-            position:absolute;
-            right:12px;
-            top:50%;
-            transform:translateY(-50%);
-            border:0;
-            background:#eaf6ff;
-            color:#0b79b8;
-            padding:8px 10px;
-            border-radius:8px;
-            cursor:pointer;
-            font-weight:700;
-            display:flex;
-            align-items:center;
-            gap:8px;
-        }
-        .input-with-btn.textarea .input-btn { top:12px; transform:none; }
-        .input-btn:focus { outline:2px solid rgba(11,121,184,0.18); }
-        .input-btn i { font-size:14px; }
-
         /* Responsive */
         @media (max-width: 1200px) {
             .content-grid { grid-template-columns: 300px 1fr; gap:24px; }
@@ -185,16 +307,16 @@
             .content-grid { grid-template-columns:1fr; }
             .right-panel { flex-direction:column; }
             .kepala-desa-card { flex: 0 0 auto; width:100%; }
+            .form-row-2col, .form-row-3col { grid-template-columns:1fr; }
             .stat-card { padding-left:64px; min-height:110px; }
             .stat-card::before { left:12px; width:14px; border-radius:10px; }
             .stat-card::after { left:48px; width:64px; }
             .stat-icon { left:44px; top:18px; }
-            .input-with-btn .form-control { padding-right:38px; }
-            .input-btn { right:8px; top:18px; transform:none; }
         }
         @media (max-width:768px) {
             .sidebar { transform:translateX(-100%); }
             .main-content { margin-left:0; padding:16px; }
+            .category-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -205,9 +327,10 @@
             <h5>Admin Desa</h5>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="{{ route('village-admin.dashboard') }}" class="active"><i class="fas fa-home"></i> Beranda</a></li>
-            <li><a href="{{ route('village-admin.kelola-informasi') }}"><i class="fas fa-info-circle"></i> Kelola Informasi</a></li>
-            <li><a href="{{ route('village-admin.anggaran') }}"><i class="fas fa-coins"></i> Anggaran</a></li>
+            <li><a href="{{ route('village-admin.dashboard') }}" class="{{ request()->routeIs('village-admin.dashboard') ? 'active' : '' }}"><i class="fas fa-home"></i> Beranda</a></li>
+            <li><a href="{{ route('village-admin.kelola-informasi') }}" class="{{ request()->routeIs('village-admin.kelola-informasi') ? 'active' : '' }}"><i class="fas fa-bullhorn"></i> Kelola Pengumuman</a></li>
+            <li><a href="{{ route('village-admin.visi-misi') }}" class="{{ request()->routeIs('village-admin.visi-misi') ? 'active' : '' }}"><i class="fas fa-lightbulb"></i> Visi & Misi</a></li>
+            <li><a href="{{ route('village-admin.anggaran') }}" class="{{ request()->routeIs('village-admin.anggaran') ? 'active' : '' }}"><i class="fas fa-coins"></i> Anggaran</a></li>
         </ul>
         <div class="sidebar-footer">
             <a href="{{ route('logout') }}" 
@@ -250,186 +373,86 @@
             </div>
         @endif
 
-        <!-- Header Welcome with Village Image Background -->
-        <div class="welcome-header" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('{{ $village->image ? asset('images/' . $village->image) : asset('images/default-village.jpg') }}') center/cover; padding: 60px 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); margin-bottom: 30px; position: relative; overflow: hidden;">
-            <div style="position: relative; z-index: 2;">
-                <h2 style="font-size: 32px; font-weight: 700; color: white; margin: 0 0 10px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Selamat Datang di Desa {{ $village->name }}</h2>
-                <p style="font-size: 16px; color: rgba(255,255,255,0.95); margin: 0; font-weight: 400;">Admin Dashboard - Kelola informasi dan layanan desa Anda</p>
-            </div>
+        <!-- Welcome Header -->
+        <div class="welcome-header">
+            <h1>Selamat Datang, Admin Desa {{ $village->name ?? 'Meat' }}!</h1>
         </div>
 
         <!-- Visi & Misi -->
-        <div class="visi-misi-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                <h3 style="font-size: 18px; font-weight: 700; color: #2c3e50; margin: 0;">Visi & Misi Desa</h3>
-                <a href="{{ route('village-admin.kelola-informasi') }}" 
-                   style="display: inline-flex; align-items: center; gap: 6px; background: #0b79b8; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; transition: all 0.3s;">
-                    <i class="fas fa-edit"></i> Edit Visi & Misi
+        <div class="visi-misi-card" style="position:relative;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
+                <div style="flex:1;">
+                    <div class="visi-section">
+                        <h4>Visi:</h4>
+                        <p>{{ $village->visi ?? 'Mewujudkan Desa ' . ($village->name ?? 'Anda') . ' yang mandiri, sejahtera, dan berdaya berlandaskan gotong royong.' }}</p>
+                    </div>
+                    <div class="misi-section" style="margin-top:16px;">
+                        <h4>Misi:</h4>
+                        <p>{{ $village->misi ?? 'Meningkatkan kualitas sumber daya manusia, mengoptimalkan potensi desa di bidang pertanian dan pariwisata, serta melestarikan adat dan budaya lokal.' }}</p>
+                    </div>
+                </div>
+                <a href="{{ route('village-admin.visi-misi') }}" style="flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:8px; background:#eff6ff; color:#0b79b8; border:1px solid #dbeafe; text-decoration:none; transition:all .2s; cursor:pointer;" title="Edit Visi & Misi" onmouseover="this.style.background='#bfdbfe'; this.style.color='#0853a6';" onmouseout="this.style.background='#eff6ff'; this.style.color='#0b79b8';">
+                    <i class="fas fa-edit"></i>
                 </a>
             </div>
-            <div class="visi-section">
-                <h4>Visi:</h4>
-                <p>{{ $village->visi ?? 'Visi belum ditetapkan. Klik tombol Edit untuk menambahkan.' }}</p>
-            </div>
-            <div class="misi-section" style="margin-top:16px;">
-                <h4>Misi:</h4>
-                <p>{{ $village->misi ?? 'Misi belum ditetapkan. Klik tombol Edit untuk menambahkan.' }}</p>
-            </div>
         </div>
 
-        <!-- Upload Dokumen Anggaran Desa -->
-        <div class="pengumuman-section" style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 30px;">
-            <h3 style="font-size: 16px; font-weight: 600; color: #2c3e50; margin-bottom: 20px;">
-                <i class="fas fa-file-upload" style="color: #3498db;"></i> Unggah Dokumen Anggaran
-            </h3>
+        <!-- Pengumuman Terkini (ringkas) -->
+        <div class="pengumuman-section">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:10px;">
+                <h3 style="margin:0; display:flex; align-items:center; gap:10px; font-size:18px; font-weight:700; color:#0f1724;">
+                    <i class="fas fa-bullhorn"></i> Pengumuman Desa
+                </h3>
+                <a href="{{ route('village-admin.kelola-informasi') }}" style="display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:8px; border:1px solid #0b79b8; color:#0b79b8; text-decoration:none; font-weight:600;">
+                    <i class="fas fa-pen"></i> Kelola Pengumuman
+                </a>
+            </div>
 
-            @if($village->budget_file)
-                <div class="alert alert-info" style="background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; border-radius: 8px; padding: 12px; margin-bottom: 15px; font-size: 14px; display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-file-pdf" style="font-size: 20px;"></i>
-                    <div style="flex: 1;">
-                        <strong>Anggaran Desa</strong><br>
-                        <small>File saat ini: {{ basename($village->budget_file) }}</small>
-                    </div>
-                    <a href="{{ asset('storage/' . $village->budget_file) }}" target="_blank" style="background: #3498db; color: white; padding: 6px 15px; border-radius: 6px; text-decoration: none; font-size: 13px; white-space: nowrap;">
-                        <i class="fas fa-download"></i> Download
-                    </a>
+            @if($announcements->count())
+                <div style="display:flex; flex-direction:column; gap:12px;">
+                    @foreach($announcements as $announcement)
+                        <div style="border:1px solid #e2e8f0; border-radius:10px; padding:16px; background:#fff; box-shadow:0 6px 18px rgba(14,30,60,0.04);">
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
+                                <div>
+                                    <div style="display:flex; align-items:center; gap:10px;">
+                                        <h4 style="margin:0; font-size:16px; font-weight:700; color:#0f1724;">{{ $announcement->title }}</h4>
+                                        @if($announcement->category)
+                                            <span style="font-size:12px; padding:4px 8px; border-radius:6px; background:#eff6ff; color:#0b79b8; border:1px solid #dbeafe;">{{ $announcement->category }}</span>
+                                        @endif
+                                    </div>
+                                    <div style="margin-top:6px; font-size:12px; color:#64748b; display:flex; gap:12px; flex-wrap:wrap;">
+                                        <span><i class="fas fa-calendar-check"></i> Terbit: {{ optional($announcement->date)->locale('id')->isoFormat('D MMM YYYY') }}</span>
+                                        @if($announcement->effective_date)
+                                            <span><i class="fas fa-calendar-plus"></i> Berlaku: {{ 
+                                                \Carbon\Carbon::parse($announcement->effective_date)->locale('id')->isoFormat('D MMM YYYY') }}</span>
+                                        @endif
+                                        @if($announcement->end_date)
+                                            <span><i class="fas fa-calendar-times"></i> Berakhir: {{ 
+                                                \Carbon\Carbon::parse($announcement->end_date)->locale('id')->isoFormat('D MMM YYYY') }}</span>
+                                        @endif
+                                        @if($announcement->location)
+                                            <span><i class="fas fa-map-marker-alt"></i> {{ $announcement->location }}</span>
+                                        @endif
+                                        @if($announcement->contact)
+                                            <span><i class="fas fa-phone"></i> {{ $announcement->contact }}</span>
+                                        @endif
+                                    </div>
+                                    <p style="margin-top:10px; color:#475569; font-size:14px; line-height:1.5;">{{ \Illuminate\Support\Str::limit($announcement->content, 200) }}</p>
+                                </div>
+                                <div style="text-align:right;">
+                                    <span style="display:inline-block; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:700; color:#0b79b8; background:#e0f2fe; border:1px solid #bfdbfe;">
+                                        {{ $announcement->status ?? 'published' }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
+            @else
+                <p style="margin:0; color:#64748b;">Belum ada pengumuman. Klik "Kelola Pengumuman" untuk menambahkan.</p>
             @endif
-
-            <form action="{{ route('village-admin.budget.upload') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="mb-3">
-                    <label style="font-size: 14px; font-weight: 500; color: #2c3e50; margin-bottom: 8px; display: block;">Pilih file baru untuk menggantikan (format PDF)</label>
-                    <input type="file" class="form-control" name="budget_file" accept=".pdf" required style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px; font-size: 14px;">
-                    <small style="color: #7f8c8d; font-size: 12px; margin-top: 5px; display: block;">Format: PDF (Max: 10MB)</small>
-                </div>
-
-                <button type="submit" style="background: #3498db; color: white; border: none; padding: 10px 25px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.background='#2980b9'" onmouseout="this.style.background='#3498db'">
-                    <i class="fas fa-upload"></i> Unggah File Baru
-                </button>
-            </form>
-        </div>
-
-        <!-- Buat Pengumuman Baru Section -->
-        <div class="pengumuman-section" style="background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 30px;">
-            <h3 style="font-size: 16px; font-weight: 600; color: #2c3e50; margin-bottom: 20px;">Buat Pengumuman Baru :</h3>
-            
-            <form action="{{ route('village-admin.announcements.store') }}" method="POST">
-                @csrf
-                <div class="mb-3">
-                    <label style="font-size: 14px; font-weight: 600; color: #2c3e50; margin-bottom: 8px; display: block;">Judul</label>
-                    <input type="text" class="form-control" name="title" placeholder="Judul pengumuman" style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px 15px; font-size: 14px;">
-                </div>
-
-                <div class="mb-3">
-                    <label style="font-size: 14px; font-weight: 600; color: #2c3e50; margin-bottom: 8px; display: block;">Isi Pengumuman</label>
-                    <textarea class="form-control" name="content" rows="3" placeholder="Isi pengumuman" style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px 15px; font-size: 14px;"></textarea>
-                </div>
-
-                <input type="hidden" name="date" value="{{ date('Y-m-d') }}">
-                <input type="hidden" name="status" value="pending">
-
-                <button type="submit" style="background: #3498db; color: white; border: none; padding: 10px 25px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer;">
-                    Publikasikan
-                </button>
-            </form>
-        </div>
-
-        <!-- Content Grid: Agenda & Stats/Foto -->
-        <div class="content-grid">
-            <!-- Agenda Mendatang (kiri sempit) -->
-            <div class="agenda-card">
-                <div class="agenda-header">
-                    <i class="fas fa-calendar-alt"></i>
-                    <h4>Agenda Mendatang</h4>
-                </div>
-
-                <div class="agenda-item">
-                    <div class="agenda-icon"><i class="fas fa-calendar-check"></i></div>
-                    <div class="agenda-content">
-                        <div class="agenda-title">Rapat Koordinasi Antar Kabupaten</div>
-                        <div class="agenda-date">25 Agustus 2025 &nbsp; <span style="color:#94a3b8;">09:00</span></div>
-                        <div style="display:flex; align-items:center; gap:8px;">
-                            <span class="agenda-status mendatang">Meeting</span>
-                            <button class="edit-agenda">Edit</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="agenda-item">
-                    <div class="agenda-icon"><i class="fas fa-calendar-check"></i></div>
-                    <div class="agenda-content">
-                        <div class="agenda-title">Forum Pengembangan Wisata Toba</div>
-                        <div class="agenda-date">27 Agustus 2025 &nbsp; <span style="color:#94a3b8;">14:00</span></div>
-                        <div style="display:flex; align-items:center; gap:8px;">
-                            <span class="agenda-status mendatang" style="background:#fce7f3;color:#be185d;">Program</span>
-                            <button class="edit-agenda">Edit</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="agenda-item">
-                    <div class="agenda-icon"><i class="fas fa-clock"></i></div>
-                    <div class="agenda-content">
-                        <div class="agenda-title">Evaluasi Program Kawasan Q1</div>
-                        <div class="agenda-date">30 Agustus 2025 &nbsp; <span style="color:#94a3b8;">10:00</span></div>
-                        <div style="display:flex; align-items:center; gap:8px;">
-                            <span class="agenda-status menunggu">Meeting</span>
-                            <button class="edit-agenda">Edit</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right panel: stacked stats and kepala desa on right -->
-            <div class="right-panel">
-                <div class="stats-column">
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-users" aria-hidden="true"></i></div>
-                        <div class="stat-content">
-                            <h5>Total Penduduk</h5>
-                            <div class="stat-value">{{ number_format($village->population ?? 900) }}</div>
-                        </div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-map-marked-alt" aria-hidden="true"></i></div>
-                        <div class="stat-content">
-                            <h5>Luas Area</h5>
-                            <div class="stat-value">{{ $village->area ?? '15,2' }}</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="kepala-desa-card">
-                    <div class="kepala-desa-photo">
-                        <!-- ganti dengan <img src="path/to/photo.jpg" alt="Kepala Desa"> bila ada -->
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="kepala-desa-name">{{ $village->village_head ?? 'Janri M. Simanjuntak' }}</div>
-                    <div class="kepala-desa-title">Kepala Desa</div>
-                </div>
-            </div>
         </div>
     </div>
-
-    <script>
-        // fokus ke field saat tombol Edit diklik
-        document.addEventListener('click', function (e) {
-            const btn = e.target.closest('.edit-field');
-            if (!btn) return;
-            const target = btn.getAttribute('data-target');
-            if (!target) return;
-            const el = document.querySelector(target);
-            if (!el) return;
-            el.focus();
-            // select content for quick edit
-            if (typeof el.select === 'function') {
-                try { el.select(); } catch(e) {}
-            }
-            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        });
-    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

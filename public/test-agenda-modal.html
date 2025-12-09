@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Modal Agenda</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            padding: 2rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .test-status {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        .test-status h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .test-status p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .btn-test {
+            margin: 0.5rem 0;
+        }
+        .log-box {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            margin-top: 1rem;
+        }
+        .log-entry {
+            margin: 0.25rem 0;
+            color: #666;
+        }
+        .log-error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .log-success {
+            color: #28a745;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Test Modal Agenda</h1>
+        
+        <div class="test-status">
+            <h3>📋 Status Diagnostic</h3>
+            <p id="bootstrap-status">Bootstrap: Checking...</p>
+            <p id="modal-status">Modal Element: Checking...</p>
+            <p id="function-status">openAddAgendaModal Function: Checking...</p>
+        </div>
+
+        <div>
+            <button class="btn btn-primary btn-test" onclick="openAddAgendaModal()">
+                Test 1: onclick="openAddAgendaModal()"
+            </button>
+            
+            <button class="btn btn-secondary btn-test" data-bs-toggle="modal" data-bs-target="#testModal">
+                Test 2: data-bs-toggle="modal" (Bootstrap Native)
+            </button>
+            
+            <button class="btn btn-info btn-test" onclick="manualShowModal()">
+                Test 3: Manual bootstrap.Modal().show()
+            </button>
+
+            <button class="btn btn-warning btn-test" onclick="clearLogs()">
+                Clear Logs
+            </button>
+        </div>
+
+        <div class="log-box" id="logBox"></div>
+    </div>
+
+    <!-- Test Modal -->
+    <div class="modal fade" id="testModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Test Modal - Berhasil!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>✅ Modal terbuka dengan sukses! Bootstrap dan modal handler berfungsi dengan baik.</p>
+                    <p><small>Sekarang Anda bisa melanjutkan testing di aplikasi utama.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const logBox = document.getElementById('logBox');
+        
+        function addLog(message, isError = false) {
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${isError ? 'log-error' : ''}`;
+            const time = new Date().toLocaleTimeString();
+            entry.textContent = `[${time}] ${message}`;
+            logBox.appendChild(entry);
+            logBox.scrollTop = logBox.scrollHeight;
+        }
+
+        function clearLogs() {
+            logBox.innerHTML = '';
+            addLog('Logs cleared');
+        }
+
+        function openAddAgendaModal() {
+            addLog('openAddAgendaModal() called');
+            const modal = document.getElementById('testModal');
+            if (!modal) {
+                addLog('ERROR: Modal element not found', true);
+                return;
+            }
+            
+            if (typeof bootstrap === 'undefined') {
+                addLog('ERROR: Bootstrap library not loaded', true);
+                return;
+            }
+            
+            addLog('Opening modal...');
+            try {
+                const bsModal = new bootstrap.Modal(modal);
+                bsModal.show();
+                addLog('✅ Modal opened successfully');
+            } catch(err) {
+                addLog(`ERROR: ${err.message}`, true);
+            }
+        }
+
+        function manualShowModal() {
+            addLog('manualShowModal() called');
+            try {
+                const modal = document.getElementById('testModal');
+                const bsModal = new bootstrap.Modal(modal);
+                bsModal.show();
+                addLog('✅ Modal shown via manual method');
+            } catch(err) {
+                addLog(`ERROR: ${err.message}`, true);
+            }
+        }
+
+        // Diagnostic on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            addLog('=== PAGE LOADED ===');
+            
+            // Check Bootstrap
+            if (typeof bootstrap !== 'undefined') {
+                document.getElementById('bootstrap-status').innerHTML = '✅ Bootstrap: LOADED';
+                addLog('✅ Bootstrap library loaded');
+            } else {
+                document.getElementById('bootstrap-status').innerHTML = '❌ Bootstrap: NOT LOADED';
+                addLog('❌ Bootstrap library NOT found', true);
+            }
+            
+            // Check Modal
+            const modal = document.getElementById('testModal');
+            if (modal) {
+                document.getElementById('modal-status').innerHTML = '✅ Modal Element: FOUND';
+                addLog('✅ Modal element found');
+            } else {
+                document.getElementById('modal-status').innerHTML = '❌ Modal Element: NOT FOUND';
+                addLog('❌ Modal element NOT found', true);
+            }
+            
+            // Check Function
+            if (typeof openAddAgendaModal === 'function') {
+                document.getElementById('function-status').innerHTML = '✅ Function: DEFINED';
+                addLog('✅ openAddAgendaModal function defined');
+            } else {
+                document.getElementById('function-status').innerHTML = '❌ Function: NOT DEFINED';
+                addLog('❌ openAddAgendaModal function NOT defined', true);
+            }
+            
+            addLog('=== READY FOR TESTING ===');
+        });
+    </script>
+</body>
+</html>

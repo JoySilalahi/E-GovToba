@@ -53,6 +53,7 @@ Route::middleware(['auth', 'village-admin'])->prefix('village-admin')->name('vil
     Route::get('/dashboard', [VillageAdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/profile', [VillageAdminController::class, 'profile'])->name('profile');
     Route::get('/kelola-informasi', [VillageAdminController::class, 'kelolaInformasi'])->name('kelola-informasi');
+    Route::get('/visi-misi', [VillageAdminController::class, 'visiMisi'])->name('visi-misi');
     Route::post('/visi-misi', [VillageAdminController::class, 'updateVisiMisi'])->name('visi-misi.update');
     
     // Announcement routes
