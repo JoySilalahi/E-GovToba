@@ -8,8 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Bootstrap JS Bundle - REQUIRED untuk modal/tooltip/popover functionality -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <style>
         * {
@@ -511,11 +509,11 @@
                                 {{ $item->excerpt }}
                             </div>
                             <div class="news-meta">
-                                <span><i class="far fa-calendar me-1"></i> {{ $item->date->translatedFormat('d M Y') }}</span>
-                                <span><i class="far fa-clock me-1"></i> {{ $item->date->format('H:i') }} WIB</span>
+                                <span><i class="far fa-calendar me-1"></i> {{ $item->published_at->translatedFormat('d M Y') }}</span>
+                                <span><i class="far fa-clock me-1"></i> {{ $item->published_at->format('H:i') }} WIB</span>
                             </div>
                             <div class="news-actions">
-                                <button class="btn-icon" onclick="editNews({{ $item->id }}, '{{ $item->category }}', '{{ addslashes($item->title) }}', '{{ addslashes($item->excerpt) }}', `{{ addslashes($item->content) }}`, '{{ $item->date->format('Y-m-d\TH:i') }}')">
+                                <button class="btn-icon" onclick="editNews({{ $item->id }}, '{{ $item->category }}', '{{ addslashes($item->title) }}', '{{ addslashes($item->excerpt) }}', `{{ addslashes($item->content) }}`, '{{ $item->published_at->format('Y-m-d\TH:i') }}')">
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <form action="{{ route('admin.information.news.delete', $item->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus berita ini?')">
@@ -539,11 +537,11 @@
                                 {{ Str::limit($item->content, 150) }}
                             </div>
                             <div class="news-meta">
-                                <span><i class="far fa-calendar me-1"></i> {{ $item->date->translatedFormat('d M Y') }}</span>
-                                <span><i class="far fa-clock me-1"></i> {{ $item->date->format('H:i') }} WIB</span>
+                                <span><i class="far fa-calendar me-1"></i> {{ $item->published_at->translatedFormat('d M Y') }}</span>
+                                <span><i class="far fa-clock me-1"></i> {{ $item->published_at->format('H:i') }} WIB</span>
                             </div>
                             <div class="news-actions">
-                                <button class="btn-icon" onclick="editAnnouncement({{ $item->id }}, '{{ addslashes($item->title) }}', `{{ addslashes($item->content) }}`, '{{ $item->date->format('Y-m-d\TH:i') }}')">
+                                <button class="btn-icon" onclick="editAnnouncement({{ $item->id }}, '{{ addslashes($item->title) }}', `{{ addslashes($item->content) }}`, '{{ $item->published_at->format('Y-m-d\TH:i') }}')">
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <form action="{{ route('admin.information.announcements.delete', $item->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus pengumuman ini?')">
@@ -629,7 +627,7 @@
                         <h2>Agenda Pemkab</h2>
                         <p class="section-subtitle">Transparansi kegiatan pemerintahan untuk membangun kepercayaan publik</p>
                     </div>
-                    <button class="btn btn-primary" onclick="openAddAgendaModal()">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAgendaModal">
                         <i class="fas fa-plus me-2"></i> Tambah Agenda
                     </button>
                 </div>
@@ -942,7 +940,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Isi Pengumuman</label>
-                            <textarea class="form-control" name="content" id="edit_announcement_content" rows="5" required>
+                            <textarea class="form-control" name="content" id="edit_announcement_content" rows="5" required></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -1252,55 +1250,9 @@
             new bootstrap.Modal(document.getElementById('editVillageModal')).show();
         }
 
-        // FUNCTION: Buka modal tambah agenda
-        function openAddAgendaModal() {
-            console.log('[DEBUG] openAddAgendaModal() called');
-            const modal = document.getElementById('addAgendaModal');
-            if (!modal) {
-                console.error('[ERROR] Modal element #addAgendaModal tidak ditemukan!');
-                alert('Error: Modal tidak ditemukan. Refresh halaman dan coba lagi.');
-                return;
-            }
-            
-            if (typeof bootstrap === 'undefined') {
-                console.error('[ERROR] Bootstrap library tidak loaded!');
-                alert('Error: Bootstrap belum loaded. Refresh halaman dan coba lagi.');
-                return;
-            }
-            
-            console.log('[DEBUG] Membuka modal...');
-            try {
-                const bsModal = new bootstrap.Modal(modal);
-                bsModal.show();
-                console.log('[DEBUG] Modal berhasil dibuka');
-            } catch(err) {
-                console.error('[ERROR] Error membuka modal:', err);
-                alert('Error: ' + err.message);
-            }
-        }
-
         // Calendar click handler - untuk klik tanggal di kalender
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, setting up event listeners');
-            
-            // Setup tombol "+ Tambah Agenda" untuk membuka modal
-            const addAgendaBtns = document.querySelectorAll('[data-bs-target="#addAgendaModal"]');
-            console.log('Found Add Agenda buttons:', addAgendaBtns.length);
-            
-            addAgendaBtns.forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    console.log('Add Agenda button clicked!');
-                    e.preventDefault();
-                    const modal = document.getElementById('addAgendaModal');
-                    if (modal) {
-                        console.log('Opening modal...');
-                        const bsModal = new bootstrap.Modal(modal);
-                        bsModal.show();
-                    } else {
-                        console.error('Modal element not found!');
-                    }
-                });
-            });
+            console.log('DOM loaded');
             
             const calendarDays = document.querySelectorAll('.calendar-day');
             console.log('Found calendar days:', calendarDays.length);
@@ -1320,15 +1272,6 @@
                     }
                 });
             });
-
-            // Tambah event listener untuk form submit debugging
-            const addAgendaForm = document.querySelector('#addAgendaModal form');
-            if (addAgendaForm) {
-                addAgendaForm.addEventListener('submit', function(e) {
-                    console.log('Form tambah agenda submitted');
-                    console.log('Form data:', new FormData(this));
-                });
-            }
         });
     </script>
 </body>

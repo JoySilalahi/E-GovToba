@@ -492,6 +492,11 @@
                             <i class="fas fa-bullhorn me-2"></i> Pengumuman
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#desa">
+                            <i class="fas fa-map-marked-alt me-2"></i> Daftar Desa
+                        </a>
+                    </li>
                 </ul>
 
                 <!-- Tab Content -->
@@ -554,6 +559,68 @@
                         <p class="text-muted">Belum ada pengumuman.</p>
                         <?php endif; ?>
                     </div>
+
+                    <!-- Daftar Desa Tab -->
+                    <div class="tab-pane fade" id="desa">
+                        <div style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                            <h5 style="margin: 0;">Daftar Desa di Kabupaten Toba</h5>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addVillageModal">
+                                <i class="fas fa-plus me-2"></i> Tambah Desa
+                            </button>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead style="background: #f8fafc;">
+                                    <tr>
+                                        <th style="width: 5%">No</th>
+                                        <th style="width: 10%">Gambar</th>
+                                        <th style="width: 18%">Nama Desa</th>
+                                        <th style="width: 12%">Populasi</th>
+                                        <th style="width: 10%">Luas Area</th>
+                                        <th style="width: 25%">Deskripsi</th>
+                                        <th style="width: 20%">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $__empty_1 = true; $__currentLoopData = $villages; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $village): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                    <tr>
+                                        <td><?php echo e($index + 1); ?></td>
+                                        <td>
+                                            <?php if($village->image): ?>
+                                                <img src="<?php echo e(asset('storage/' . $village->image)); ?>" alt="<?php echo e($village->name); ?>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
+                                            <?php else: ?>
+                                                <div style="width: 60px; height: 60px; background: #e9ecef; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                                                    <i class="fas fa-image text-muted"></i>
+                                                </div>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td><strong><?php echo e($village->name); ?></strong></td>
+                                        <td><?php echo e(number_format($village->population)); ?> jiwa</td>
+                                        <td><?php echo e($village->area); ?> km²</td>
+                                        <td><?php echo e(Str::limit($village->description ?? '-', 50)); ?></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="editVillage(<?php echo e($village->id); ?>, '<?php echo e($village->name); ?>', <?php echo e($village->population); ?>, <?php echo e($village->area); ?>, '<?php echo e(addslashes($village->description ?? '')); ?>', '<?php echo e($village->image ?? ''); ?>')">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </button>
+                                            <form action="<?php echo e(route('admin.villages.destroy', $village->id)); ?>" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus desa <?php echo e($village->name); ?>?')">
+                                                <?php echo csrf_field(); ?>
+                                                <?php echo method_field('DELETE'); ?>
+                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                    <i class="fas fa-trash"></i> Hapus
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                                    <tr>
+                                        <td colspan="7" class="text-center text-muted">Belum ada data desa</td>
+                                    </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -561,10 +628,10 @@
             <div class="section-card">
                 <div class="section-header">
                     <div>
-                        <h2>Agenda Pemkot</h2>
+                        <h2>Agenda Pemkab</h2>
                         <p class="section-subtitle">Transparansi kegiatan pemerintahan untuk membangun kepercayaan publik</p>
                     </div>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAgendaModal" onclick="console.log('Button clicked'); console.log('Modal element:', document.getElementById('addAgendaModal'));">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAgendaModal">
                         <i class="fas fa-plus me-2"></i> Tambah Agenda
                     </button>
                 </div>
@@ -656,8 +723,17 @@
                                     <span><?php echo e($agenda->participants); ?></span>
                                 </div>
                                 <?php endif; ?>
+                                <?php if($agenda->status): ?>
+                                <div class="agenda-detail">
+                                    <i class="fas fa-<?php echo e($agenda->status == 'selesai' ? 'check-circle' : 'clock'); ?>"></i>
+                                    <span style="color: <?php echo e($agenda->status == 'selesai' ? '#28a745' : '#ffc107'); ?>; font-weight: 600;">
+                                        <?php echo e(ucfirst($agenda->status)); ?>
+
+                                    </span>
+                                </div>
+                                <?php endif; ?>
                                 <div class="news-actions">
-                                    <button type="button" class="btn-icon" onclick="editAgenda(<?php echo e($agenda->id); ?>, '<?php echo e(addslashes($agenda->title)); ?>', '<?php echo e(addslashes($agenda->description ?? '')); ?>', '<?php echo e($agenda->event_date->format('Y-m-d')); ?>', '<?php echo e($agenda->time_start); ?>', '<?php echo e($agenda->time_end); ?>', '<?php echo e(addslashes($agenda->location ?? '')); ?>', '<?php echo e(addslashes($agenda->category ?? '')); ?>', '<?php echo e(addslashes($agenda->participants ?? '')); ?>')">
+                                    <button type="button" class="btn-icon" onclick="editAgenda(<?php echo e($agenda->id); ?>, '<?php echo e(addslashes($agenda->title)); ?>', '<?php echo e(addslashes($agenda->description ?? '')); ?>', '<?php echo e($agenda->event_date->format('Y-m-d')); ?>', '<?php echo e($agenda->time_start); ?>', '<?php echo e($agenda->time_end); ?>', '<?php echo e(addslashes($agenda->location ?? '')); ?>', '<?php echo e(addslashes($agenda->category ?? '')); ?>', '<?php echo e(addslashes($agenda->participants ?? '')); ?>', '<?php echo e($agenda->status ?? 'mendatang'); ?>')">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <form action="<?php echo e(route('admin.information.agendas.delete', $agenda->id)); ?>" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus agenda ini?')">
@@ -869,7 +945,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Isi Pengumuman</label>
-                            <textarea class="form-control" name="content" id="edit_announcement_content" rows="5" required>
+                            <textarea class="form-control" name="content" id="edit_announcement_content" rows="5" required></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -927,6 +1003,13 @@
                         <div class="mb-3">
                             <label class="form-label">Peserta/Undangan</label>
                             <input type="text" class="form-control" name="participants" placeholder="Kepala Dinas, Masyarakat, dll">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status Agenda</label>
+                            <select class="form-control" name="status">
+                                <option value="mendatang">Mendatang</option>
+                                <option value="selesai">Selesai</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -986,6 +1069,13 @@
                             <label class="form-label">Peserta/Undangan</label>
                             <input type="text" class="form-control" name="participants" id="edit_agenda_participants">
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status Agenda</label>
+                            <select class="form-control" name="status" id="edit_agenda_status">
+                                <option value="mendatang">Mendatang</option>
+                                <option value="selesai">Selesai</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -1034,6 +1124,91 @@
         </div>
     </div>
 
+    <!-- Modal Tambah Desa -->
+    <div class="modal fade" id="addVillageModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Desa Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="<?php echo e(route('admin.villages.store')); ?>" method="POST" enctype="multipart/form-data">
+                    <?php echo csrf_field(); ?>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nama Desa</label>
+                            <input type="text" class="form-control" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Populasi (jiwa)</label>
+                            <input type="number" class="form-control" name="population" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Luas Area (km²)</label>
+                            <input type="number" step="0.01" class="form-control" name="area" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Deskripsi</label>
+                            <textarea class="form-control" name="description" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Gambar Desa (opsional)</label>
+                            <input type="file" class="form-control" name="image" accept="image/*">
+                            <small class="text-muted">Format: JPG, PNG, GIF. Maksimal 2MB</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit Desa -->
+    <div class="modal fade" id="editVillageModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Desa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="editVillageForm" method="POST" enctype="multipart/form-data">
+                    <?php echo csrf_field(); ?>
+                    <?php echo method_field('PUT'); ?>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nama Desa</label>
+                            <input type="text" class="form-control" name="name" id="edit_village_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Populasi (jiwa)</label>
+                            <input type="number" class="form-control" name="population" id="edit_village_population" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Luas Area (km²)</label>
+                            <input type="number" step="0.01" class="form-control" name="area" id="edit_village_area" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Deskripsi</label>
+                            <textarea class="form-control" name="description" id="edit_village_description" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Gambar Desa Baru (opsional)</label>
+                            <input type="file" class="form-control" name="image" id="edit_village_image" accept="image/*">
+                            <small class="text-muted">Kosongkan jika tidak ingin mengganti gambar. Format: JPG, PNG, GIF. Maksimal 2MB</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function editNews(id, category, title, excerpt, content, publishedAt) {
@@ -1054,7 +1229,7 @@
             new bootstrap.Modal(document.getElementById('editAnnouncementModal')).show();
         }
 
-        function editAgenda(id, title, description, eventDate, timeStart, timeEnd, location, category, participants) {
+        function editAgenda(id, title, description, eventDate, timeStart, timeEnd, location, category, participants, status) {
             console.log('Edit agenda called with:', {id, title, eventDate});
             document.getElementById('editAgendaForm').action = `/admin/information/agendas/${id}`;
             document.getElementById('edit_agenda_title').value = title;
@@ -1065,12 +1240,24 @@
             document.getElementById('edit_agenda_location').value = location || '';
             document.getElementById('edit_agenda_category').value = category || '';
             document.getElementById('edit_agenda_participants').value = participants || '';
+            document.getElementById('edit_agenda_status').value = status || 'mendatang';
             new bootstrap.Modal(document.getElementById('editAgendaModal')).show();
+        }
+
+        function editVillage(id, name, population, area, description, image) {
+            document.getElementById('editVillageForm').action = `/admin/villages/${id}`;
+            document.getElementById('edit_village_name').value = name;
+            document.getElementById('edit_village_population').value = population;
+            document.getElementById('edit_village_area').value = area;
+            document.getElementById('edit_village_description').value = description || '';
+            // Clear file input - user needs to select new file if they want to change it
+            document.getElementById('edit_village_image').value = '';
+            new bootstrap.Modal(document.getElementById('editVillageModal')).show();
         }
 
         // Calendar click handler - untuk klik tanggal di kalender
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, setting up event listeners');
+            console.log('DOM loaded');
             
             const calendarDays = document.querySelectorAll('.calendar-day');
             console.log('Found calendar days:', calendarDays.length);
@@ -1083,21 +1270,14 @@
                         // Set tanggal di form tambah agenda
                         document.getElementById('add_event_date').value = dateStr;
                         // Buka modal
-                        new bootstrap.Modal(document.getElementById('addAgendaModal')).show();
+                        const modal = document.getElementById('addAgendaModal');
+                        if (modal) {
+                            new bootstrap.Modal(modal).show();
+                        }
                     }
                 });
             });
-
-            // Tambah event listener untuk form submit debugging
-            const addAgendaForm = document.querySelector('#addAgendaModal form');
-            if (addAgendaForm) {
-                addAgendaForm.addEventListener('submit', function(e) {
-                    console.log('Form tambah agenda submitted');
-                    console.log('Form data:', new FormData(this));
-                });
-            }
         });
     </script>
 </body>
-</html>
-<?php /**PATH C:\Users\ASUS\Documents\E-GovToba\resources\views/admin/information/index.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\Users\ASUS\Documents\E-GovToba\resources\views/admin/information/index.blade.php ENDPATH**/ ?>

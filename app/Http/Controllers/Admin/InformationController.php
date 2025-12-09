@@ -19,77 +19,9 @@ class InformationController extends Controller
         // Assuming we have one district (Kabupaten Toba)
         $district = District::with('photos')->first();
         
-        // Gabungkan berita dengan agenda berita
-        $newsItems = DistrictNews::orderBy('published_at', 'desc')->get();
-        $agendaBerita = DistrictAgenda::where('display_type', 'berita')
-            ->where('event_date', '>=', now()->startOfDay())
-            ->get();
-        
-        $beritaCollection = collect();
-        foreach ($newsItems as $item) {
-            $beritaCollection->push((object)[
-                'id' => $item->id,
-                'type' => 'news',
-                'title' => $item->title,
-                'excerpt' => $item->excerpt,
-                'content' => $item->content,
-                'category' => $item->category,
-                'date' => $item->published_at,
-                'sort_date' => $item->published_at
-            ]);
-        }
-        foreach ($agendaBerita as $item) {
-            $beritaCollection->push((object)[
-                'id' => $item->id,
-                'type' => 'agenda',
-                'title' => $item->title,
-                'excerpt' => $item->description,
-                'content' => $item->description,
-                'category' => $item->category ?? 'Agenda',
-                'date' => \Carbon\Carbon::parse($item->event_date),
-                'time_start' => $item->time_start,
-                'time_end' => $item->time_end,
-                'location' => $item->location,
-                'display_type' => $item->display_type,
-                'sort_date' => \Carbon\Carbon::parse($item->event_date)
-            ]);
-        }
-        $news = $beritaCollection->sortByDesc('sort_date');
-        
-        // Gabungkan pengumuman dengan agenda pengumuman
-        $announcementItems = DistrictAnnouncement::orderBy('published_at', 'desc')->get();
-        $agendaPengumuman = DistrictAgenda::where('display_type', 'pengumuman')
-            ->where('event_date', '>=', now()->startOfDay())
-            ->get();
-        
-        $pengumumanCollection = collect();
-        foreach ($announcementItems as $item) {
-            $pengumumanCollection->push((object)[
-                'id' => $item->id,
-                'type' => 'announcement',
-                'title' => $item->title,
-                'content' => $item->content,
-                'date' => $item->published_at,
-                'sort_date' => $item->published_at
-            ]);
-        }
-        foreach ($agendaPengumuman as $item) {
-            $pengumumanCollection->push((object)[
-                'id' => $item->id,
-                'type' => 'agenda',
-                'title' => $item->title,
-                'content' => $item->description,
-                'category' => $item->category ?? 'Agenda',
-                'date' => \Carbon\Carbon::parse($item->event_date),
-                'time_start' => $item->time_start,
-                'time_end' => $item->time_end,
-                'location' => $item->location,
-                'display_type' => $item->display_type,
-                'sort_date' => \Carbon\Carbon::parse($item->event_date)
-            ]);
-        }
-        $announcements = $pengumumanCollection->sortByDesc('sort_date');
-        
+        // Get data langsung sebagai Eloquent collections - tidak perlu merge
+        $news = DistrictNews::orderBy('published_at', 'desc')->get();
+        $announcements = DistrictAnnouncement::orderBy('published_at', 'desc')->get();
         $agendas = DistrictAgenda::orderBy('event_date', 'asc')->get();
         
         // Get district budgets
@@ -339,6 +271,7 @@ class InformationController extends Controller
             'title' => 'required|string|max:255',
             'excerpt' => 'nullable|string',
             'content' => 'required|string',
+            'published_at' => 'required|date',
         ]);
 
         $news = DistrictNews::findOrFail($id);
@@ -347,6 +280,7 @@ class InformationController extends Controller
             'title' => $request->title,
             'excerpt' => $request->excerpt,
             'content' => $request->content,
+            'published_at' => $request->published_at,
         ]);
 
         \Artisan::call('cache:clear');
@@ -395,12 +329,14 @@ class InformationController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
+            'published_at' => 'required|date',
         ]);
 
         $announcement = DistrictAnnouncement::findOrFail($id);
         $announcement->update([
             'title' => $request->title,
             'content' => $request->content,
+            'published_at' => $request->published_at,
         ]);
 
         \Artisan::call('cache:clear');
@@ -427,11 +363,10 @@ class InformationController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'event_date' => 'required|date',
-            'time_start' => 'nullable|date_format:H:i',
-            'time_end' => 'nullable|date_format:H:i',
+            'time_start' => 'nullable',
+            'time_end' => 'nullable',
             'location' => 'nullable|string|max:255',
             'category' => 'nullable|string|max:100',
-            'display_type' => 'required|in:berita,pengumuman',
             'status' => 'nullable|in:mendatang,selesai',
             'participants' => 'nullable|string|max:255',
         ]);
@@ -447,7 +382,6 @@ class InformationController extends Controller
             'time_end' => $request->time_end,
             'location' => $request->location,
             'category' => $request->category,
-            'display_type' => $request->display_type,
             'status' => $request->status ?? 'mendatang',
             'participants' => $request->participants,
             'created_by' => auth()->id(),
@@ -465,11 +399,10 @@ class InformationController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'event_date' => 'required|date',
-            'time_start' => 'nullable|date_format:H:i',
-            'time_end' => 'nullable|date_format:H:i',
+            'time_start' => 'nullable',
+            'time_end' => 'nullable',
             'location' => 'nullable|string|max:255',
             'category' => 'nullable|string|max:100',
-            'display_type' => 'required|in:berita,pengumuman',
             'status' => 'nullable|in:mendatang,selesai',
             'participants' => 'nullable|string|max:255',
         ]);
@@ -483,7 +416,6 @@ class InformationController extends Controller
             'time_end' => $request->time_end,
             'location' => $request->location,
             'category' => $request->category,
-            'display_type' => $request->display_type,
             'status' => $request->status ?? 'mendatang',
             'participants' => $request->participants,
         ]);

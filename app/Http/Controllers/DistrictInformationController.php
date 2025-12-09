@@ -30,6 +30,18 @@ class DistrictInformationController extends Controller
             ->orderBy('updated_at', 'desc')
             ->limit(3)
             ->get();
+
+        // Ambil berita terbaru
+        $beritaList = \App\Models\DistrictNews::where('district_id', $district->id ?? 1)
+            ->orderBy('published_at', 'desc')
+            ->limit(5)
+            ->get();
+
+        // Ambil pengumuman terbaru
+        $pengumumanList = \App\Models\DistrictAnnouncement::where('district_id', $district->id ?? 1)
+            ->orderBy('published_at', 'desc')
+            ->limit(5)
+            ->get();
         
         $statistics = [
             'population' => '202,453',
@@ -74,7 +86,7 @@ class DistrictInformationController extends Controller
             ]
         ];
 
-        return view('district-information.index', compact('statistics', 'features', 'tourismSpots', 'district', 'photos', 'villagesWithVision'));
+        return view('district-information.index', compact('statistics', 'features', 'tourismSpots', 'district', 'photos', 'villagesWithVision', 'beritaList', 'pengumumanList'));
     }
 
     public function tourism()
@@ -108,6 +120,18 @@ class DistrictInformationController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
+        // Ambil berita terbaru
+        $beritaList = \App\Models\DistrictNews::where('district_id', $district->id ?? 1)
+            ->orderBy('published_at', 'desc')
+            ->limit(10)
+            ->get();
+
+        // Ambil pengumuman terbaru
+        $pengumumanList = \App\Models\DistrictAnnouncement::where('district_id', $district->id ?? 1)
+            ->orderBy('published_at', 'desc')
+            ->limit(10)
+            ->get();
+
         // Ambil agenda dari database dan format untuk frontend
         $agendas = \App\Models\DistrictAgenda::where('district_id', $district->id ?? 1)
             ->where('status', '!=', 'selesai')  // hanya tampilkan agenda yang belum selesai
@@ -135,7 +159,7 @@ class DistrictInformationController extends Controller
         // Ambil agenda mendatang untuk sidebar
         $upcoming_agendas = $agendas->take(5);
         
-        return view('district-information.profile', compact('district', 'photos', 'budgets', 'simulated_events', 'upcoming_agendas'));
+        return view('district-information.profile', compact('district', 'photos', 'budgets', 'beritaList', 'pengumumanList', 'simulated_events', 'upcoming_agendas'));
     }
 
     public function villages()
