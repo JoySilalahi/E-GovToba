@@ -1,0 +1,19 @@
+POST http://127.0.0.1:8000/api/v1/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "admin@tobakab.go.id",
+  "password": "admin123"
+}
+
+### Get User (GET)
+GET http://127.0.0.1:8000/api/v1/user
+Accept: application/json
+Authorization: Bearer 27d0ebc81a2aaf06ec40e6a6ca9e4ca03181042541bcd43e7c19c023a9e6
+
+### Logout (POST)
+POST http://127.0.0.1:8000/api/v1/logout
+Accept: application/json
+Authorization: Bearer 27d0ebc81a2aaf06ec40e6a6ca9e4ca03181042541bcd43e7c19c023a9e6
+
