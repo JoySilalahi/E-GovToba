@@ -14,46 +14,41 @@
     <style>
         :root{
             --primary:#0b79b8;
-            --muted:#64748b;
-            --bg:#eef6fb;
-            --card:#ffffff;
-            --max-w:1100px;
             --nav-h:64px;
+            --muted:#6b7280;
+            --bg-light:#edf7fe;
+            --dark:#0f1724;
+            --max-width:1200px;
         }
-        *{box-sizing:border-box; margin:0; padding:0;}
-        html,body{height:100%;font-family:'Poppins',system-ui,Arial;color:#102030;background:var(--bg);-webkit-font-smoothing:antialiased}
-        a{color:inherit;text-decoration:none}
+        *{box-sizing:border-box;margin:0;padding:0}
+        html,body{height:100%}
+        body{font-family:'Poppins',system-ui,-apple-system,"Segoe UI",Roboto,Arial; color:var(--dark); background:#fff;-webkit-font-smoothing:antialiased}
 
         /* NAV */
-        .site-nav {
-            position: sticky;
-            top: 0;
-            z-index: 60;
-            height: var(--nav-h);
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.95);
-            border-bottom: 1px solid rgba(15, 23, 36, 0.06);
+        .site-nav{
+            position:sticky; top:0; z-index:60;
+            height:var(--nav-h);
+            display:flex; align-items:center;
+            background:rgba(255,255,255,0.95);
+            border-bottom:1px solid rgba(15,23,36,0.06);
             backdrop-filter: blur(4px) saturate(120%);
-            -webkit-backdrop-filter: blur(4px) saturate(120%);
-            box-shadow: 0 2px 8px rgba(2, 6, 23, 0.02);
         }
-        .site-nav .navbar-container{
-            max-width:var(--max-w);
-            margin:0 auto;
-            display:flex;
-            align-items:center;
-            gap:12px;
-            padding:10px 16px;
-            width:100%;
-            position:relative;
-        }
-        .site-nav .brand{display:flex;align-items:center;gap:10px;flex:0 0 auto}
-        .site-nav .brand img{height:42px; width:auto; display:block}
-        .site-nav .nav-menu { display:flex; gap:28px; list-style:none; margin:0; padding:0; align-items:center; justify-content:center; flex:1 1 auto; }
-        .site-nav .nav-menu a{color:var(--muted); text-decoration:none; font-weight:600; padding:8px 10px; border-radius:10px; transition:all .12s}
-        .site-nav .nav-menu a.active, .site-nav .nav-menu a:hover{color:var(--primary); background:rgba(11,121,184,0.04); box-shadow:0 2px 8px rgba(11,121,184,0.04) inset}
-        .site-nav .nav-right{margin-left:auto; display:flex; gap:10px; align-items:center}
+        .nav-inner{max-width:var(--max-width); margin:0 auto; width:100%; display:flex; align-items:center; gap:12px; padding:0 16px;}
+        .brand{flex:0 0 auto; display:flex; align-items:center}
+        .brand img{height:42px; width:auto; display:block}
+        .nav-center{flex:1 1 auto; display:flex; justify-content:center}
+        .nav-menu{display:flex; gap:26px; list-style:none; align-items:center}
+        .nav-menu a{display:inline-block; text-decoration:none; color:rgba(15,23,36,0.88); font-weight:600; padding:8px 8px; border-radius:6px}
+        .nav-menu a.active, .nav-menu a:hover{color:var(--primary); background:rgba(11,121,184,0.04)}
+        .nav-actions{flex:0 0 auto; display:flex; gap:10px; align-items:center}
+        .btn{border:none; cursor:pointer; border-radius:999px; padding:8px 14px; font-weight:600}
+        .btn-outline{background:transparent; border:1px solid rgba(15,23,36,0.06); color:var(--dark)}
+        .btn-primary{background:var(--primary); color:#fff; box-shadow:0 6px 18px rgba(11,121,184,0.12)}
+        .nav-toggle{display:none; background:transparent; border:0; font-size:20px; color:var(--dark)}
+        .mobile-menu{display:none; position:absolute; top:100%; left:0; right:0; background:rgba(255,255,255,0.98); border-bottom:1px solid rgba(15,23,36,0.06); padding:12px 16px;}
+        .mobile-menu.open{display:block}
+        .mobile-menu a{display:block;padding:10px 6px;border-radius:8px;color:var(--dark);text-decoration:none}
+        .mobile-menu a + a{margin-top:4px}
 
         /* HERO - Full Width */
         .hero{
@@ -404,52 +399,60 @@
             margin-top:4px;
         }
 
-        /* Footer */
-        footer{background:linear-gradient(135deg,#1e293b 0%, #0f172a 100%);color:#cbd5e1;padding:60px 20px 32px}
-        .footer-inner{max-width:var(--max-w);margin:0 auto;display:flex;gap:48px;flex-wrap:wrap;align-items:flex-start}
-        .footer-left{flex:1;min-width:240px}
-        .footer-left strong{color:#fff;font-size:18px}
-        .footer-small{color:#94a3b8;font-size:14px;line-height:1.8;margin-top:12px}
-        .footer-right{display:flex;gap:40px;align-items:flex-start}
-        .footer-col h4{color:#fff;margin-bottom:12px;font-size:16px;font-weight:700}
-        .footer-col{font-size:14px}
+        .social-links a { color:#cbd5e1; font-size:20px; margin-right:12px }
+        .social-links svg { width:20px; height:20px; fill:currentColor }
         .social-links{display:flex;gap:12px;margin-top:8px}
         .social-links a{color:#cbd5e1;font-size:20px;transition:color .2s}
         .social-links a:hover{color:#fff}
 
         /* Responsive */
-        @media (max-width:1000px){
+        @media (max-width:980px){
+            .nav-center{display:none}
+            .nav-toggle{display:inline-flex}
+            .hero h1{font-size:40px}
             .content-grid{grid-template-columns:1fr;}
             .sidebar{position:static;margin-top:24px;}
-            .hero h1{font-size:36px}
             .announcement-controls{flex-direction: column;}
             .search-box{min-width: 100%;}
         }
-        @media (max-width:640px){
-            .hero h1{font-size:28px}
+        @media (max-width:520px){
+            .hero{padding-top:48px;padding-bottom:60px}
+            .hero h1{font-size:32px}
             .hero-population{font-size:32px}
-            .site-nav .nav-menu{display:none}
+            .grid{flex-direction:column;align-items:center}
+            .nav-actions .btn{padding:6px 10px;font-size:14px}
             .section{padding:24px}
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="site-nav" role="navigation" aria-label="Utama">
-        <div class="navbar-container">
-            <a class="brand" href="/" aria-label="Beranda Toba Hita">
-                <img src="http://127.0.0.1:8000/images/logo.png" alt="logo Kabupaten Toba">
+    <header class="site-nav" role="banner">
+        <div class="nav-inner">
+            <a class="brand" href="/">
+                <img src="<?php echo e(asset('images/logo.png')); ?>" alt="Toba Hita">
             </a>
-            <ul class="nav-menu" role="menubar" aria-label="Utama">
-                <li><a href="/">Beranda</a></li>
-                <li><a href="/profile">Profil Kabupaten</a></li>
-                <li><a href="/villages" class="active">Daftar Desa</a></li>
-            </ul>
-            <div class="nav-right" aria-hidden="true">
-                <a href="/villages" title="Kembali ke Daftar Desa" style="color:var(--muted);font-size:15px"><i class="fa fa-arrow-left"></i></a>
+
+            <nav class="nav-center" role="navigation" aria-label="Utama">
+                <ul class="nav-menu" role="menubar" id="mainMenuDesktop">
+                    <li role="none"><a role="menuitem" href="/">Beranda</a></li>
+                    <li role="none"><a role="menuitem" href="/profile">Profil Kabupaten</a></li>
+                    <li role="none"><a role="menuitem" href="/villages" class="active">Daftar Desa</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-actions" role="group" aria-label="Aksi">
+                <button class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false"><i class="fa fa-bars" aria-hidden="true"></i></button>
             </div>
         </div>
-    </nav>
+
+        <!-- mobile menu (shown when burger clicked) -->
+        <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+            <a href="/">Beranda</a>
+            <a href="/profile">Profil Kabupaten</a>
+            <a href="/villages" class="active">Daftar Desa</a>
+            <div style="height:8px"></div>
+        </div>
+    </header>
 
     <!-- Hero Section -->
     <div class="hero">
@@ -647,35 +650,30 @@
     </div>
 
     <!-- Footer -->
-    <footer>
-        <div class="footer-inner">
-            <div class="footer-left" style="display:flex; align-items:center; gap:16px;">
-                <img src="http://127.0.0.1:8000/images/logo.png" alt="logo" style="height:42px;">
-                <div>
-                    <strong>Toba Hita</strong>
-                    <div class="footer-small">Portal informasi terintegrasi untuk transparansi dan pelayanan publik di Kabupaten Toba.</div>
-                </div>
-            </div>
-            
-            <div class="footer-right">
-                <div class="footer-col">
-                    <h4>Hubungi Kami</h4>
-                    <div>+62 3456 7890<br>tobahita@mail.com</div>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Ikuti Kami</h4>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <?php echo $__env->make('components.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
     <script>
+        // mobile menu toggle
+        (function(){
+            const toggle = document.getElementById('navToggle');
+            const mobile = document.getElementById('mobileMenu');
+            toggle && toggle.addEventListener('click', function(e){
+                const opened = mobile.classList.toggle('open');
+                mobile.setAttribute('aria-hidden', String(!opened));
+                this.setAttribute('aria-expanded', String(opened));
+            });
+
+            // close mobile menu when clicking outside
+            document.addEventListener('click', function(e){
+                const inside = mobile.contains(e.target) || toggle.contains(e.target);
+                if (!inside && mobile.classList.contains('open')) {
+                    mobile.classList.remove('open');
+                    mobile.setAttribute('aria-hidden','true');
+                    toggle.setAttribute('aria-expanded','false');
+                }
+            });
+        })();
+
         // Filter Announcements Function
         function filterAnnouncements() {
             const searchText = document.getElementById('searchInput').value.toLowerCase();

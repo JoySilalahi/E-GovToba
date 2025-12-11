@@ -12,45 +12,41 @@
     <style>
         :root{
             --primary:#0b79b8;
-            --muted:#64748b;
-            --bg:#eef6fb;
-            --card:#ffffff;
-            --max-w:1100px;
             --nav-h:64px;
+            --muted:#6b7280;
+            --bg-light:#edf7fe;
+            --dark:#0f1724;
+            --max-width:1200px;
         }
-        *{box-sizing:border-box}
-        html,body{height:100%;margin:0;font-family:'Poppins',system-ui,Arial;color:#102030;background:var(--bg);-webkit-font-smoothing:antialiased}
-        a{color:inherit;text-decoration:none}
+        *{box-sizing:border-box;margin:0;padding:0}
+        html,body{height:100%}
+        body{font-family:'Poppins',system-ui,-apple-system,"Segoe UI",Roboto,Arial; color:var(--dark); background:#fff;-webkit-font-smoothing:antialiased}
 
         /* NAV */
-        .site-nav {
-            position: sticky;
-            top: 0;
-            z-index: 60;
-            height: var(--nav-h);
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.95);
-            border-bottom: 1px solid rgba(15, 23, 36, 0.06);
+        .site-nav{
+            position:sticky; top:0; z-index:60;
+            height:var(--nav-h);
+            display:flex; align-items:center;
+            background:rgba(255,255,255,0.95);
+            border-bottom:1px solid rgba(15,23,36,0.06);
             backdrop-filter: blur(4px) saturate(120%);
-            -webkit-backdrop-filter: blur(4px) saturate(120%);
-            box-shadow: 0 2px 8px rgba(2, 6, 23, 0.02);
         }
-        .site-nav .navbar-container{
-            max-width:var(--max-w);
-            margin:0 auto;
-            display:flex;
-            align-items:center;
-            gap:12px;
-            padding:10px 16px;
-            width:100%;
-            position:relative;
-        }
-        .site-nav .brand{display:flex;align-items:center;gap:10px;flex:0 0 auto}
-        .site-nav .brand img{height:42px; width:auto; display:block}
-        .site-nav .nav-menu { display:flex; gap:28px; list-style:none; margin:0; padding:0; align-items:center; justify-content:center; flex:1 1 auto; }
-        .site-nav .nav-menu a{color:var(--muted); text-decoration:none; font-weight:600; padding:8px 10px; border-radius:10px; transition:all .12s}
-        .site-nav .nav-menu a.active, .site-nav .nav-menu a:hover{color:var(--primary); background:rgba(11,121,184,0.04); box-shadow:0 2px 8px rgba(11,121,184,0.04) inset}
+        .nav-inner{max-width:var(--max-width); margin:0 auto; width:100%; display:flex; align-items:center; gap:12px; padding:0 16px;}
+        .brand{flex:0 0 auto; display:flex; align-items:center}
+        .brand img{height:42px; width:auto; display:block}
+        .nav-center{flex:1 1 auto; display:flex; justify-content:center}
+        .nav-menu{display:flex; gap:26px; list-style:none; align-items:center}
+        .nav-menu a{display:inline-block; text-decoration:none; color:rgba(15,23,36,0.88); font-weight:600; padding:8px 8px; border-radius:6px}
+        .nav-menu a.active, .nav-menu a:hover{color:var(--primary); background:rgba(11,121,184,0.04)}
+        .nav-actions{flex:0 0 auto; display:flex; gap:10px; align-items:center}
+        .btn{border:none; cursor:pointer; border-radius:999px; padding:8px 14px; font-weight:600}
+        .btn-outline{background:transparent; border:1px solid rgba(15,23,36,0.06); color:var(--dark)}
+        .btn-primary{background:var(--primary); color:#fff; box-shadow:0 6px 18px rgba(11,121,184,0.12)}
+        .nav-toggle{display:none; background:transparent; border:0; font-size:20px; color:var(--dark)}
+        .mobile-menu{display:none; position:absolute; top:100%; left:0; right:0; background:rgba(255,255,255,0.98); border-bottom:1px solid rgba(15,23,36,0.06); padding:12px 16px;}
+        .mobile-menu.open{display:block}
+        .mobile-menu a{display:block;padding:10px 6px;border-radius:8px;color:var(--dark);text-decoration:none}
+        .mobile-menu a + a{margin-top:4px}
         .site-nav .nav-right{margin-left:auto; display:flex; gap:10px; align-items:center}
 
         /* HERO */
@@ -91,7 +87,7 @@
 
         /* GRID CARDS */
         .container{max-width:var(--max-w);margin:0 auto;padding:0 16px 80px}
-        .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+        .grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:20px}
         .card{
             background:var(--card);
             border-radius:12px;
@@ -99,41 +95,20 @@
             box-shadow:0 10px 30px rgba(2,6,23,0.06);
             display:flex;
             flex-direction:column;
-            min-height:360px;
+            min-height:auto;
             border:3px solid transparent;
             transition:all 0.3s ease;
         }
-        .card.clicked{
-            border-color:#0b79b8 !important;
-            background:linear-gradient(to bottom, rgba(11,121,184,0.15), rgba(11,121,184,0.05)) !important;
-            box-shadow:0 0 0 8px rgba(11,121,184,0.4), 0 20px 60px rgba(11,121,184,0.4) !important;
-            transform:scale(1.08) !important;
-            animation:blueFlash 0.4s ease !important;
-        }
-        @keyframes blueFlash {
-            0% { 
-                border-color:transparent;
-                box-shadow:0 10px 30px rgba(2,6,23,0.06);
-            }
-            50% {
-                border-color:#0b79b8;
-                box-shadow:0 0 0 12px rgba(11,121,184,0.6), 0 25px 70px rgba(11,121,184,0.5);
-            }
-            100% {
-                border-color:#0b79b8;
-                box-shadow:0 0 0 8px rgba(11,121,184,0.4), 0 20px 60px rgba(11,121,184,0.4);
-            }
-        }
-        .card .thumb{height:170px;background:#eee;overflow:hidden}
+        .card .thumb{height:140px;background:#eee;overflow:hidden}
         .card .thumb img{width:100%;height:100%;object-fit:cover;display:block;border-bottom-left-radius:0;border-bottom-right-radius:0}
-        .card .body{padding:18px;flex:1;display:flex;flex-direction:column}
-        .card h3{margin:0 0 8px;font-size:16px;color:#0f1724}
-        .card p{margin:0 0 12px;color:var(--muted);font-size:13px;line-height:1.6;flex:1}
-        .meta{display:flex;gap:12px;align-items:center;font-size:13px;color:var(--muted);padding-top:12px;border-top:1px solid #f1f5f9}
-        .btn-outline{display:inline-block;padding:8px 14px;border-radius:10px;border:1px solid rgba(11,121,184,0.18);color:var(--primary);font-weight:600;font-size:13px;text-align:center;margin-top:12px;background:white;transition:all 0.2s ease}
+        .card .body{padding:14px;flex:1;display:flex;flex-direction:column}
+        .card h3{margin:0 0 6px;font-size:15px;color:#0f1724}
+        .card p{margin:0 0 10px;color:var(--muted);font-size:12px;line-height:1.5;flex:1}
+        .meta{display:flex;gap:12px;align-items:center;font-size:12px;color:var(--muted);padding-top:10px;border-top:1px solid #f1f5f9}
+        .btn-outline{display:inline-block;padding:6px 12px;border-radius:8px;border:1px solid rgba(11,121,184,0.18);color:var(--primary);font-weight:600;font-size:12px;text-align:center;margin-top:10px;background:white;transition:all 0.2s ease}
         .btn-outline:hover{background:var(--primary);color:white;border-color:var(--primary);box-shadow:0 4px 12px rgba(11,121,184,0.25);transform:translateY(-1px)}
         .btn-outline:active{background:#096598;border-color:#096598;transform:translateY(0);box-shadow:0 2px 8px rgba(11,121,184,0.3)}
-        .card .small-meta{display:flex;gap:12px;margin-top:8px;font-size:13px;color:var(--muted)}
+        .card .small-meta{display:flex;gap:12px;margin-top:6px;font-size:12px;color:var(--muted)}
 
         /* Footer */
        footer {
@@ -170,38 +145,48 @@
         }
 
         /* Responsive */
-        @media (max-width:1000px){
-            .grid{grid-template-columns:repeat(2,1fr)}
-            .hero h1{font-size:36px}
-            .search-wrap{margin-top:-24px}
-            .site-nav .nav-menu{gap:16px}
+        @media (max-width:980px){
+            .nav-center{display:none}
+            .nav-toggle{display:inline-flex}
+            .hero h1{font-size:40px}
         }
-        @media (max-width:640px){
-            .site-nav .nav-menu{display:none}
-            .nav-right{display:flex}
-            .grid{grid-template-columns:1fr}
-            .hero{padding:40px 0 30px}
-            .hero h1{font-size:28px}
-            .search-wrap{margin:-18px auto 24px}
-            .card .thumb{height:160px}
+        @media (max-width:520px){
+            .hero{padding-top:48px;padding-bottom:60px}
+            .hero h1{font-size:32px}
+            .grid{flex-direction:column;align-items:center}
+            .nav-actions .btn{padding:6px 10px;font-size:14px}
         }
     </style>
 </head>
 <body>
 
-    <nav class="site-nav" role="navigation" aria-label="Utama">
-        <div class="navbar-container">
-            <a class="brand" href="/" aria-label="Beranda Toba Hita">
-                <img src="http://127.0.0.1:8000/images/logo.png" alt="logo Kabupaten Toba">
-            </a>
+<header class="site-nav" role="banner">
+    <div class="nav-inner">
+        <a class="brand" href="/">
+            <img src="{{ asset('images/logo.png') }}" alt="Toba Hita">
+        </a>
 
-            <ul class="nav-menu" role="menubar" aria-label="Utama">
-                <li><a href="/" class="">Beranda</a></li>
-                <li><a href="/profile" class="">Profil Kabupaten</a></li>
-                <li><a href="/villages" class="active">Daftar Desa</a></li>
+        <nav class="nav-center" role="navigation" aria-label="Utama">
+            <ul class="nav-menu" role="menubar" id="mainMenuDesktop">
+                <li role="none"><a role="menuitem" href="/">Beranda</a></li>
+                <li role="none"><a role="menuitem" href="/profile">Profil Kabupaten</a></li>
+                <li role="none"><a role="menuitem" href="/villages" class="active">Daftar Desa</a></li>
             </ul>
+        </nav>
+
+        <div class="nav-actions" role="group" aria-label="Aksi">
+            <button class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false"><i class="fa fa-bars" aria-hidden="true"></i></button>
         </div>
-    </nav>
+    </div>
+
+    <!-- mobile menu (shown when burger clicked) -->
+    <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+        <a href="/">Beranda</a>
+        <a href="/profile">Profil Kabupaten</a>
+        <a href="/villages" class="active">Daftar Desa</a>
+        <div style="height:8px"></div>
+    </div>
+</header>
 
     <main>
         <section class="hero" aria-label="Hero">
@@ -281,33 +266,26 @@
             updateCount(items.length);
         })();
 
-        // BLUE HIGHLIGHT EFFECT - Add click effect to ALL cards
-        console.log('Setting up click handlers...');
-        const allButtons = document.querySelectorAll('.btn-outline');
-        console.log('Found buttons:', allButtons.length);
-        
-        allButtons.forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                console.log('Button clicked!');
-                const url = this.getAttribute('href');
-                
-                // Add clicked class to ALL cards
-                const allCards = document.querySelectorAll('.card');
-                console.log('Adding clicked class to', allCards.length, 'cards');
-                allCards.forEach(card => {
-                    card.classList.add('clicked');
-                    card.style.borderColor = '#0b79b8';
-                    card.style.background = 'linear-gradient(to bottom, rgba(11,121,184,0.15), rgba(11,121,184,0.05))';
-                });
-                
-                // Navigate after animation
-                setTimeout(() => {
-                    console.log('Navigating to:', url);
-                    window.location.href = url;
-                }, 500);
+        // mobile menu toggle
+        (function(){
+            const toggle = document.getElementById('navToggle');
+            const mobile = document.getElementById('mobileMenu');
+            toggle && toggle.addEventListener('click', function(e){
+                const opened = mobile.classList.toggle('open');
+                mobile.setAttribute('aria-hidden', String(!opened));
+                this.setAttribute('aria-expanded', String(opened));
             });
-        });
+
+            // close mobile menu when clicking outside
+            document.addEventListener('click', function(e){
+                const inside = mobile.contains(e.target) || toggle.contains(e.target);
+                if (!inside && mobile.classList.contains('open')) {
+                    mobile.classList.remove('open');
+                    mobile.setAttribute('aria-hidden','true');
+                    toggle.setAttribute('aria-expanded','false');
+                }
+            });
+        })();
     </script>
     <!-- Footer -->
     @include('components.footer')

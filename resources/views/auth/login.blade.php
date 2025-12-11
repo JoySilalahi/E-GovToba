@@ -165,12 +165,6 @@
             font-size: 14px;
             text-align: center;
         }
-
-        .btn-google:hover {
-            background: #f8fafc;
-            border-color: #0077B6;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
     </style>
 </head>
 <body>

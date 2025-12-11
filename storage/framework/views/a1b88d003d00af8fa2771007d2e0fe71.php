@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Toba Hita</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}" />
+    <link rel="icon" type="image/png" href="<?php echo e(asset('images/logo.png')); ?>" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -62,7 +62,7 @@
             --nav-h: 64px;
         }
         .hero {
-            background-image: linear-gradient(135deg, rgba(11,79,110,0.8), rgba(11,121,184,0.7)), url("{{ asset('images/danau-toba.jpg') }}");
+            background-image: linear-gradient(135deg, rgba(11,79,110,0.8), rgba(11,121,184,0.7)), url("<?php echo e(asset('images/danau-toba.jpg')); ?>");
             background-size: cover; background-position: center; color: #fff; padding: 80px 32px 120px;
             text-align: center; position: relative;
         }
@@ -176,7 +176,7 @@
     </style>
 </head>
 <body>
-    @php
+    <?php
     // Build agenda data from database
     $agenda_data = [];
     if(isset($agendas) && $agendas->count() > 0) {
@@ -193,7 +193,7 @@
             ];
         }
     }
-    @endphp
+    ?>
 
     <header class="site-nav" role="banner">
         <div class="nav-inner">
@@ -229,11 +229,11 @@
             <p>Jantung Budaya Batak di Pesisir Danau Toba</p>
             <div class="hero-stats" aria-hidden="true">
                 <div class="stat-item">
-                    <div>{{ isset($total_kecamatan) ? $total_kecamatan : 16 }}</div>
+                    <div><?php echo e(isset($total_kecamatan) ? $total_kecamatan : 16); ?></div>
                     <div class="stat-label">Kecamatan</div>
                 </div>
                 <div class="stat-item">
-                    <div>{{ isset($total_penduduk) ? number_format($total_penduduk) : number_format(153831) }}</div>
+                    <div><?php echo e(isset($total_penduduk) ? number_format($total_penduduk) : number_format(153831)); ?></div>
                     <div class="stat-label">Penduduk</div>
                 </div>
             </div>
@@ -260,16 +260,16 @@
                         <h3>Bupati & Wakil Bupati</h3>
                         <div class="bupati-cards">
                             <div class="bupati-card">
-                                <img class="bupati-photo" src="{{ asset('images/bupati.jpg') }}" alt="Bupati">
-                                <div>{{ $district->bupati_name ?? 'Effendi Simbolon Panangian Napitupulu' }}</div>
+                                <img class="bupati-photo" src="<?php echo e(asset('images/bupati.jpg')); ?>" alt="Bupati">
+                                <div><?php echo e($district->bupati_name ?? 'Effendi Simbolon Panangian Napitupulu'); ?></div>
                                 <div class="muted">Bupati Toba</div>
-                                <div class="muted" style="font-size:12px">{{ $district->periode ?? '2024-2025' }}</div>
+                                <div class="muted" style="font-size:12px"><?php echo e($district->periode ?? '2024-2025'); ?></div>
                             </div>
                             <div class="bupati-card">
-                                <img class="bupati-photo" src="{{ asset('images/wakil-bupati.jpg') }}" alt="Wakil Bupati">
-                                <div>{{ $district->wakil_bupati_name ?? 'Audi Murphy Sitorus' }}</div>
+                                <img class="bupati-photo" src="<?php echo e(asset('images/wakil-bupati.jpg')); ?>" alt="Wakil Bupati">
+                                <div><?php echo e($district->wakil_bupati_name ?? 'Audi Murphy Sitorus'); ?></div>
                                 <div class="muted">Wakil Bupati Toba</div>
-                                <div class="muted" style="font-size:12px">{{ $district->periode ?? '2024-2025' }}</div>
+                                <div class="muted" style="font-size:12px"><?php echo e($district->periode ?? '2024-2025'); ?></div>
                             </div>
                         </div>
                     </div>
@@ -280,11 +280,11 @@
                 <div class="visi-misi">
                     <div class="box">
                         <strong>Visi</strong>
-                        <p class="muted">{{ $district->visi ?? 'Toba Unggul dan Bersinar' }}</p>
+                        <p class="muted"><?php echo e($district->visi ?? 'Toba Unggul dan Bersinar'); ?></p>
                     </div>
                     <div class="box">
                         <strong>Misi</strong>
-                        <p class="muted">{{ $district->misi ?? 'Meningkatkan kualitas sumber daya manusia yang andal dan berbudaya, mempercepat pembangunan infrastruktur, serta mewujudkan reformasi birokrasi yang bersih dan melayani.' }}</p>
+                        <p class="muted"><?php echo e($district->misi ?? 'Meningkatkan kualitas sumber daya manusia yang andal dan berbudaya, mempercepat pembangunan infrastruktur, serta mewujudkan reformasi birokrasi yang bersih dan melayani.'); ?></p>
                     </div>
                 </div>
             </div>
@@ -306,61 +306,65 @@
                             <button class="tab" data-type="pengumuman" role="tab" aria-selected="false" onclick="filterNews('pengumuman')">Pengumuman</button>
                         </div>
                         <div class="news-list" id="newsList">
-                            @if(isset($beritaList) && $beritaList->count() > 0)
-                                @foreach($beritaList as $item)
-                                <article class="news-item" data-type="berita" data-date="{{ $item->published_at->format('Y-m-d') }}">
+                            <?php if(isset($beritaList) && $beritaList->count() > 0): ?>
+                                <?php $__currentLoopData = $beritaList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <article class="news-item" data-type="berita" data-date="<?php echo e($item->published_at->format('Y-m-d')); ?>">
                                     <div class="news-meta">
-                                        @if($item->type == 'agenda')
-                                            <span class="tag" style="background:#10b981; color:white;">{{ $item->category }}</span>
-                                        @else
-                                            <span class="tag">{{ $item->category }}</span>
-                                        @endif
-                                        <time datetime="{{ $item->published_at->format('Y-m-d') }}" style="margin-left:auto">{{ $item->published_at->translatedFormat('d M Y') }}</time>
+                                        <?php if($item->type == 'agenda'): ?>
+                                            <span class="tag" style="background:#10b981; color:white;"><?php echo e($item->category); ?></span>
+                                        <?php else: ?>
+                                            <span class="tag"><?php echo e($item->category); ?></span>
+                                        <?php endif; ?>
+                                        <time datetime="<?php echo e($item->published_at->format('Y-m-d')); ?>" style="margin-left:auto"><?php echo e($item->published_at->translatedFormat('d M Y')); ?></time>
                                     </div>
-                                    <h3>{{ $item->title }}</h3>
+                                    <h3><?php echo e($item->title); ?></h3>
                                     <p class="muted">
-                                        @if($item->type == 'agenda')
-                                            @if(isset($item->time_start) && isset($item->time_end))
-                                                <i class="far fa-clock"></i> {{ $item->time_start }} - {{ $item->time_end }} WIB
-                                            @endif
-                                            @if(isset($item->location) && $item->location)
-                                                <br><i class="fas fa-map-marker-alt"></i> {{ $item->location }}
-                                            @endif
-                                        @else
-                                            {{ $item->content }}
-                                        @endif
+                                        <?php if($item->type == 'agenda'): ?>
+                                            <?php if(isset($item->time_start) && isset($item->time_end)): ?>
+                                                <i class="far fa-clock"></i> <?php echo e($item->time_start); ?> - <?php echo e($item->time_end); ?> WIB
+                                            <?php endif; ?>
+                                            <?php if(isset($item->location) && $item->location): ?>
+                                                <br><i class="fas fa-map-marker-alt"></i> <?php echo e($item->location); ?>
+
+                                            <?php endif; ?>
+                                        <?php else: ?>
+                                            <?php echo e($item->content); ?>
+
+                                        <?php endif; ?>
                                     </p>
                                 </article>
-                                @endforeach
-                            @endif
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php endif; ?>
                             
-                            @if(isset($pengumumanList) && $pengumumanList->count() > 0)
-                                @foreach($pengumumanList as $item)
-                                <article class="news-item" data-type="pengumuman" data-date="{{ $item->published_at->format('Y-m-d') }}" style="display:none">
+                            <?php if(isset($pengumumanList) && $pengumumanList->count() > 0): ?>
+                                <?php $__currentLoopData = $pengumumanList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <article class="news-item" data-type="pengumuman" data-date="<?php echo e($item->published_at->format('Y-m-d')); ?>" style="display:none">
                                     <div class="news-meta" style="color:#d97706;">
-                                        @if($item->type == 'agenda')
-                                            <span class="tag" style="background:#10b981; color:white;">{{ $item->category }}</span>
-                                        @else
-                                            <span class="tag" style="background:#fff7ed; color:#d97706;">{{ $item->category }}</span>
-                                        @endif
-                                        <time datetime="{{ $item->published_at->format('Y-m-d') }}" style="margin-left:auto">{{ $item->published_at->translatedFormat('d M Y') }}</time>
+                                        <?php if($item->type == 'agenda'): ?>
+                                            <span class="tag" style="background:#10b981; color:white;"><?php echo e($item->category); ?></span>
+                                        <?php else: ?>
+                                            <span class="tag" style="background:#fff7ed; color:#d97706;"><?php echo e($item->category); ?></span>
+                                        <?php endif; ?>
+                                        <time datetime="<?php echo e($item->published_at->format('Y-m-d')); ?>" style="margin-left:auto"><?php echo e($item->published_at->translatedFormat('d M Y')); ?></time>
                                     </div>
-                                    <h3>{{ $item->title }}</h3>
+                                    <h3><?php echo e($item->title); ?></h3>
                                     <p class="muted">
-                                        @if($item->type == 'agenda')
-                                            @if(isset($item->time_start) && isset($item->time_end))
-                                                <i class="far fa-clock"></i> {{ $item->time_start }} - {{ $item->time_end }} WIB
-                                            @endif
-                                            @if(isset($item->location) && $item->location)
-                                                <br><i class="fas fa-map-marker-alt"></i> {{ $item->location }}
-                                            @endif
-                                        @else
-                                            {{ $item->content }}
-                                        @endif
+                                        <?php if($item->type == 'agenda'): ?>
+                                            <?php if(isset($item->time_start) && isset($item->time_end)): ?>
+                                                <i class="far fa-clock"></i> <?php echo e($item->time_start); ?> - <?php echo e($item->time_end); ?> WIB
+                                            <?php endif; ?>
+                                            <?php if(isset($item->location) && $item->location): ?>
+                                                <br><i class="fas fa-map-marker-alt"></i> <?php echo e($item->location); ?>
+
+                                            <?php endif; ?>
+                                        <?php else: ?>
+                                            <?php echo e($item->content); ?>
+
+                                        <?php endif; ?>
                                     </p>
                                 </article>
-                                @endforeach
-                            @endif
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php endif; ?>
                             
                             <div id="noNewsMessage" class="alert alert-info" style="display: none; margin-top: 1rem;">
                                 <i class="fas fa-info-circle me-2"></i> Tidak ada berita/pengumuman pada tanggal yang dipilih.
@@ -372,16 +376,16 @@
                     </div>
                     <div class="card">
                         <h3>Transparansi Anggaran Kabupaten</h3>
-                        @if($budgets->isEmpty())
+                        <?php if($budgets->isEmpty()): ?>
                             <p style="color: var(--text-secondary); font-size: 0.9rem;">Belum ada dokumen anggaran tersedia.</p>
-                        @else
-                            @foreach($budgets as $budget)
-                                <a class="attachment" href="{{ \Storage::url($budget->file_path) }}" target="_blank" rel="noopener noreferrer">
+                        <?php else: ?>
+                            <?php $__currentLoopData = $budgets; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $budget): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <a class="attachment" href="<?php echo e(\Storage::url($budget->file_path)); ?>" target="_blank" rel="noopener noreferrer">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 2h7l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zM13 3.5V9h5.5L13 3.5z"/></svg>
-                                    <div>{{ $budget->title }} ({{ strtoupper($budget->file_type) }})</div>
+                                    <div><?php echo e($budget->title); ?> (<?php echo e(strtoupper($budget->file_type)); ?>)</div>
                                 </a>
-                            @endforeach
-                        @endif
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <aside>
@@ -404,17 +408,17 @@
                             <div id="calendarDates" class="cal-grid"></div>
                         </div>
                         <div class="events" id="eventsList" aria-live="polite">
-                            @if(isset($upcoming_agendas))
-                                @foreach($upcoming_agendas as $agenda)
-                                    <div class="event-card" data-datetime="{{ $agenda->date }}T{{ $agenda->time_start }}">
+                            <?php if(isset($upcoming_agendas)): ?>
+                                <?php $__currentLoopData = $upcoming_agendas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $agenda): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <div class="event-card" data-datetime="<?php echo e($agenda->date); ?>T<?php echo e($agenda->time_start); ?>">
                                         <div class="event-date">Akan Datang</div>
-                                        <div class="event-title">{{ $agenda->title }}</div>
-                                        <div class="event-meta"><i class="fas fa-map-marker-alt"></i> {{ $agenda->location }}</div>
+                                        <div class="event-title"><?php echo e($agenda->title); ?></div>
+                                        <div class="event-meta"><i class="fas fa-map-marker-alt"></i> <?php echo e($agenda->location); ?></div>
                                         <span class="event-status status-upcoming" aria-hidden="true">Akan Datang</span>
                                     </div>
-                                @endforeach
-                            @endif
-                            <div class="no-events" id="noEventsMessage" @if(isset($upcoming_agendas) && count($upcoming_agendas) > 0) style="display:none;" @endif>Pilih tanggal di kalender untuk melihat agenda.</div>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php endif; ?>
+                            <div class="no-events" id="noEventsMessage" <?php if(isset($upcoming_agendas) && count($upcoming_agendas) > 0): ?> style="display:none;" <?php endif; ?>>Pilih tanggal di kalender untuk melihat agenda.</div>
                         </div>
                     </div>
                 </aside>
@@ -423,22 +427,22 @@
         <section class="docs" aria-label="Dokumentasi Kegiatan">
             <h2>Dokumentasi Kegiatan</h2>
             <div class="docs-track">
-                @if(isset($photos) && count($photos) > 0)
-                    @foreach($photos as $photo)
+                <?php if(isset($photos) && count($photos) > 0): ?>
+                    <?php $__currentLoopData = $photos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $photo): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="doc-item">
-                            <img src="{{ asset('storage/' . $photo->photo_path) }}" alt="{{ $photo->title ?? 'Dokumentasi Kegiatan' }}">
+                            <img src="<?php echo e(asset('storage/' . $photo->photo_path)); ?>" alt="<?php echo e($photo->title ?? 'Dokumentasi Kegiatan'); ?>">
                         </div>
-                    @endforeach
-                @else
-                    <div class="doc-item"><img src="{{ asset('images/dokumentasi kegiatan.jpg') }}" alt="Dokumentasi 1"></div>
-                    <div class="doc-item"><img src="{{ asset('images/dokumentasi kegiatan (2).jpg') }}" alt="Dokumentasi 2"></div>
-                    <div class="doc-item"><img src="{{ asset('images/tarian.jpg') }}" alt="Dokumentasi 3"></div>
-                @endif
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php else: ?>
+                    <div class="doc-item"><img src="<?php echo e(asset('images/dokumentasi kegiatan.jpg')); ?>" alt="Dokumentasi 1"></div>
+                    <div class="doc-item"><img src="<?php echo e(asset('images/dokumentasi kegiatan (2).jpg')); ?>" alt="Dokumentasi 2"></div>
+                    <div class="doc-item"><img src="<?php echo e(asset('images/tarian.jpg')); ?>" alt="Dokumentasi 3"></div>
+                <?php endif; ?>
             </div>
         </section>
     </main>
 <!-- Footer -->
-    @include('components.footer')
+    <?php echo $__env->make('components.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
     <script>
         // mobile menu toggle
@@ -464,7 +468,7 @@
     </script>
 
     <script>
-        const AGENDA_DATA = @json($simulated_events);
+        const AGENDA_DATA = <?php echo json_encode($simulated_events, 15, 512) ?>;
         
         let selectedDate = null;
         
@@ -632,4 +636,4 @@
         });
     </script>
 </body>
-</html>
+</html><?php /**PATH C:\Users\ASUS\Documents\E-GovToba\resources\views/district-information/profile.blade.php ENDPATH**/ ?>
