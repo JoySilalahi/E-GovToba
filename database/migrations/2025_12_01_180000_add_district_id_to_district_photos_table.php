@@ -16,44 +16,21 @@ return new class extends Migration
             });
         }
 
-        // Tambah kolom hanya jika belum ada (idempotent)
-        if (Schema::hasTable('district_photos') && ! Schema::hasColumn('district_photos', 'photo_path')) {
+        // Tambah kolom district_id
+        if (Schema::hasTable('district_photos') && ! Schema::hasColumn('district_photos', 'district_id')) {
             Schema::table('district_photos', function (Blueprint $table) {
-                $table->string('photo_path')->nullable()->after('district_id');
-            });
-        }
-
-        if (Schema::hasTable('district_photos') && ! Schema::hasColumn('district_photos', 'title')) {
-            Schema::table('district_photos', function (Blueprint $table) {
-                $table->string('title')->nullable()->after('photo_path');
-            });
-        }
-
-        if (Schema::hasTable('district_photos') && ! Schema::hasColumn('district_photos', 'description')) {
-            Schema::table('district_photos', function (Blueprint $table) {
-                $table->text('description')->nullable()->after('title');
+                $table->foreignId('district_id')->nullable()->constrained('districts')->onDelete('cascade')->after('id');
             });
         }
     }
 
     public function down(): void
     {
-        if (Schema::hasTable('district_photos')) {
-            if (Schema::hasColumn('district_photos', 'description')) {
-                Schema::table('district_photos', function (Blueprint $table) {
-                    $table->dropColumn('description');
-                });
-            }
-            if (Schema::hasColumn('district_photos', 'title')) {
-                Schema::table('district_photos', function (Blueprint $table) {
-                    $table->dropColumn('title');
-                });
-            }
-            if (Schema::hasColumn('district_photos', 'photo_path')) {
-                Schema::table('district_photos', function (Blueprint $table) {
-                    $table->dropColumn('photo_path');
-                });
-            }
+        if (Schema::hasTable('district_photos') && Schema::hasColumn('district_photos', 'district_id')) {
+            Schema::table('district_photos', function (Blueprint $table) {
+                $table->dropForeign(['district_id']);
+                $table->dropColumn('district_id');
+            });
         }
     }
 };

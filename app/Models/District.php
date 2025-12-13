@@ -12,8 +12,9 @@ class District extends Model
     protected $fillable = [
         'name',
         'code',
-        'head_of_district',
+        'district_head',
         'phone',
+        'email',
         'address',
         'visi',
         'misi',
