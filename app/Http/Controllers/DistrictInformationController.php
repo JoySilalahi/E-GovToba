@@ -260,6 +260,12 @@ class DistrictInformationController extends Controller
             ->orderBy('quarter', 'desc')
             ->get();
 
+        // Ambil data pengumuman
+        $announcements = \App\Models\Announcement::where('village_id', $villageFromDb->id)
+            ->where('status', 'published')
+            ->orderBy('date', 'desc')
+            ->get();
+
         $village = [
             'id' => $villageFromDb->id,
             'name' => $villageFromDb->name,
@@ -270,6 +276,7 @@ class DistrictInformationController extends Controller
             'updated_at' => $villageFromDb->updated_at->timestamp ?? time(),
             'budget_file' => $villageFromDb->budget_file ? asset('storage/' . $villageFromDb->budget_file) : null,
             'budgets' => $budgets,
+            'announcements' => $announcements,
             'programs' => [
                 [
                     'title' => 'Program Bantuan Kawasan Daerah Toba',

@@ -211,7 +211,6 @@
             <div class="search-box" role="search">
                 <i class="fa fa-magnifying-glass" aria-hidden="true"></i>
                 <input id="searchInput" type="text" placeholder="Cari Desa" aria-label="Cari Desa">
-                <div class="search-count" id="resultCount">6 Desa</div>
             </div>
         </div>
 

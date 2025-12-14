@@ -519,77 +519,36 @@
 
                     <!-- Announcements Grid -->
                     <div class="announcements-grid" id="announcementsContainer">
-                        <!-- Sample Announcements (akan diganti dengan data real dari backend) -->
-                        <div class="announcement-card" data-category="kesehatan" data-year="2025" data-new="true">
-                            <div class="announcement-header">
-                                <span class="announcement-badge">Kesehatan & Lingkungan</span>
-                                <span class="announcement-new">BARU</span>
+                        @if(isset($village['announcements']) && count($village['announcements']) > 0)
+                            @foreach($village['announcements'] as $announcement)
+                                <div class="announcement-card" 
+                                     data-category="{{ strtolower($announcement->category ?? 'umum') }}" 
+                                     data-year="{{ \Carbon\Carbon::parse($announcement->date)->format('Y') }}"
+                                     @if(\Carbon\Carbon::parse($announcement->date)->diffInDays(now()) <= 7) data-new="true" @endif>
+                                    <div class="announcement-header">
+                                        <span class="announcement-badge">{{ $announcement->category ?? 'Umum' }}</span>
+                                        @if(\Carbon\Carbon::parse($announcement->date)->diffInDays(now()) <= 7)
+                                            <span class="announcement-new">BARU</span>
+                                        @endif
+                                    </div>
+                                    <div class="announcement-title">{{ $announcement->title }}</div>
+                                    <div class="announcement-content">
+                                        {{ Str::limit($announcement->content, 150) }}
+                                    </div>
+                                    <div class="announcement-meta">
+                                        <span><i class="far fa-calendar"></i>{{ \Carbon\Carbon::parse($announcement->date)->format('d M Y') }}</span>
+                                        @if($announcement->location)
+                                            <span><i class="fas fa-map-marker-alt"></i>{{ $announcement->location }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="no-results" style="display: block;">
+                                <i class="fas fa-bullhorn"></i>
+                                <p>Belum ada pengumuman terbaru dari desa ini.</p>
                             </div>
-                            <div class="announcement-title">Jadwal Vaksinasi COVID-19 Booster</div>
-                            <div class="announcement-content">
-                                Pelaksanaan vaksinasi booster COVID-19 akan dilaksanakan pada hari Minggu, 15 Desember 2025 di Balai Desa Meat. Mohon membawa KTP dan kartu vaksinasi sebelumnya.
-                            </div>
-                            <div class="announcement-meta">
-                                <span><i class="far fa-calendar"></i>7 Des 2025</span>
-                                <span><i class="far fa-clock"></i>08:00 - 14:00</span>
-                            </div>
-                        </div>
-
-                        <div class="announcement-card" data-category="kegiatan" data-year="2025">
-                            <div class="announcement-header">
-                                <span class="announcement-badge">Kegiatan Desa</span>
-                            </div>
-                            <div class="announcement-title">Gotong Royong Bersih Desa</div>
-                            <div class="announcement-content">
-                                Mengajak seluruh warga untuk berpartisipasi dalam kegiatan gotong royong membersihkan lingkungan desa pada hari Sabtu, 14 Desember 2025 pukul 07:00 WIB.
-                            </div>
-                            <div class="announcement-meta">
-                                <span><i class="far fa-calendar"></i>5 Des 2025</span>
-                                <span><i class="far fa-user"></i>Karang Taruna</span>
-                            </div>
-                        </div>
-
-                        <div class="announcement-card" data-category="administrasi" data-year="2025">
-                            <div class="announcement-header">
-                                <span class="announcement-badge">Administrasi & Layanan</span>
-                            </div>
-                            <div class="announcement-title">Libur Pelayanan Kantor Desa</div>
-                            <div class="announcement-content">
-                                Pelayanan administrasi di kantor desa akan libur pada tanggal 25 Desember 2025 dalam rangka Hari Natal. Pelayanan kembali normal pada tanggal 26 Desember 2025.
-                            </div>
-                            <div class="announcement-meta">
-                                <span><i class="far fa-calendar"></i>3 Des 2025</span>
-                                <span><i class="far fa-building"></i>Kantor Desa</span>
-                            </div>
-                        </div>
-
-                        <div class="announcement-card" data-category="bantuan" data-year="2025">
-                            <div class="announcement-header">
-                                <span class="announcement-badge">Program & Bantuan Sosial</span>
-                            </div>
-                            <div class="announcement-title">Pendaftaran Penerima Bantuan Sosial 2025</div>
-                            <div class="announcement-content">
-                                Dibuka pendaftaran untuk penerima bantuan sosial tahun 2025. Persyaratan: KK, KTP, Surat Keterangan Tidak Mampu. Pendaftaran ditutup tanggal 20 Desember 2025.
-                            </div>
-                            <div class="announcement-meta">
-                                <span><i class="far fa-calendar"></i>1 Des 2025</span>
-                                <span><i class="far fa-file-alt"></i>Daftar sekarang</span>
-                            </div>
-                        </div>
-
-                        <div class="announcement-card" data-category="keuangan" data-year="2024">
-                            <div class="announcement-header">
-                                <span class="announcement-badge">Keuangan & Transparansi</span>
-                            </div>
-                            <div class="announcement-title">Laporan Realisasi APBDes 2024</div>
-                            <div class="announcement-content">
-                                Laporan realisasi Anggaran Pendapatan dan Belanja Desa tahun 2024 telah tersedia untuk diunduh. Silakan akses melalui menu Transparansi Anggaran.
-                            </div>
-                            <div class="announcement-meta">
-                                <span><i class="far fa-calendar"></i>28 Nov 2024</span>
-                                <span><i class="far fa-file-pdf"></i>Unduh PDF</span>
-                            </div>
-                        </div>
+                        @endif
                     </div>
 
                     <!-- No Results Message -->
