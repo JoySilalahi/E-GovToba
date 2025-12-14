@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('village_id')->constrained()->onDelete('cascade');
+            $table->foreignId('village_id')->onDelete('cascade');
             $table->string('title');
             $table->text('content');
             $table->date('date');
