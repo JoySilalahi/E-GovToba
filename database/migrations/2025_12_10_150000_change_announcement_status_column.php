@@ -12,8 +12,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        
-        DB::statement("ALTER TABLE announcements MODIFY COLUMN status VARCHAR(255) NOT NULL DEFAULT 'pending'");
+        $driver = DB::connection()->getDriverName();
+
+        if ($driver === 'pgsql') {
+            DB::statement("ALTER TABLE announcements ALTER COLUMN status TYPE VARCHAR(255), ALTER COLUMN status SET DEFAULT 'pending', ALTER COLUMN status SET NOT NULL");
+        } else {
+            DB::statement("ALTER TABLE announcements MODIFY COLUMN status VARCHAR(255) NOT NULL DEFAULT 'pending'");
+        }
     }
 
     /**
@@ -24,6 +29,13 @@ return new class extends Migration
         // Revert back to original values, mapping 'published' to 'done' or 'pending' if necessary to avoid data loss
         // For strict reversion:
         DB::statement("UPDATE announcements SET status = 'done' WHERE status = 'published'");
-        DB::statement("ALTER TABLE announcements MODIFY COLUMN status VARCHAR(255) NOT NULL DEFAULT 'pending'");
+        
+        $driver = DB::connection()->getDriverName();
+
+        if ($driver === 'pgsql') {
+            DB::statement("ALTER TABLE announcements ALTER COLUMN status TYPE VARCHAR(255), ALTER COLUMN status SET DEFAULT 'pending', ALTER COLUMN status SET NOT NULL");
+        } else {
+            DB::statement("ALTER TABLE announcements MODIFY COLUMN status VARCHAR(255) NOT NULL DEFAULT 'pending'");
+        }
     }
 };
