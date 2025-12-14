@@ -132,6 +132,31 @@
             <form action="{{ route('village-admin.anggaran.upload') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="year" class="form-label">Tahun Anggaran *</label>
+                            <select name="year" id="year" class="form-control" required>
+                                @for($i = date('Y'); $i >= date('Y')-5; $i--)
+                                    <option value="{{ $i }}">{{ $i }}</option>
+                                @endfor
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="quarter" class="form-label">Kuartal (Opsional)</label>
+                            <select name="quarter" id="quarter" class="form-control">
+                                <option value="">-- Pilih Kuartal --</option>
+                                <option value="1">Kuartal 1 (Jan-Mar)</option>
+                                <option value="2">Kuartal 2 (Apr-Jun)</option>
+                                <option value="3">Kuartal 3 (Jul-Sep)</option>
+                                <option value="4">Kuartal 4 (Okt-Des)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label for="budget_file" class="form-label">Pilih File Anggaran (PDF) *</label>
                     <input 

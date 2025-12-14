@@ -254,6 +254,12 @@ class DistrictInformationController extends Controller
             }
         }
 
+        // Ambil data anggaran
+        $budgets = \App\Models\Budget::where('village_id', $villageFromDb->id)
+            ->orderBy('year', 'desc')
+            ->orderBy('quarter', 'desc')
+            ->get();
+
         $village = [
             'id' => $villageFromDb->id,
             'name' => $villageFromDb->name,
@@ -262,6 +268,8 @@ class DistrictInformationController extends Controller
             'visi' => $villageFromDb->visi ?? 'Visi belum ditetapkan. Silakan hubungi admin desa untuk informasi lebih lanjut.',
             'misi' => $villageFromDb->misi ?? 'Misi belum ditetapkan. Silakan hubungi admin desa untuk informasi lebih lanjut.',
             'updated_at' => $villageFromDb->updated_at->timestamp ?? time(),
+            'budget_file' => $villageFromDb->budget_file ? asset('storage/' . $villageFromDb->budget_file) : null,
+            'budgets' => $budgets,
             'programs' => [
                 [
                     'title' => 'Program Bantuan Kawasan Daerah Toba',

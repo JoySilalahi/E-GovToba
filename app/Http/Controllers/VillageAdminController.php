@@ -125,7 +125,7 @@ class VillageAdminController extends Controller
             'content' => 'required|string',
             'date' => 'required|date',
             'type' => 'nullable|in:meeting,program,evaluasi',
-            'status' => 'required|in:pending,progress,done',
+            'status' => 'required|in:pending,progress,done,published',
         ]);
         
         $announcement->update([
@@ -166,20 +166,27 @@ class VillageAdminController extends Controller
         $village = auth()->user()->village;
         
         $request->validate([
+            'year' => 'required|integer|min:2000|max:' . (date('Y') + 1),
+            'quarter' => 'nullable|integer|min:1|max:4',
             'budget_file' => 'required|file|mimes:pdf|max:10240', // Max 10MB
         ]);
 
-        // Hapus file lama jika ada
-        if ($village->budget_file && \Storage::disk('public')->exists($village->budget_file)) {
-            \Storage::disk('public')->delete($village->budget_file);
-        }
-
         // Upload file baru
         $file = $request->file('budget_file');
-        $fileName = 'anggaran_desa_' . $village->name . '_' . time() . '.pdf';
+        $fileName = 'anggaran_desa_' . str_replace(' ', '_', $village->name) . '_' . $request->year . ($request->quarter ? '_Q'.$request->quarter : '') . '_' . time() . '.pdf';
         $filePath = $file->storeAs('villages/budgets', $fileName, 'public');
 
-        // Update village
+        // Create Budget record
+        Budget::create([
+            'village_id' => $village->id,
+            'year' => $request->year,
+            'quarter' => $request->quarter,
+            'file_name' => $file->getClientOriginalName(),
+            'file_path' => $filePath,
+        ]);
+
+        // Update village budget_file (optional, for backward compatibility or main budget display)
+        // We can keep the latest one as the main one
         $village->update([
             'budget_file' => $filePath,
         ]);

@@ -13,9 +13,8 @@ class Budget extends Model
         'village_id',
         'year',
         'quarter',
-        'title',
+        'file_name',
         'file_path',
-        'file_type',
     ];
 
     public function village()

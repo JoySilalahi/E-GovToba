@@ -606,15 +606,36 @@
                         Dokumen laporan realisasi anggaran {{ $village['name'] }} dapat diunduh untuk transparansi dan akuntabilitas pengelolaan keuangan desa.
                     </p>
 
-                    <div class="budget-amount">{{ $village['budget'] ?? 'APBD 2025' }}</div>
-
-                    <a href="{{ $village['budget_file'] ?? url('documents/apbd-2025.pdf') }}" class="budget-download" download title="Unduh Anggaran">
-                        <span class="budget-icon"><i class="fa fa-file-pdf"></i></span>
-                        <div>
-                            <div class="budget-text">{{ $village['budget'] ?? 'APBD 2025' }}</div>
-                            <div style="font-size:12px;color:var(--muted);margin-top:4px">Klik untuk mengunduh dokumen</div>
+                    @if(isset($village['budgets']) && count($village['budgets']) > 0)
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            @foreach($village['budgets'] as $budget)
+                                <a href="{{ Storage::url($budget->file_path) }}" class="budget-download" target="_blank" title="Unduh Anggaran">
+                                    <span class="budget-icon"><i class="fa fa-file-pdf"></i></span>
+                                    <div>
+                                        <div class="budget-text">
+                                            {{ $budget->file_name ?? 'Dokumen Anggaran' }}
+                                        </div>
+                                        <div style="font-size:12px;color:var(--muted);margin-top:4px">
+                                            Tahun {{ $budget->year }} 
+                                            @if($budget->quarter) - Kuartal {{ $budget->quarter }} @endif
+                                        </div>
+                                    </div>
+                                </a>
+                            @endforeach
                         </div>
-                    </a>
+                    @else
+                        <div class="budget-amount">{{ $village['budget'] ?? 'APBD 2025' }}</div>
+
+                        <a href="{{ $village['budget_file'] ?? '#' }}" class="budget-download" {{ $village['budget_file'] ? 'target="_blank"' : '' }} title="Unduh Anggaran">
+                            <span class="budget-icon"><i class="fa fa-file-pdf"></i></span>
+                            <div>
+                                <div class="budget-text">{{ $village['budget'] ?? 'APBD 2025' }}</div>
+                                <div style="font-size:12px;color:var(--muted);margin-top:4px">
+                                    {{ $village['budget_file'] ? 'Klik untuk mengunduh dokumen' : 'Dokumen belum tersedia' }}
+                                </div>
+                            </div>
+                        </a>
+                    @endif
                 </div>
             </div>
 
