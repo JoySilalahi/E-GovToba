@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->enum('level', ['district', 'village']);
+            $table->string('level'); //['district', 'village']
             $table->text('requirements');
             $table->integer('processing_time')->comment('Processing time in days');
             $table->decimal('fee', 10, 2)->default(0);

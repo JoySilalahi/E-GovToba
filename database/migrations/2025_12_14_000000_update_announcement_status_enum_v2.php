@@ -12,8 +12,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Using raw SQL to modify enum column
-        DB::statement("ALTER TABLE announcements MODIFY COLUMN status ENUM('pending', 'progress', 'done', 'published') NOT NULL DEFAULT 'pending'");
+        
+        DB::statement("ALTER TABLE announcements MODIFY COLUMN status VARCHAR(255) NOT NULL DEFAULT 'pending'");
     }
 
     /**
@@ -23,6 +23,6 @@ return new class extends Migration
     {
         // Revert back to original values
         DB::statement("UPDATE announcements SET status = 'done' WHERE status = 'published'");
-        DB::statement("ALTER TABLE announcements MODIFY COLUMN status ENUM('pending', 'progress', 'done') NOT NULL DEFAULT 'pending'");
+        DB::statement("ALTER TABLE announcements MODIFY COLUMN status VARCHAR(255) NOT NULL DEFAULT 'pending'");
     }
 };

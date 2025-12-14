@@ -14,8 +14,8 @@ return new class extends Migration
             $table->string('title');
             $table->text('content');
             $table->date('date');
-            $table->enum('type', ['meeting', 'program', 'evaluasi'])->default('meeting');
-            $table->enum('status', ['pending', 'progress', 'done'])->default('pending');
+            $table->string('type')->default('meeting'); //['meeting', 'program', 'evaluasi']
+            $table->string('status')->default('pending'); //['pending', 'progress', 'done']
             $table->timestamps();
         });
     }

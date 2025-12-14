@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('citizen_id')->constrained();
             $table->foreignId('service_id')->constrained();
-            $table->enum('status', ['pending', 'processing', 'completed', 'rejected'])->default('pending');
+            $table->string('status')->default('pending'); //['pending', 'processing', 'completed', 'rejected']
             $table->text('notes')->nullable();
             $table->date('submitted_at');
             $table->date('processed_at')->nullable();

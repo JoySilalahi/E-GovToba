@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('district_agendas', function (Blueprint $table) {
-            $table->enum('display_type', ['berita', 'pengumuman'])->default('berita')->after('category');
+            $table->string('display_type')->default('berita')->after('category'); //['berita', 'pengumuman']
         });
     }
 

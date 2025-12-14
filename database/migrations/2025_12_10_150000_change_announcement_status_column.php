@@ -12,9 +12,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Using raw SQL to modify enum column as it is the most reliable way across different Laravel/DB versions
-        // for enum modification without doctrine/dbal
-        DB::statement("ALTER TABLE announcements MODIFY COLUMN status ENUM('pending', 'progress', 'done', 'published') NOT NULL DEFAULT 'pending'");
+        
+        DB::statement("ALTER TABLE announcements MODIFY COLUMN status VARCHAR(255) NOT NULL DEFAULT 'pending'");
     }
 
     /**
@@ -25,6 +24,6 @@ return new class extends Migration
         // Revert back to original values, mapping 'published' to 'done' or 'pending' if necessary to avoid data loss
         // For strict reversion:
         DB::statement("UPDATE announcements SET status = 'done' WHERE status = 'published'");
-        DB::statement("ALTER TABLE announcements MODIFY COLUMN status ENUM('pending', 'progress', 'done') NOT NULL DEFAULT 'pending'");
+        DB::statement("ALTER TABLE announcements MODIFY COLUMN status VARCHAR(255) NOT NULL DEFAULT 'pending'");
     }
 };

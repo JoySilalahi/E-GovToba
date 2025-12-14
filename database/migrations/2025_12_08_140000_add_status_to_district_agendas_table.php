@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('district_agendas', function (Blueprint $table) {
             // Add status field if it doesn't exist
             if (!Schema::hasColumn('district_agendas', 'status')) {
-                $table->enum('status', ['mendatang', 'selesai'])->default('mendatang')->after('display_type');
+                $table->string('status')->default('mendatang')->after('display_type'); //['mendatang', 'selesai']
             }
         });
     }
