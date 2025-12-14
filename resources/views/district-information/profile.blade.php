@@ -386,7 +386,7 @@
                 </div>
                 <aside>
                     <div class="card">
-                        <h3>Agenda Pemkot</h3>
+                        <h3>Agenda Pemkab</h3>
                         <div class="calendar" aria-label="Kalender agenda">
                             <div class="cal-header">
                                 <div class="cal-nav">
