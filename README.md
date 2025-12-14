@@ -3,30 +3,31 @@
 # 🌏 TOBA HITA  
 ### Platform Informasi Kabupaten & Desa di Toba
 
-A digital platform that connects people with  
-**official, transparent, and structured information**  
-about **Kabupaten Toba** and its villages.
+✨ *Menghubungkan masyarakat dengan informasi daerah yang transparan, terstruktur, dan mudah diakses* ✨
 
----
+<br/>
 
 </div>
 
-## 📖 Tentang Proyek
+---
 
-**Toba Hita** adalah sebuah platform informasi digital yang dirancang untuk membantu masyarakat dalam memperoleh informasi resmi dan aktual mengenai **Kabupaten Toba** serta **desa-desa yang berada di dalamnya**.  
-Platform ini mengintegrasikan berbagai data publik dalam satu sistem yang mudah diakses, informatif, dan transparan.
+## 📌 Tentang Toba Hita
 
-Melalui Toba Hita, masyarakat dapat memahami agenda daerah, kebijakan, kegiatan pemerintahan, hingga informasi desa secara terstruktur dan berbasis waktu.
+**Toba Hita** adalah sebuah platform informasi digital yang dikembangkan untuk menyediakan akses terpadu terhadap informasi resmi **Kabupaten Toba** beserta **desa-desa yang berada di dalamnya**.  
+Platform ini dirancang untuk mendukung keterbukaan informasi publik, dokumentasi kegiatan pemerintahan, serta peningkatan literasi masyarakat terhadap data dan kebijakan daerah.
+
+Dengan pendekatan berbasis waktu dan wilayah, Toba Hita memungkinkan pengguna memperoleh informasi yang relevan, aktual, dan kontekstual.
 
 ---
 
 ## 🎯 Tujuan Pengembangan
 
-Proyek ini dikembangkan untuk:
-- Meningkatkan keterbukaan dan transparansi informasi publik
-- Mempermudah masyarakat mengakses informasi kabupaten dan desa
-- Menjadi media dokumentasi kegiatan pemerintahan daerah
-- Mendukung literasi informasi dan partisipasi publik
+Pengembangan Toba Hita bertujuan untuk:
+- Meningkatkan transparansi dan akuntabilitas informasi publik
+- Memudahkan masyarakat dalam mengakses agenda, berita, dan pengumuman daerah
+- Menyediakan dokumentasi kegiatan pemerintahan yang terpusat
+- Menyajikan informasi desa secara terstruktur dan informatif
+- Mendukung partisipasi publik berbasis data
 
 ---
 
@@ -34,29 +35,29 @@ Proyek ini dikembangkan untuk:
 
 ### 📍 Informasi Kabupaten Toba
 Pada halaman kabupaten, pengguna dapat mengakses:
-- Agenda kegiatan berdasarkan tanggal
+- Agenda kegiatan yang disusun berdasarkan tanggal
 - Pengumuman resmi pemerintah daerah
 - Berita dan informasi terkini
 - Sejarah Kabupaten Toba
 - Visi dan Misi Kabupaten
 - Informasi Kepala Daerah
-- Dokumentasi kegiatan
-- Informasi Anggaran APBD Kabupaten
+- Dokumentasi kegiatan pemerintahan
+- Informasi Anggaran APBD Kabupaten sebagai bentuk transparansi publik
 
 ### 🏡 Informasi Desa
-Pengguna dapat:
-- Melihat daftar seluruh desa di Kabupaten Toba
+Melalui menu daftar desa, pengguna dapat:
+- Melihat seluruh desa yang berada di Kabupaten Toba
 - Memilih desa tertentu
-- Mengakses informasi detail terkait desa yang dipilih
+- Mengakses informasi detail mengenai desa yang dipilih
 
 ---
 
 ## 👥 Target Pengguna
 
-Platform **Toba Hita** ditujukan bagi:
+Platform **Toba Hita** ditujukan untuk:
 - Masyarakat Kabupaten Toba
 - Mahasiswa dan akademisi
-- Peneliti dan pengamat kebijakan publik
+- Peneliti dan pemerhati kebijakan publik
 - Pemerintah daerah dan perangkat desa
 - Masyarakat umum
 
@@ -66,22 +67,22 @@ Platform **Toba Hita** ditujukan bagi:
 
 🚧 **Dalam tahap pengembangan aktif**
 
-Fitur akan terus dikembangkan, termasuk:
-- Optimalisasi tampilan dan pengalaman pengguna (UI/UX)
-- Penambahan data dan dokumentasi
-- Integrasi informasi yang lebih dinamis
+Pengembangan ke depan mencakup:
+- Penyempurnaan antarmuka dan pengalaman pengguna (UI/UX)
+- Penambahan dan pembaruan data secara berkelanjutan
+- Integrasi informasi yang lebih dinamis dan terstruktur
 
 ---
 
 ## 🤝 Kontribusi
 
-Kontribusi sangat terbuka untuk pengembangan proyek ini.
+Kontribusi terbuka bagi siapa saja yang ingin berpartisipasi dalam pengembangan proyek ini.
 
-Langkah kontribusi:
+Alur kontribusi:
 1. Fork repository
-2. Buat branch fitur baru
+2. Buat branch baru untuk fitur atau perbaikan
 3. Lakukan perubahan
-4. Commit dan push
+4. Commit dan push perubahan
 5. Ajukan Pull Request
 
 ---
@@ -89,12 +90,13 @@ Langkah kontribusi:
 ## 📄 Lisensi
 
 Proyek ini dikembangkan untuk tujuan edukasi, pengembangan sistem informasi publik, dan pembelajaran.  
-Lisensi dapat disesuaikan sesuai kebutuhan proyek.
+Penggunaan dan lisensi dapat disesuaikan sesuai kebutuhan proyek.
 
 ---
 
 <div align="center">
 
-✨ *Toba Hita — Mendekatkan Informasi, Menguatkan Masyarakat* ✨
+### 🌱 *Toba Hita*  
+**Mendekatkan Informasi, Menguatkan Masyarakat**
 
 </div>
