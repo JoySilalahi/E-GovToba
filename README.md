@@ -1,59 +1,100 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# 🌏 TOBA HITA  
+### Platform Informasi Kabupaten & Desa di Toba
 
-## About Laravel
+A digital platform that connects people with  
+**official, transparent, and structured information**  
+about **Kabupaten Toba** and its villages.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+</div>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 📖 Tentang Proyek
 
-## Learning Laravel
+**Toba Hita** adalah sebuah platform informasi digital yang dirancang untuk membantu masyarakat dalam memperoleh informasi resmi dan aktual mengenai **Kabupaten Toba** serta **desa-desa yang berada di dalamnya**.  
+Platform ini mengintegrasikan berbagai data publik dalam satu sistem yang mudah diakses, informatif, dan transparan.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Melalui Toba Hita, masyarakat dapat memahami agenda daerah, kebijakan, kegiatan pemerintahan, hingga informasi desa secara terstruktur dan berbasis waktu.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🎯 Tujuan Pengembangan
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Proyek ini dikembangkan untuk:
+- Meningkatkan keterbukaan dan transparansi informasi publik
+- Mempermudah masyarakat mengakses informasi kabupaten dan desa
+- Menjadi media dokumentasi kegiatan pemerintahan daerah
+- Mendukung literasi informasi dan partisipasi publik
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 🏛️ Fitur Utama
 
-## Contributing
+### 📍 Informasi Kabupaten Toba
+Pada halaman kabupaten, pengguna dapat mengakses:
+- Agenda kegiatan berdasarkan tanggal
+- Pengumuman resmi pemerintah daerah
+- Berita dan informasi terkini
+- Sejarah Kabupaten Toba
+- Visi dan Misi Kabupaten
+- Informasi Kepala Daerah
+- Dokumentasi kegiatan
+- Informasi Anggaran APBD Kabupaten
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 🏡 Informasi Desa
+Pengguna dapat:
+- Melihat daftar seluruh desa di Kabupaten Toba
+- Memilih desa tertentu
+- Mengakses informasi detail terkait desa yang dipilih
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 👥 Target Pengguna
 
-## Security Vulnerabilities
+Platform **Toba Hita** ditujukan bagi:
+- Masyarakat Kabupaten Toba
+- Mahasiswa dan akademisi
+- Peneliti dan pengamat kebijakan publik
+- Pemerintah daerah dan perangkat desa
+- Masyarakat umum
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## 🛠️ Status Pengembangan
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+🚧 **Dalam tahap pengembangan aktif**
+
+Fitur akan terus dikembangkan, termasuk:
+- Optimalisasi tampilan dan pengalaman pengguna (UI/UX)
+- Penambahan data dan dokumentasi
+- Integrasi informasi yang lebih dinamis
+
+---
+
+## 🤝 Kontribusi
+
+Kontribusi sangat terbuka untuk pengembangan proyek ini.
+
+Langkah kontribusi:
+1. Fork repository
+2. Buat branch fitur baru
+3. Lakukan perubahan
+4. Commit dan push
+5. Ajukan Pull Request
+
+---
+
+## 📄 Lisensi
+
+Proyek ini dikembangkan untuk tujuan edukasi, pengembangan sistem informasi publik, dan pembelajaran.  
+Lisensi dapat disesuaikan sesuai kebutuhan proyek.
+
+---
+
+<div align="center">
+
+✨ *Toba Hita — Mendekatkan Informasi, Menguatkan Masyarakat* ✨
+
+</div>
